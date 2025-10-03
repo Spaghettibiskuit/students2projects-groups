@@ -1,0 +1,4 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Mergers & Acquisitions,3,4,3,1,5,1,2
+Investments & Securities,2,3,2,1,5,3,3
+Arts Management,4,7,4,3,6,1,3

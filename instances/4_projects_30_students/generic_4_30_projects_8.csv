@@ -1,0 +1,5 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Business Law,2,3,4,1,5,3,3
+Market Research,3,6,2,1,5,3,1
+International Public Relations,3,5,4,2,5,3,1
+Business Communication,2,5,4,2,7,2,2

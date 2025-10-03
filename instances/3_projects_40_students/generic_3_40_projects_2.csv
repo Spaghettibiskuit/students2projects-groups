@@ -1,0 +1,4 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Financial Strategy,3,4,2,1,5,2,2
+Business Ethics,2,4,4,1,5,2,1
+Business Intelligence,3,6,4,3,6,1,2

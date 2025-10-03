@@ -1,0 +1,6 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Business Information Systems,3,6,2,1,4,2,2
+Management Consulting,2,4,4,3,6,2,3
+Aviation Management,2,4,4,3,5,2,1
+Organizational Leadership,4,5,2,1,3,2,1
+Business Administration,2,4,3,1,4,3,2

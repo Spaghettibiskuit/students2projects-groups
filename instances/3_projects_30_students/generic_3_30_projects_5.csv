@@ -1,0 +1,4 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Quality Management,2,4,4,3,6,1,2
+Logistics,4,6,4,1,5,1,1
+Investments & Securities,2,3,2,1,5,3,3

@@ -1,0 +1,6 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Digital Marketing,4,5,4,2,6,2,3
+Public Administration,2,4,2,1,5,3,1
+Health Services Administration,4,5,2,1,3,3,3
+Marketing,3,4,3,1,5,1,3
+Labor Relations,3,5,3,1,6,1,3

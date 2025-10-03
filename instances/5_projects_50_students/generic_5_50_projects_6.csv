@@ -1,0 +1,6 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Health Services Administration,3,4,3,2,6,2,1
+Financial Strategy,3,5,2,1,5,2,3
+Information Management,3,4,2,1,4,3,2
+International Studies,2,5,4,2,6,2,1
+Business Economics,3,6,2,1,5,1,2

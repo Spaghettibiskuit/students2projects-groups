@@ -1,0 +1,6 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Business Economics,2,4,4,3,6,3,1
+Export Management,3,6,4,1,6,3,3
+Real Estate Management,4,6,2,1,5,3,3
+Business Communication,2,5,3,1,4,2,1
+E-Business,4,7,3,2,4,3,3

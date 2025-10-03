@@ -1,0 +1,4 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Retail Management,4,6,4,2,5,2,1
+Business Management,2,4,4,3,5,1,2
+Insurance and Risk Management,3,4,2,1,4,1,3

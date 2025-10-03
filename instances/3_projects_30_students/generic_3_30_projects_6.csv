@@ -1,0 +1,4 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Private Banking and Asset Management,3,4,4,2,6,3,1
+Accounting,3,6,2,1,5,2,3
+Aviation Management,4,5,4,2,6,3,1

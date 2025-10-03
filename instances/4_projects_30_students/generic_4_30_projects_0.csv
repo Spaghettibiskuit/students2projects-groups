@@ -1,0 +1,5 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Information Systems Management,3,6,2,1,4,1,2
+Payroll Administration,2,5,2,1,4,3,1
+Management Consulting,3,5,2,1,4,1,1
+Labor Relations,3,6,3,2,4,1,3

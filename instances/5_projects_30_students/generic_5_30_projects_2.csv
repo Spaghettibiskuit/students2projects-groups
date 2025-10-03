@@ -1,0 +1,6 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Crisis Management,3,6,3,1,4,3,1
+Financial Strategy,2,4,2,1,3,2,2
+Organizational Strategy,3,6,3,2,4,2,2
+Business Communication,4,6,2,1,3,2,2
+Banking,3,6,3,1,6,1,1

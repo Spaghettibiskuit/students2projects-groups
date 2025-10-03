@@ -1,0 +1,5 @@
+name,desired#groups,max#groups,ideal_group_size,min_group_size,max_group_size,pen_groups,pen_size
+Mergers & Acquisitions,4,6,4,1,7,3,3
+Consumer Behavior,2,4,3,1,4,3,2
+Information Systems Management,4,6,4,3,6,2,3
+Public Relations,3,6,3,1,5,1,1
