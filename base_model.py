@@ -1,85 +1,76 @@
 """Create model of SPAwGBP instance before any local branching constraints."""
 
+import typing
+
 import gurobipy as gp
 import pandas as pd
 from gurobipy import GRB
 
 type ProjectsInfo = pd.DataFrame
 type StudentsInfo = pd.DataFrame
+type VarKey = tuple[int, int, int] | tuple[int, int] | int
+type ModelVariables = gp.tupledict[tuple[typing.Any, ...], gp.Var]
 
 
 def base_model(
-    instance: tuple[ProjectsInfo, StudentsInfo],
+    projects: ProjectsInfo,
     reward_bilateral: int,
     penalty_unassigned: int,
-) -> gp.Model:
+    project_ids: range,
+    student_ids: range,
+    group_ids: dict[int, range],
+    project_group_pairs: list[tuple[int, int]],
+    project_group_student_triples: list[tuple[int, int, int]],
+    mutual_pairs: set[tuple[int, int]],
+    project_preferences: dict[tuple[int, int], int],
+) -> tuple[gp.Model, dict[str, ModelVariables], dict[str, gp.LinExpr]]:
     """Return the basic model for the instance"""
-    projects, students = instance
     model = gp.Model()
 
-    project_ids = range(len(projects))
-    student_ids = range(len(students))
-
-    group_ids = {
-        project_id: range(max_num_groups)
-        for project_id, max_num_groups in enumerate(projects["max#groups"])
-    }
-
-    project_group_pairs = [
-        (project_id, group_id)
-        for project_id, project_group_ids in group_ids.items()
-        for group_id in project_group_ids
-    ]
-
-    project_group_student_triples = [
-        (project_id, group_id, student_id)
-        for project_id, group_id in project_group_pairs
-        for student_id in student_ids
-    ]
+    variables: dict[str, ModelVariables] = {}
 
     assign_students = model.addVars(
         project_group_student_triples,
         vtype=GRB.BINARY,
         name="assign_students",
     )
+    variables["assign_students"] = assign_students
 
     establish_groups = model.addVars(
         project_group_pairs,
         vtype=GRB.BINARY,
         name="establish_groups",
     )
-
-    mutual_pairs = {
-        (student_id, partner_id)
-        for student_id, partner_ids in enumerate(students["fav_partners"])
-        for partner_id in partner_ids
-        if partner_id > student_id and student_id in students["fav_partners"][partner_id]
-    }
+    variables["establish_groups"] = establish_groups
 
     mutual_unrealized = model.addVars(mutual_pairs, vtype=GRB.BINARY, name="mutual_unrealized")
+    variables["mutual_unrealized"] = mutual_unrealized
 
     unassigned_students = model.addVars(student_ids, name="unassigned_students")
+    variables["unassigned_students"] = unassigned_students
 
     group_size_surplus = model.addVars(project_group_pairs, name="group_size_surplus")
-    group_size_deficit = model.addVars(project_group_pairs, name="group_size_deficit")
+    variables["group_size_surplus"] = group_size_surplus
 
-    project_preferences = {
-        (student_id, project_id): preference_value
-        for student_id, preference_values in enumerate(students["project_prefs"])
-        for project_id, preference_value in enumerate(preference_values)
-    }
+    group_size_deficit = model.addVars(project_group_pairs, name="group_size_deficit")
+    variables["group_size_deficit"] = group_size_deficit
+
+    linear_expressions: dict[str, gp.LinExpr] = {}
 
     sum_realized_project_preferences = gp.quicksum(
         project_preferences[student_id, project_id]
         * assign_students[project_id, group_id, student_id]
         for project_id, group_id, student_id in project_group_student_triples
     )
+    linear_expressions["sum_realized_project_preferences"] = sum_realized_project_preferences
 
     sum_reward_bilateral = reward_bilateral * gp.quicksum(
         1 - mutual_unrealized[*mutual_pair] for mutual_pair in mutual_pairs
     )
+    linear_expressions["sum_reward_bilateral"] = sum_reward_bilateral
 
     sum_penalties_unassigned = penalty_unassigned * gp.quicksum(unassigned_students.values())
+    linear_expressions["sum_penalties_unassigned"] = sum_penalties_unassigned
 
     sum_penalties_surplus_groups = gp.quicksum(
         penalty_surplus_group * establish_groups[project_id, group_id]
@@ -89,6 +80,7 @@ def base_model(
         for group_id in group_ids[project_id]
         if group_id >= num_groups_desired
     )
+    linear_expressions["sum_penalties_surplus_groups"] = sum_penalties_surplus_groups
 
     sum_penalties_group_size = gp.quicksum(
         penalty_size_deviation
@@ -96,6 +88,7 @@ def base_model(
         for project_id, penalty_size_deviation in enumerate(projects["pen_size"])
         for group_id in group_ids[project_id]
     )
+    linear_expressions["sum_penalties_group_size"] = sum_penalties_group_size
 
     model.setObjective(
         sum_realized_project_preferences
@@ -205,7 +198,9 @@ def base_model(
             )
             for first, second in mutual_pairs
         ),
-        name="only_reward_materialized_pairs_1",
+        name="only_reward_materialized_pairs_2",
     )
 
-    return model
+    model.update()
+
+    return model, variables, linear_expressions
