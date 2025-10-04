@@ -1,5 +1,7 @@
 """Class which solves an instance and reports results."""
 
+import itertools as it
+import statistics
 import typing
 
 import gurobipy as gp
@@ -7,7 +9,6 @@ import pandas as pd
 
 import base_model
 
-type VarKey = tuple[int, int, int] | tuple[int, int] | int
 type ProjectsInfo = pd.DataFrame
 type StudentsInfo = pd.DataFrame
 type ModelVariables = gp.tupledict[tuple[typing.Any, ...], gp.Var]
@@ -80,7 +81,7 @@ class InstanceHandler:
     @property
     def num_unassigned(self) -> int:
         penalty_lin_exp = self.model_linear_expressions["sum_penalties_unassigned"]
-        return int(penalty_lin_exp.getValue() / self.penalty_unassigned)
+        return round(penalty_lin_exp.getValue() / self.penalty_unassigned)
 
     @property
     def unassigned_students(self) -> list[tuple[int, str]]:
@@ -90,5 +91,118 @@ class InstanceHandler:
             for name, student_id, is_unassigned in zip(
                 self.students["name"], self.student_ids, unassigned_student_vars.values()
             )
-            if is_unassigned.X > 0.5
+            if round(is_unassigned.X)
         ]
+
+    def num_students_in_group(self, project_id: int, group_id: int) -> int:
+        assignment_vars = self.model_variables["assign_students"]
+        return round(assignment_vars.sum(project_id, group_id, "*").getValue())
+
+    def students_in_group(self, project_id: int, group_id: int) -> list[int]:
+        assignment_vars = self.model_variables["assign_students"]
+        return [
+            student_id
+            for student_id in self.student_ids
+            if round(assignment_vars[project_id, group_id, student_id].X)
+        ]
+
+    def students_in_group_names(self, project_id: int, group_id: int) -> list[str]:
+        return [
+            self.students["name"][student_id]
+            for student_id in self.students_in_group(project_id, group_id)
+        ]
+
+    def pref_vals_students_in_group(self, project_id: int, group_id: int) -> dict[int, int]:
+        return {
+            student_id: self.project_preferences[student_id, project_id]
+            for student_id in self.students_in_group(project_id, group_id)
+        }
+
+    def mutual_pairs_in_group(self, project_id: int, group_id: int) -> set[tuple[int, int]]:
+        return self.mutual_pairs.intersection(
+            pair for pair in it.combinations(self.students_in_group(project_id, group_id), 2)
+        )
+
+    def num_mutual_pairs_in_group(self, project_id: int, group_id: int) -> int:
+        return sum(
+            pair in self.mutual_pairs
+            for pair in it.combinations(self.students_in_group(project_id, group_id), 2)
+        )
+
+    def mutual_pairs_in_group_names(self, project_id: int, group_id: int) -> set[tuple[str, str]]:
+        return {
+            (self.students["name"][first_id], self.students["name"][second_id])
+            for first_id, second_id in self.mutual_pairs_in_group(project_id, group_id)
+        }
+
+    @property
+    def solution_summary(self) -> pd.DataFrame:
+        all_summary_tables = [
+            self.summary_table_project(project_id) for project_id in self.project_ids
+        ]
+        open_projects = {
+            project_id: summary_table
+            for project_id, summary_table in zip(self.project_ids, all_summary_tables)
+            if not summary_table.empty
+        }
+        # open_ids = open_projects.keys()
+        summary_tables = open_projects.values()
+
+        group_quantities = [len(summary_table) for summary_table in summary_tables]
+        student_quantities = [sum(summary_table["#students"]) for summary_table in summary_tables]
+        # max_group_sizes = [max(summary_table["#students"]) for summary_table in summary_tables]
+        # min_group_sizes = [min(summary_table["#students"]) for summary_table in summary_tables]
+        # mean_group_sizes = [
+        #     num_students / num_groups
+        #     for num_students, num_groups in zip(student_quantities, group_quantities)
+        # ]
+        # max_prefs = [max(summary_table["max_pref"]) for summary_table in summary_tables]
+        # min_prefs = [min(summary_table["min_pref"]) for summary_table in summary_tables]
+        # mean_prefs = [
+        #     (summary_table["#students"] * summary_table["mean_pref"]).sum() / num_students
+        #     for num_students, summary_table in zip(student_quantities, summary_tables)
+        # ]
+        # num_mutual_pairs = [
+        #     sum(summary_table["#mutual_pairs"] for summary_table in summary_tables)
+        # ]
+        data = {}
+        data["ID"] = open_projects.keys()
+        data["#groups"] = group_quantities
+        data["max_size"] = [max(summary_table["#students"]) for summary_table in summary_tables]
+        data["min_size"] = [min(summary_table["#students"]) for summary_table in summary_tables]
+        data["mean_size"] = [
+            num_students / num_groups
+            for num_students, num_groups in zip(student_quantities, group_quantities)
+        ]
+        data["max_pref"] = [max(summary_table["max_pref"]) for summary_table in summary_tables]
+        data["min_pref"] = [min(summary_table["min_pref"]) for summary_table in summary_tables]
+        data["mean_pref"] = [
+            (summary_table["#students"] * summary_table["mean_pref"]).sum() / num_students
+            for num_students, summary_table in zip(student_quantities, summary_tables)
+        ]
+        data["#mutual_pairs"] = [
+            sum(summary_table["#mutual_pairs"]) for summary_table in summary_tables
+        ]
+
+        return pd.DataFrame(data)
+
+    def summary_table_project(self, project_id: int) -> pd.DataFrame:
+        student_quantities = [
+            num_students
+            for group_id in self.group_ids[project_id]
+            if (num_students := self.num_students_in_group(project_id, group_id))
+        ]
+        group_ids = list(range(len(student_quantities)))
+        pref_vals_in_groups = [
+            list(self.pref_vals_students_in_group(project_id, group_id).values())
+            for group_id in group_ids
+        ]
+        data = {}
+        data["#students"] = student_quantities
+        data["max_pref"] = [max(pref_vals) for pref_vals in pref_vals_in_groups]
+        data["min_pref"] = [min(pref_vals) for pref_vals in pref_vals_in_groups]
+        data["mean_pref"] = [statistics.mean(pref_vals) for pref_vals in pref_vals_in_groups]
+        data["#mutual_pairs"] = [
+            self.num_mutual_pairs_in_group(project_id, group_id) for group_id in group_ids
+        ]
+        return pd.DataFrame(data)
