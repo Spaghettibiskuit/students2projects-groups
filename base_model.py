@@ -13,7 +13,7 @@ type ModelVariables = gp.tupledict[tuple[typing.Any, ...], gp.Var]
 
 
 def base_model(
-    projects: ProjectsInfo,
+    projects: ProjectsInfo,  # type: ignore
     reward_bilateral: int,
     penalty_unassigned: int,
     project_ids: range,

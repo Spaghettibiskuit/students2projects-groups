@@ -145,26 +145,10 @@ class InstanceHandler:
             for project_id, summary_table in zip(self.project_ids, all_summary_tables)
             if not summary_table.empty
         }
-        # open_ids = open_projects.keys()
         summary_tables = open_projects.values()
 
         group_quantities = [len(summary_table) for summary_table in summary_tables]
         student_quantities = [sum(summary_table["#students"]) for summary_table in summary_tables]
-        # max_group_sizes = [max(summary_table["#students"]) for summary_table in summary_tables]
-        # min_group_sizes = [min(summary_table["#students"]) for summary_table in summary_tables]
-        # mean_group_sizes = [
-        #     num_students / num_groups
-        #     for num_students, num_groups in zip(student_quantities, group_quantities)
-        # ]
-        # max_prefs = [max(summary_table["max_pref"]) for summary_table in summary_tables]
-        # min_prefs = [min(summary_table["min_pref"]) for summary_table in summary_tables]
-        # mean_prefs = [
-        #     (summary_table["#students"] * summary_table["mean_pref"]).sum() / num_students
-        #     for num_students, summary_table in zip(student_quantities, summary_tables)
-        # ]
-        # num_mutual_pairs = [
-        #     sum(summary_table["#mutual_pairs"] for summary_table in summary_tables)
-        # ]
         data = {}
         data["ID"] = open_projects.keys()
         data["#groups"] = group_quantities
