@@ -19,13 +19,13 @@ class InstanceHandler:
 
     def __init__(
         self,
-        instance: tuple[ProjectsInfo, StudentsInfo],
+        problem_instance: tuple[ProjectsInfo, StudentsInfo],
         reward_bilateral: int,
         penalty_unassigned: int,
     ):
         self.reward_bilateral = reward_bilateral
         self.penalty_unassigned = penalty_unassigned
-        self.projects, self.students = instance
+        self.projects, self.students = problem_instance
         self.project_ids = range(len(self.projects))
         self.student_ids = range(len(self.students))
         self.group_ids = {
@@ -149,26 +149,26 @@ class InstanceHandler:
 
         group_quantities = [len(summary_table) for summary_table in summary_tables]
         student_quantities = [sum(summary_table["#students"]) for summary_table in summary_tables]
-        data = {}
-        data["ID"] = open_projects.keys()
-        data["#groups"] = group_quantities
-        data["max_size"] = [max(summary_table["#students"]) for summary_table in summary_tables]
-        data["min_size"] = [min(summary_table["#students"]) for summary_table in summary_tables]
-        data["mean_size"] = [
+        result = {}
+        result["ID"] = open_projects.keys()
+        result["#groups"] = group_quantities
+        result["max_size"] = [max(summary_table["#students"]) for summary_table in summary_tables]
+        result["min_size"] = [min(summary_table["#students"]) for summary_table in summary_tables]
+        result["mean_size"] = [
             num_students / num_groups
             for num_students, num_groups in zip(student_quantities, group_quantities)
         ]
-        data["max_pref"] = [max(summary_table["max_pref"]) for summary_table in summary_tables]
-        data["min_pref"] = [min(summary_table["min_pref"]) for summary_table in summary_tables]
-        data["mean_pref"] = [
+        result["max_pref"] = [max(summary_table["max_pref"]) for summary_table in summary_tables]
+        result["min_pref"] = [min(summary_table["min_pref"]) for summary_table in summary_tables]
+        result["mean_pref"] = [
             (summary_table["#students"] * summary_table["mean_pref"]).sum() / num_students
             for num_students, summary_table in zip(student_quantities, summary_tables)
         ]
-        data["#mutual_pairs"] = [
+        result["#mutual_pairs"] = [
             sum(summary_table["#mutual_pairs"]) for summary_table in summary_tables
         ]
 
-        return pd.DataFrame(data)
+        return pd.DataFrame(result)
 
     def summary_table_project(self, project_id: int) -> pd.DataFrame:
         student_quantities = [

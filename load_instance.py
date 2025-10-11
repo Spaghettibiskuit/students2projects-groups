@@ -21,6 +21,6 @@ def load_instance(
     path_students = folder / subfolder / f"{shared_prefix}_students_{shared_suffix}"
     projects: pd.DataFrame = pd.read_csv(path_projects)  # type: ignore
     students: pd.DataFrame = pd.read_csv(path_students)  # type: ignore
-    students["fav_partners"] = students["fav_partners"].apply(lambda x: set(json.loads(x)))  # type: ignore
+    students["fav_partners"] = students["fav_partners"].apply(lambda x: frozenset(json.loads(x)))  # type: ignore
     students["project_prefs"] = students["project_prefs"].apply(lambda x: tuple(json.loads(x)))  # type: ignore
     return projects, students
