@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from configurator import Configurator
+from configurator import Configuration
 
 
 @dataclass(frozen=True)
@@ -11,7 +11,7 @@ class RewardPotentials:
     project_preferences: dict[tuple[int, int], int]
 
 
-def get_reward_potentials(config: Configurator) -> RewardPotentials:
+def get_reward_potentials(config: Configuration) -> RewardPotentials:
     mutual_pairs = frozenset(
         (student_id, partner_id)
         for student_id, partner_ids in enumerate(config.students_info["fav_partners"])

@@ -58,7 +58,7 @@ class InstanceHandler:
     def _build_model(
         self,
     ) -> tuple[gp.Model, dict[str, ModelVariables], dict[str, gp.LinExpr]]:
-        return base_model.base_model(
+        return base_model.get_base_model(
             projects=self.projects,
             reward_bilateral=self.reward_bilateral,
             penalty_unassigned=self.penalty_unassigned,

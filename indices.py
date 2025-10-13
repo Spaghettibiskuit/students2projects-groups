@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from configurator import Configurator
+from configurator import Configuration
 
 
 @dataclass(frozen=True)
@@ -14,7 +14,7 @@ class Indices:
     project_group_student_triples: tuple[tuple[int, int, int], ...]
 
 
-def get_indices(config: Configurator) -> Indices:
+def get_indices(config: Configuration) -> Indices:
     project_ids = range(len(config.projects_info))
     student_ids = range(len(config.students_info))
     group_ids = {
