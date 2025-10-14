@@ -1,25 +1,25 @@
 """Contains dataclasses for accessing a model."""
 
-from dataclasses import dataclass
+from enum import Enum, unique
 
 
-@dataclass(frozen=True)
-class VariableNames:
-    assign_students: str = "assign_students"
-    establish_groups: str = "establish_groups"
-    mutual_unrealized: str = "mutual_unrealized"
-    unassigned_students: str = "unassigned_students"
-    group_size_surplus: str = "group_size_surplus"
-    group_size_deficit: str = "group_size_deficit"
+@unique
+class VariableNames(Enum):
+    ASSIGN_STUDENTS = "assign_students"
+    ESTABLISH_GROUPS = "establish_groups"
+    MUTUAL_UNREALIZED = "mutual_unrealized"
+    UNASSIGNED_STUDENTS = "unassigned_students"
+    GROUP_SIZE_SURPLUS = "group_size_surplus"
+    GROUP_SIZE_DEFICIT = "group_size_deficit"
 
 
-@dataclass(frozen=True)
-class InitialConstraintNames:
-    one_assignment_or_unassigned: str = "one_assignment_or_unassigned"
-    open_groups_consecutively: str = "open_groups_consecutively"
-    min_group_size_if_open: str = "min_group_size_if_open"
-    max_group_size_if_open: str = "max_group_size_if_open"
-    lower_bound_group_size_surplus: str = "lower_bound_group_size_surplus"
-    lower_bound_group_size_deficit: str = "lower_bound_group_size_deficit"
-    only_reward_materialized_pairs_1: str = "only_reward_materialized_pairs_1"
-    only_reward_materialized_pairs_2: str = "only_reward_materialized_pairs_2"
+@unique
+class InitialConstraintNames(Enum):
+    ONE_ASSIGNMENT_OR_UNASSIGNED = "one_assignment_or_unassigned"
+    OPEN_GROUPS_CONSECUTIVELY = "open_groups_consecutively"
+    MIN_GROUP_SIZE_IF_OPEN = "min_group_size_if_open"
+    MAX_GROUP_SIZE_IF_OPEN = "max_group_size_if_open"
+    LOWER_BOUND_GROUP_SIZE_SURPLUS = "lower_bound_group_size_surplus"
+    LOWER_BOUND_GROUP_SIZE_DEFICIT = "lower_bound_group_size_deficit"
+    ONLY_REWARD_MATERIALIZED_PAIRS_1 = "only_reward_materialized_pairs_1"
+    ONLY_REWARD_MATERIALIZED_PAIRS_2 = "only_reward_materialized_pairs_2"

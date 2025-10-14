@@ -11,8 +11,8 @@ from load_instance import load_instance
 class Configuration:
     """Contains all information on the instance and all parameters on how to run VNS."""
 
-    number_of_students: int
     number_of_projects: int
+    number_of_students: int
     instance_index: int
     reward_mutual_pair: int
     penalty_unassigned: int

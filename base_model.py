@@ -1,24 +1,27 @@
 """Create model of SPAwGBP instance before any local branching constraints."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import gurobipy as gp
 from gurobipy import GRB
 
-from configurator import Configuration
-from derived_modeling_data import DerivedModelingData
+from model_components import LinExpressions, Variables
 from names import InitialConstraintNames, VariableNames
+
+if TYPE_CHECKING:
+    from configuration import Configuration
+    from derived_modeling_data import DerivedModelingData
 
 
 def get_base_model(
     config: Configuration,
     derived: DerivedModelingData,
-    var_names: VariableNames,
-    constr_names: InitialConstraintNames,
 ) -> gp.Model:
     """Return the basic model for the instance"""
     model = gp.Model()
 
-    penalty_unassigned = config.penalty_unassigned
-    reward_mutual_pair = config.reward_mutual_pair
     projects = config.projects_info
 
     project_ids = derived.project_ids
@@ -27,64 +30,50 @@ def get_base_model(
     project_group_pairs = derived.project_group_pairs
     project_group_student_triples = derived.project_group_student_triples
     mutual_pairs = derived.mutual_pairs
-    project_preferences = derived.project_preferences
 
     assign_students = model.addVars(
         project_group_student_triples,
         vtype=GRB.BINARY,
-        name=var_names.assign_students,
+        name=VariableNames.ASSIGN_STUDENTS.value,
     )
 
     establish_groups = model.addVars(
-        project_group_pairs,
-        vtype=GRB.BINARY,
-        name=var_names.establish_groups,
+        project_group_pairs, vtype=GRB.BINARY, name=VariableNames.ESTABLISH_GROUPS.value
     )
 
     mutual_unrealized = model.addVars(
-        mutual_pairs, vtype=GRB.BINARY, name=var_names.mutual_unrealized
+        mutual_pairs, vtype=GRB.BINARY, name=VariableNames.MUTUAL_UNREALIZED.value
     )
 
-    unassigned_students = model.addVars(student_ids, name=var_names.unassigned_students)
+    unassigned_students = model.addVars(student_ids, name=VariableNames.UNASSIGNED_STUDENTS.value)
 
-    group_size_surplus = model.addVars(project_group_pairs, name=var_names.group_size_surplus)
-
-    group_size_deficit = model.addVars(project_group_pairs, name=var_names.group_size_deficit)
-
-    sum_realized_project_preferences = gp.quicksum(
-        project_preferences[student_id, project_id]
-        * assign_students[project_id, group_id, student_id]
-        for project_id, group_id, student_id in project_group_student_triples
+    group_size_surplus = model.addVars(
+        project_group_pairs, name=VariableNames.GROUP_SIZE_SURPLUS.value
     )
 
-    sum_reward_bilateral = reward_mutual_pair * gp.quicksum(
-        1 - mutual_unrealized[*mutual_pair] for mutual_pair in mutual_pairs
+    group_size_deficit = model.addVars(
+        project_group_pairs, name=VariableNames.GROUP_SIZE_DEFICIT.value
     )
 
-    sum_penalties_unassigned = penalty_unassigned * gp.quicksum(unassigned_students.values())
-
-    sum_penalties_surplus_groups = gp.quicksum(
-        penalty_surplus_group * establish_groups[project_id, group_id]
-        for project_id, penalty_surplus_group, num_groups_desired in zip(
-            project_ids, projects["pen_groups"], projects["desired#groups"]
-        )
-        for group_id in group_ids[project_id]
-        if group_id >= num_groups_desired
+    model_vars = Variables(
+        assign_students=assign_students,
+        establish_groups=establish_groups,
+        mutual_unrealized=mutual_unrealized,
+        unassigned_students=unassigned_students,
+        group_size_surplus=group_size_surplus,
+        group_size_deficit=group_size_deficit,
     )
 
-    sum_penalties_group_size = gp.quicksum(
-        penalty_size_deviation
-        * (group_size_surplus[project_id, group_id] + group_size_deficit[project_id, group_id])
-        for project_id, penalty_size_deviation in enumerate(projects["pen_size"])
-        for group_id in group_ids[project_id]
+    model_lin_expressions = LinExpressions.get(
+        config=config, derived=derived, variables=model_vars
     )
 
     model.setObjective(
-        sum_realized_project_preferences
-        + sum_reward_bilateral
-        - sum_penalties_unassigned
-        - sum_penalties_surplus_groups
-        - sum_penalties_group_size,
+        model_lin_expressions.sum_realized_project_preferences
+        + model_lin_expressions.sum_reward_mutual
+        - model_lin_expressions.sum_penalties_unassigned
+        - model_lin_expressions.sum_penalties_surplus_groups
+        - model_lin_expressions.sum_penalties_group_size,
         sense=GRB.MAXIMIZE,
     )
 
@@ -93,7 +82,7 @@ def get_base_model(
             assign_students.sum("*", "*", student_id) + unassigned_students[student_id] == 1
             for student_id in student_ids
         ),
-        name=constr_names.one_assignment_or_unassigned,
+        name=InitialConstraintNames.ONE_ASSIGNMENT_OR_UNASSIGNED.value,
     )
 
     model.addConstrs(
@@ -102,7 +91,7 @@ def get_base_model(
             for project_id, group_id in project_group_pairs
             if group_id > 0
         ),
-        name=constr_names.open_groups_consecutively,
+        name=InitialConstraintNames.OPEN_GROUPS_CONSECUTIVELY.value,
     )
 
     model.addConstrs(
@@ -112,7 +101,7 @@ def get_base_model(
             for project_id, min_group_size in enumerate(projects["min_group_size"])
             for group_id in group_ids[project_id]
         ),
-        name=constr_names.min_group_size_if_open,
+        name=InitialConstraintNames.MIN_GROUP_SIZE_IF_OPEN.value,
     )
 
     model.addConstrs(
@@ -122,7 +111,7 @@ def get_base_model(
             for project_id, max_group_size in enumerate(projects["max_group_size"])
             for group_id in group_ids[project_id]
         ),
-        name=constr_names.max_group_size_if_open,
+        name=InitialConstraintNames.MAX_GROUP_SIZE_IF_OPEN.value,
     )
 
     model.addConstrs(
@@ -132,7 +121,7 @@ def get_base_model(
             for project_id, ideal_group_size in enumerate(projects["ideal_group_size"])
             for group_id in group_ids[project_id]
         ),
-        name=constr_names.lower_bound_group_size_surplus,
+        name=InitialConstraintNames.LOWER_BOUND_GROUP_SIZE_SURPLUS.value,
     )
 
     model.addConstrs(
@@ -146,7 +135,7 @@ def get_base_model(
             )
             for group_id in group_ids[project_id]
         ),
-        name=constr_names.lower_bound_group_size_deficit,
+        name=InitialConstraintNames.LOWER_BOUND_GROUP_SIZE_DEFICIT.value,
     )
 
     max_num_groups = max(projects["max#groups"])
@@ -171,7 +160,7 @@ def get_base_model(
             )
             for first, second in mutual_pairs
         ),
-        name=constr_names.only_reward_materialized_pairs_1,
+        name=InitialConstraintNames.ONLY_REWARD_MATERIALIZED_PAIRS_1.value,
     )
 
     model.addConstrs(
@@ -187,7 +176,7 @@ def get_base_model(
             )
             for first, second in mutual_pairs
         ),
-        name=constr_names.only_reward_materialized_pairs_2,
+        name=InitialConstraintNames.ONLY_REWARD_MATERIALIZED_PAIRS_2.value,
     )
 
     model.update()

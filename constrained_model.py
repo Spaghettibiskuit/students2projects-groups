@@ -1,13 +1,17 @@
 """A class that contains a model further constrained for local branching."""
 
-from typing import cast
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, cast
 
 import gurobipy as gp
 
 from base_model import get_base_model
-from configurator import Configuration
-from derived_modeling_data import DerivedModelingData
-from names import InitialConstraintNames, VariableNames
+from names import VariableNames
+
+if TYPE_CHECKING:
+    from configuration import Configuration
+    from derived_modeling_data import DerivedModelingData
 
 
 class ConstrainedModel:
@@ -16,22 +20,22 @@ class ConstrainedModel:
     def __init__(
         self,
         model: gp.Model,
-        assign_student_var_names: tuple[str, ...],
-        assign_student_vars: tuple[gp.Var, ...],
-        establish_group_var_names: tuple[str, ...],
-        establish_group_vars: tuple[gp.Var, ...],
-        branching_constraint_names: list[str],
+        assign_students_var_names: tuple[str, ...],
+        assign_students_vars: tuple[gp.Var, ...],
+        establish_groups_var_names: tuple[str, ...],
+        establish_groups_vars: tuple[gp.Var, ...],
+        branching_constraints_names: list[str],
         branching_constraints: list[gp.Constr],
         lower_bound_constr_name: str | None,
         lower_bound_constr: gp.Constr | None,
         shake_constraints: tuple[gp.Constr, gp.Constr] | None,
     ):
         self.model = model
-        self.assign_student_var_names = assign_student_var_names
-        self.assign_student_vars = assign_student_vars
-        self.establish_group_var_names = establish_group_var_names
-        self.establish_group_vars = establish_group_vars
-        self.branching_constraint_names = branching_constraint_names
+        self.assign_students_var_names = assign_students_var_names
+        self.assign_students_vars = assign_students_vars
+        self.establish_groups_var_names = establish_groups_var_names
+        self.establish_groups_vars = establish_groups_vars
+        self.branching_constraints_names = branching_constraints_names
         self.branching_constraints = branching_constraints
         self.lower_bound_constr_name = lower_bound_constr_name
         self.lower_bound_constr = lower_bound_constr
@@ -40,19 +44,19 @@ class ConstrainedModel:
     def copy(self):
         model = self.model.copy()
 
-        assign_student_vars = tuple(
+        assign_students_vars = tuple(
             cast(gp.Var, model.getVarByName(assign_student_var_name))
-            for assign_student_var_name in self.assign_student_var_names
+            for assign_student_var_name in self.assign_students_var_names
         )
 
-        establish_group_vars = tuple(
+        establish_groups_vars = tuple(
             cast(gp.Var, model.getVarByName(establish_group_var_name))
-            for establish_group_var_name in self.establish_group_var_names
+            for establish_group_var_name in self.establish_groups_var_names
         )
 
         branching_constraints = [
             cast(gp.Constr, model.getConstrByName(branching_constraint_name))
-            for branching_constraint_name in self.branching_constraint_names
+            for branching_constraint_name in self.branching_constraints_names
         ]
         if self.lower_bound_constr_name:
             lower_bound_constraint = cast(
@@ -63,11 +67,11 @@ class ConstrainedModel:
 
         return ConstrainedModel(
             model=model,
-            assign_student_var_names=self.assign_student_var_names,
-            assign_student_vars=assign_student_vars,
-            establish_group_var_names=self.establish_group_var_names,
-            establish_group_vars=establish_group_vars,
-            branching_constraint_names=self.branching_constraint_names,
+            assign_students_var_names=self.assign_students_var_names,
+            assign_students_vars=assign_students_vars,
+            establish_groups_var_names=self.establish_groups_var_names,
+            establish_groups_vars=establish_groups_vars,
+            branching_constraints_names=self.branching_constraints_names,
             branching_constraints=branching_constraints,
             lower_bound_constr_name=self.lower_bound_constr_name,
             lower_bound_constr=lower_bound_constraint,
@@ -79,37 +83,35 @@ class ConstrainedModel:
         cls,
         config: Configuration,
         derived: DerivedModelingData,
-        var_names: VariableNames,
-        constr_names: InitialConstraintNames,
     ):
-        base_model = get_base_model(config, derived, var_names, constr_names)
+        base_model = get_base_model(config, derived)
 
-        assign_students_name = var_names.assign_students
-        assign_student_var_names = tuple(
+        assign_students_name = VariableNames.ASSIGN_STUDENTS.value
+        assign_students_var_names = tuple(
             f"{assign_students_name}[{project_id},{group_id},{student_id}]"
             for project_id, group_id, student_id in derived.project_group_student_triples
         )
-        assign_student_vars = tuple(
+        assign_students_vars = tuple(
             cast(gp.Var, base_model.getVarByName(assign_student_var_name))
-            for assign_student_var_name in assign_student_var_names
+            for assign_student_var_name in assign_students_var_names
         )
 
-        establish_group_name = var_names.establish_groups
-        establish_group_var_names = tuple(
-            f"{establish_group_name}[{project_id},{group_id}]"
+        establish_groups_name = VariableNames.ESTABLISH_GROUPS.value
+        establish_groups_var_names = tuple(
+            f"{establish_groups_name}[{project_id},{group_id}]"
             for project_id, group_id in derived.project_group_pairs
         )
-        establish_group_vars = tuple(
+        establish_groups_vars = tuple(
             cast(gp.Var, base_model.getVarByName(establish_group_var_name))
-            for establish_group_var_name in establish_group_var_names
+            for establish_group_var_name in establish_groups_var_names
         )
         return cls(
             model=base_model,
-            assign_student_var_names=assign_student_var_names,
-            assign_student_vars=assign_student_vars,
-            establish_group_var_names=establish_group_var_names,
-            establish_group_vars=establish_group_vars,
-            branching_constraint_names=[],
+            assign_students_var_names=assign_students_var_names,
+            assign_students_vars=assign_students_vars,
+            establish_groups_var_names=establish_groups_var_names,
+            establish_groups_vars=establish_groups_vars,
+            branching_constraints_names=[],
             branching_constraints=[],
             lower_bound_constr_name=None,
             lower_bound_constr=None,

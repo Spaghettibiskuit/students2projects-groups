@@ -1,9 +1,9 @@
 """A class that controls all components which enable VNS with linear branching."""
 
-from configurator import Configuration
+from configuration import Configuration
 from constrained_model import ConstrainedModel
-from derived_modeling_data import get_derived_modeling_data
-from names import InitialConstraintNames, VariableNames
+from derived_modeling_data import DerivedModelingData
+from model_components import LinExpressions, Variables
 
 
 class VariableNeighborhoodSearch:
@@ -11,31 +11,31 @@ class VariableNeighborhoodSearch:
 
     def __init__(
         self,
-        number_of_students: int,
         number_of_projects: int,
+        number_of_students: int,
         instance_index: int,
         reward_mutual_pair: int,
         penalty_unassigned: int,
     ):
         self.config = Configuration(
-            number_of_students=number_of_students,
             number_of_projects=number_of_projects,
+            number_of_students=number_of_students,
             instance_index=instance_index,
             reward_mutual_pair=reward_mutual_pair,
             penalty_unassigned=penalty_unassigned,
         )
-        self.derived = get_derived_modeling_data(self.config)
-        self.var_names = VariableNames()
-        self.initial_constr_names = InitialConstraintNames()
+        self.derived = DerivedModelingData.get(self.config)
         self.initial_model = ConstrainedModel.initial_model(
             config=self.config,
             derived=self.derived,
-            var_names=self.var_names,
-            constr_names=self.initial_constr_names,
         )
         self.best_model = None
+        self.variables: Variables | None = None
+        self.lin_expressions: LinExpressions | None
 
     def solve_exactly(self) -> ConstrainedModel:
         self.initial_model.model.optimize()
         self.best_model = self.initial_model
+        self.variables = Variables.get(self.derived, self.best_model)
+        self.lin_expressions = LinExpressions.get(self.config, self.derived, self.variables)
         return self.best_model
