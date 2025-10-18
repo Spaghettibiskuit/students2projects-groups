@@ -4,6 +4,7 @@ from configuration import Configuration
 from constrained_model import ConstrainedModel
 from derived_modeling_data import DerivedModelingData
 from model_components import LinExpressions, Variables
+from solution import Solution
 from solution_info_retriever import SolutionInformationRetriever
 from solution_viewer import SolutionViewer
 
@@ -32,22 +33,29 @@ class VariableNeighborhoodSearch:
             derived=self.derived,
         )
         self.best_model = None
-        self.variables: Variables | None = None
-        self.lin_expressions: LinExpressions | None = None
-        self.retriever: SolutionInformationRetriever | None = None
-        self.viewer: SolutionViewer | None = None
+        self.best_solution = None
 
     def solve_exactly(self) -> ConstrainedModel:
         self.initial_model.model.optimize()
+
         self.best_model = self.initial_model
-        self.variables = Variables.get(self.derived, self.best_model)
-        self.lin_expressions = LinExpressions.get(self.config, self.derived, self.variables)
-        self.retriever = SolutionInformationRetriever(
+
+        variables = Variables.get(self.derived, self.best_model)
+        lin_expressions = LinExpressions.get(self.config, self.derived, variables)
+        retriever = SolutionInformationRetriever(
             config=self.config,
             derived=self.derived,
             constrained_model=self.best_model,
-            variables=self.variables,
-            lin_expressions=self.lin_expressions,
+            variables=variables,
+            lin_expressions=lin_expressions,
         )
-        self.viewer = SolutionViewer(derived=self.derived, retriever=self.retriever)
+        viewer = SolutionViewer(derived=self.derived, retriever=retriever)
+        self.best_solution = Solution(
+            config=self.config,
+            derived=self.derived,
+            variables=variables,
+            lin_expressions=lin_expressions,
+            retriever=retriever,
+            viewer=viewer,
+        )
         return self.best_model
