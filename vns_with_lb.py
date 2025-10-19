@@ -5,6 +5,7 @@ from constrained_model import ConstrainedModel
 from derived_modeling_data import DerivedModelingData
 from model_components import LinExpressions, Variables
 from solution import Solution
+from solution_checker import SolutionChecker
 from solution_info_retriever import SolutionInformationRetriever
 from solution_viewer import SolutionViewer
 
@@ -20,7 +21,7 @@ class VariableNeighborhoodSearch:
         reward_mutual_pair: int,
         penalty_unassigned: int,
     ):
-        self.config = Configuration(
+        self.config = Configuration.get(
             number_of_projects=number_of_projects,
             number_of_students=number_of_students,
             instance_index=instance_index,
@@ -35,7 +36,8 @@ class VariableNeighborhoodSearch:
         self.best_model = None
         self.best_solution = None
 
-    def solve_exactly(self) -> ConstrainedModel:
+    def gurobi_alone(self, time_limit: int | float = float("inf")) -> ConstrainedModel:
+        self.initial_model.model.Params.TimeLimit = time_limit
         self.initial_model.model.optimize()
 
         self.best_model = self.initial_model
@@ -50,6 +52,9 @@ class VariableNeighborhoodSearch:
             lin_expressions=lin_expressions,
         )
         viewer = SolutionViewer(derived=self.derived, retriever=retriever)
+        checker = SolutionChecker(
+            config=self.config, derived=self.derived, variables=variables, retriever=retriever
+        )
         self.best_solution = Solution(
             config=self.config,
             derived=self.derived,
@@ -57,5 +62,8 @@ class VariableNeighborhoodSearch:
             lin_expressions=lin_expressions,
             retriever=retriever,
             viewer=viewer,
+            checker=checker,
         )
+        if checker.is_valid():
+            print("IS VALID")
         return self.best_model

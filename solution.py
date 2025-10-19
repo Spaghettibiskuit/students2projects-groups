@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from configuration import Configuration
     from derived_modeling_data import DerivedModelingData
     from model_components import LinExpressions, Variables
+    from solution_checker import SolutionChecker
     from solution_info_retriever import SolutionInformationRetriever
     from solution_viewer import SolutionViewer
 
@@ -29,6 +30,7 @@ class Solution:
         lin_expressions: LinExpressions,
         retriever: SolutionInformationRetriever,
         viewer: SolutionViewer,
+        checker: SolutionChecker,
     ):
         self.config = config
         self.derived = derived
@@ -36,6 +38,7 @@ class Solution:
         self.lin_expressions = lin_expressions
         self.retriever = retriever
         self.viewer = viewer
+        self.checker = checker
 
     @cached_property
     def solution_table(self):

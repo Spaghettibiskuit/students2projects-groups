@@ -42,11 +42,17 @@ class SolutionInformationRetriever:
         )
 
     @cached_property
-    def unassigned_students(self) -> list[tuple[int, str]]:
+    def unassigned_students_names(self) -> list[str]:
         return [
-            (student_id, name)
-            for name, student_id, is_unassigned in zip(
-                self.config.students_info["name"],
+            self.config.students_info["name"][student_id]
+            for student_id in self.unassigned_students
+        ]
+
+    @cached_property
+    def unassigned_students(self) -> list[int]:
+        return [
+            student_id
+            for student_id, is_unassigned in zip(
                 self.derived.student_ids,
                 self.variables.unassigned_students.values(),
             )
@@ -58,22 +64,22 @@ class SolutionInformationRetriever:
         return round(self.variables.assign_students.sum(project_id, group_id, "*").getValue())
 
     @lru_cache(maxsize=128)
-    def students_in_group(self, project_id: int, group_id: int) -> tuple[int, ...]:
+    def students_in_group(self, project_id: int, group_id: int) -> list[int]:
         assign_students = self.variables.assign_students
-        return tuple(
+        return [
             student_id
             for student_id in self.derived.student_ids
             if (project_id, group_id, student_id) in assign_students
             and round(assign_students[project_id, group_id, student_id].X)
-        )
+        ]
 
     @lru_cache(maxsize=128)
-    def students_in_group_names(self, project_id: int, group_id: int) -> tuple[str, ...]:
+    def students_in_group_names(self, project_id: int, group_id: int) -> list[str]:
         students_info = self.config.students_info
-        return tuple(
+        return [
             students_info["name"][student_id]
             for student_id in self.students_in_group(project_id, group_id)
-        )
+        ]
 
     @lru_cache(maxsize=128)
     def pref_vals_students_in_group(self, project_id: int, group_id: int) -> dict[int, int]:
@@ -84,13 +90,13 @@ class SolutionInformationRetriever:
         }
 
     @lru_cache(maxsize=128)
-    def mutual_pairs_in_group(self, project_id: int, group_id: int) -> tuple[tuple[int, int], ...]:
+    def mutual_pairs_in_group(self, project_id: int, group_id: int) -> list[tuple[int, int]]:
         mutual_pairs = self.derived.mutual_pairs
-        return tuple(
+        return [
             pair
             for pair in it.combinations(sorted(self.students_in_group(project_id, group_id)), 2)
             if pair in mutual_pairs
-        )
+        ]
 
     @lru_cache(maxsize=128)
     def num_mutual_pairs_in_group(self, project_id: int, group_id: int) -> int:
@@ -105,10 +111,10 @@ class SolutionInformationRetriever:
         }
 
     @cached_property
-    def mutual_pairs(self):
+    def mutual_pairs(self) -> list[tuple[int, int]]:
         mutual_pairs: list[tuple[int, int]] = []
         for project_id in self.derived.project_ids:
             for group_id in self.derived.group_ids[project_id]:
                 mutual_pairs.extend(self.mutual_pairs_in_group(project_id, group_id))
 
-        return tuple(sorted(mutual_pairs))
+        return sorted(mutual_pairs)
