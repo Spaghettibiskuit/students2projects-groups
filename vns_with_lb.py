@@ -53,7 +53,11 @@ class VariableNeighborhoodSearch:
         )
         viewer = SolutionViewer(derived=self.derived, retriever=retriever)
         checker = SolutionChecker(
-            config=self.config, derived=self.derived, variables=variables, retriever=retriever
+            config=self.config,
+            derived=self.derived,
+            variables=variables,
+            lin_expressions=lin_expressions,
+            retriever=retriever,
         )
         self.best_solution = Solution(
             config=self.config,
@@ -64,6 +68,6 @@ class VariableNeighborhoodSearch:
             viewer=viewer,
             checker=checker,
         )
-        if checker.is_valid():
-            print("IS VALID")
+        if checker.is_correct:
+            print("IS CORRECT")
         return self.best_model
