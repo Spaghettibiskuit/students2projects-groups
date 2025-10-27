@@ -31,12 +31,31 @@ class Variables:
         constrained_model: ConstrainedModel,
     ):
         gurobi_model = constrained_model.model
+
+        assign_students_name = VariableNames.ASSIGN_STUDENTS.value
+        assign_students_vars = tuple(
+            cast(
+                gp.Var,
+                gurobi_model.getVarByName(
+                    f"{assign_students_name}[{project_id},{group_id},{student_id}]"
+                ),
+            )
+            for project_id, group_id, student_id in derived.project_group_student_triples
+        )
         assign_students = gp.tupledict(
-            zip(derived.project_group_student_triples, constrained_model.assign_students_vars)
+            zip(derived.project_group_student_triples, assign_students_vars)
         )
-        establish_groups = gp.tupledict(
-            zip(derived.project_group_pairs, constrained_model.establish_groups_vars)
+
+        establish_groups_name = VariableNames.ESTABLISH_GROUPS.value
+        establish_groups_vars = tuple(
+            cast(
+                gp.Var,
+                gurobi_model.getVarByName(f"{establish_groups_name}[{project_id},{group_id}]"),
+            )
+            for project_id, group_id in derived.project_group_pairs
         )
+
+        establish_groups = gp.tupledict(zip(derived.project_group_pairs, establish_groups_vars))
 
         mutual_unrealized_name = VariableNames.MUTUAL_UNREALIZED.value
         mutual_unrealized_vars = tuple(

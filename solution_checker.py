@@ -1,11 +1,15 @@
 """A class that checks whether a solution that was found is valid and correct."""
 
-import functools
+from __future__ import annotations
 
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from model_components import LinExpressions, Variables
-from solution_info_retriever import SolutionInformationRetriever
+import functools
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from configuration import Configuration
+    from derived_modeling_data import DerivedModelingData
+    from model_components import LinExpressions, Variables
+    from solution_info_retriever import SolutionInformationRetriever
 
 
 class SolutionChecker:
@@ -102,24 +106,24 @@ class SolutionChecker:
 
     @functools.cached_property
     def sum_penalties_surplus_groups(self) -> int | float:
-        desired_nums_of_groups = self.config.projects_info["desired#groups"]
-        penalties_per_excess_group = self.config.projects_info["pen_groups"]
+        desired_num_of_groups = self.config.projects_info["desired#groups"]
+        penalty_per_excess_group = self.config.projects_info["pen_groups"]
         return sum(
-            max(0, len(self.groups_in_project(project_id)) - desired_nums_of_groups[project_id])
-            * penalties_per_excess_group[project_id]
+            max(0, len(self.groups_in_project(project_id)) - desired_num_of_groups[project_id])
+            * penalty_per_excess_group[project_id]
             for project_id in self.derived.project_ids
         )
 
     @functools.cached_property
     def sum_penalties_group_size(self) -> int | float:
-        ideal_group_sizes = self.config.projects_info["ideal_group_size"]
-        penalties_deviation = self.config.projects_info["pen_size"]
+        ideal_group_size = self.config.projects_info["ideal_group_size"]
+        penalty_deviation = self.config.projects_info["pen_size"]
         return sum(
             abs(
                 len(self.retriever.students_in_group(project_id, group_id))
-                - ideal_group_sizes[project_id]
+                - ideal_group_size[project_id]
             )
-            * penalties_deviation[project_id]
+            * penalty_deviation[project_id]
             for project_id, group_id in self.established_groups_pairs
         )
 

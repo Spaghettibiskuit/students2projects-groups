@@ -83,7 +83,7 @@ class Solution:
 
         bottom_comments = [
             f"# Materialized mutual pairs: {str(self.retriever.mutual_pairs)[1:-1]}",
-            f"# Unassigned students: '{str(self.retriever.unassigned_students)[1:-1]}'",
+            f"# Unassigned students: {str(self.retriever.unassigned_students)[1:-1]}",
         ]
         comments = top_comments + middle_comments + bottom_comments
 
