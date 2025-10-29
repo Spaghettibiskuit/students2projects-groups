@@ -42,13 +42,6 @@ class SolutionInformationRetriever:
         )
 
     @cached_property
-    def unassigned_students_names(self) -> list[str]:
-        return [
-            self.config.students_info["name"][student_id]
-            for student_id in self.unassigned_students
-        ]
-
-    @cached_property
     def unassigned_students(self) -> list[int]:
         return [
             student_id
@@ -57,6 +50,13 @@ class SolutionInformationRetriever:
                 self.variables.unassigned_students.values(),
             )
             if round(is_unassigned.X)
+        ]
+
+    @cached_property
+    def unassigned_students_names(self) -> list[str]:
+        return [
+            self.config.students_info["name"][student_id]
+            for student_id in self.unassigned_students
         ]
 
     @lru_cache(maxsize=128)

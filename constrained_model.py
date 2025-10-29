@@ -174,7 +174,6 @@ class ConstrainedModel:
         for copied_var, var_value in zip(model.getVars(), self.saved_var_values):
             copied_var.Start = var_value
 
-        # Maybe eliminate cutoff here
         model.Params.TimeLimit = float("inf")
         model.Params.Cutoff = round(self.objective_value) - 0.5
         model.Params.SolutionLimit = 1

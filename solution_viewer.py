@@ -62,13 +62,13 @@ class SolutionViewer:
             list(self.retriever.pref_vals_students_in_group(project_id, group_id).values())
             for group_id in group_ids
         ]
-        data = {}
-        data["#students"] = student_quantities
-        data["max_pref"] = [max(pref_vals) for pref_vals in pref_vals_in_groups]
-        data["min_pref"] = [min(pref_vals) for pref_vals in pref_vals_in_groups]
-        data["mean_pref"] = [statistics.mean(pref_vals) for pref_vals in pref_vals_in_groups]
-        data["#mutual_pairs"] = [
+        result = {}
+        result["#students"] = student_quantities
+        result["max_pref"] = [max(pref_vals) for pref_vals in pref_vals_in_groups]
+        result["min_pref"] = [min(pref_vals) for pref_vals in pref_vals_in_groups]
+        result["mean_pref"] = [statistics.mean(pref_vals) for pref_vals in pref_vals_in_groups]
+        result["#mutual_pairs"] = [
             self.retriever.num_mutual_pairs_in_group(project_id, group_id)
             for group_id in group_ids
         ]
-        return pd.DataFrame(data)
+        return pd.DataFrame(result)

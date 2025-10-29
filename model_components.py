@@ -1,4 +1,4 @@
-"""Central place where linear expressions for the SPAwGBP are created"""
+"""Central place where linear expressions for the SPAwGBP are created."""
 
 from __future__ import annotations
 

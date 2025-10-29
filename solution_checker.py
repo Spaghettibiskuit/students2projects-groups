@@ -31,13 +31,11 @@ class SolutionChecker:
 
     @functools.cached_property
     def assigned_students_triples(self) -> list[tuple[int, int, int]]:
-        assign_students = self.variables.assign_students
-        return [key for key, var in assign_students.items() if var.X > 0.5]
+        return [key for key, var in self.variables.assign_students.items() if var.X > 0.5]
 
     @functools.cached_property
     def established_groups_pairs(self) -> list[tuple[int, int]]:
-        establish_groups = self.variables.establish_groups
-        return [key for key, var in establish_groups.items() if var.X > 0.5]
+        return [key for key, var in self.variables.establish_groups.items() if var.X > 0.5]
 
     @functools.lru_cache(maxsize=128)
     def groups_in_project(self, project_id: int) -> list[int]:
@@ -51,7 +49,7 @@ class SolutionChecker:
     def all_students_either_assigned_once_or_unassigned(self) -> bool:
         unassigned_students = self.retriever.unassigned_students
         assigned_students = [student_id for _, _, student_id in self.assigned_students_triples]
-        all_student_ids = list(range(self.config.number_of_students))
+        all_student_ids = list(self.derived.student_ids)
         return sorted(unassigned_students + assigned_students) == all_student_ids
 
     @functools.cached_property
@@ -80,12 +78,20 @@ class SolutionChecker:
         )
 
     @functools.cached_property
+    def all_projects_only_consecutive_group_ids(self) -> bool:
+        return all(
+            sorted(groups := self.groups_in_project(project_id)) == list(range(len(groups)))
+            for project_id in self.derived.project_ids
+        )
+
+    @functools.cached_property
     def is_valid(self) -> bool:
         return (
             self.all_students_either_assigned_once_or_unassigned
             and self.groups_opened_if_and_only_if_students_inside
             and self.all_group_sizes_within_bounds
             and self.no_project_too_many_established_groups
+            and self.all_projects_only_consecutive_group_ids
         )
 
     @functools.cached_property

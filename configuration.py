@@ -1,4 +1,4 @@
-"""A dataclass that contains all information on the instance all parameters on how to run VNS."""
+"""A dataclass that contains all information on the instance, all parameters on how to run VNS."""
 
 from dataclasses import dataclass
 

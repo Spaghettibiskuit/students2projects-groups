@@ -78,7 +78,8 @@ class Solution:
         ]
 
         middle_comments = [
-            f"# {descr} is: {val:.1f}" for descr, val in zip(descriptors, lin_expr_values)
+            f"# {descriptor} is: {value:.1f}"
+            for descriptor, value in zip(descriptors, lin_expr_values)
         ]
 
         bottom_comments = [

@@ -1,5 +1,3 @@
-"""A class that controls all components which enable VNS with linear branching."""
-
 from time import time
 
 from gurobipy import GRB
@@ -16,7 +14,6 @@ from solution_viewer import SolutionViewer
 
 
 class VariableNeighborhoodSearch:
-    """Controls all components which enable VNS with linear branching."""
 
     def __init__(
         self,
@@ -140,15 +137,17 @@ class VariableNeighborhoodSearch:
         self,
         total_time_limit: int | float = 10,
         node_time_limit: int | float = 0.5,
-        k_min_perc: int | float = 1,
-        k_step_perc: int | float = 1,
-        l_min_perc: int | float = 3,
-        l_step_perc: int | float = 3,
+        k_min_perc: int | float = 10,
+        k_step_perc: int | float = 10,
+        l_min_perc: int | float = 5,
+        l_step_perc: int | float = 5,
+        initial_solution_limit: int = 5,
+        shake_solution_limit: int = 3,
     ):
-        k_min, k_step, l_min, l_step = self._absolute_branching_parameters(
+        k_min, l_min, k_step, l_step, k_max, l_max = self._absolute_branching_parameters(
             k_min_perc,
-            k_step_perc,
             l_min_perc,
+            k_step_perc,
             l_step_perc,
         )
 
@@ -158,7 +157,7 @@ class VariableNeighborhoodSearch:
         )
         start_time = time()
         k_cur = k_min
-        active_model.set_solution_limit(1)
+        active_model.set_solution_limit(initial_solution_limit)
         time_limit = total_time_limit - (time() - start_time)
         active_model.set_time_limit(max(0, time_limit))
         active_model.optimize()
@@ -171,6 +170,8 @@ class VariableNeighborhoodSearch:
             rhs = l_min
             active_model.eliminate_solution_limit()
             while self._time_not_over(start_time, total_time_limit):
+                if rhs > l_max:
+                    break
                 active_model.add_bounding_branching_constraint(rhs)
                 time_limit = min(node_time_limit, total_time_limit - (time() - start_time))
                 active_model.set_time_limit(max(0, time_limit))
@@ -207,6 +208,8 @@ class VariableNeighborhoodSearch:
                 k_cur = k_min
             else:
                 k_cur += k_step
+                if k_cur > k_max:
+                    k_cur = k_min
 
             if self._time_not_over(start_time, total_time_limit):
                 active_model = self.best_model.copy()
@@ -216,11 +219,11 @@ class VariableNeighborhoodSearch:
                 active_model.eliminate_cutoff()
                 time_limit = total_time_limit - (time() - start_time)
                 active_model.set_time_limit(max(0, time_limit))
-                active_model.set_solution_limit(1)
+                active_model.set_solution_limit(shake_solution_limit)
                 active_model.optimize()
                 active_model.remove_shaking_constraints()
                 if active_model.status == GRB.INFEASIBLE:
-                    k_cur += k_step
+                    k_cur = max(0, k_cur - k_step)
                 else:
                     active_model.save_var_values()
                     active_model.save_decision_var_values()
@@ -235,27 +238,33 @@ class VariableNeighborhoodSearch:
     def _absolute_branching_parameters(
         self,
         k_min_perc: int | float,
-        k_step_perc: int | float,
         l_min_perc: int | float,
+        k_step_perc: int | float,
         l_step_perc: int | float,
     ) -> list[int]:
         branching_params_percentages = [
             k_min_perc,
-            k_step_perc,
             l_min_perc,
+            k_step_perc,
             l_step_perc,
         ]
         if any(not 0 < param <= 100 for param in branching_params_percentages):
             raise ValueError("Percentages must be greater than 0 not greater than 100.")
-        num_decision_variables = len(self.derived.project_group_student_triples) + len(
-            self.derived.project_group_pairs
-        )
+
+        # The following k_max and l_max are set as they are due to the following: If a student
+        # switches the group the variable for him/her in his current group changes its value by one
+        # and the value of the variable for him/her in his future group changes by one. The change
+        # in variables indicating whether groups are opened or closed is likely to be far smaller,
+        # since e.g. groups have to have consecutive IDs.
+
+        k_max = self.config.number_of_students * 2
+        l_max = k_max
         branching_params = list(
-            round(percentage / 100 * num_decision_variables)
-            for percentage in branching_params_percentages
+            round(percentage / 100 * k_max) for percentage in branching_params_percentages
         )
         if any(param == 0 for param in branching_params):
             raise ValueError("An absolute branching parameter is zero due to rounding.")
+        branching_params += [k_max, l_max]
         return branching_params
 
     def _post_processing(self):
