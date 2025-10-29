@@ -67,8 +67,8 @@ class ConstrainedModel:
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
 
-    def set_cutoff(self):
-        self.model.Params.Cutoff = self.objective_value
+    def set_cutoff(self, ascending: bool = True):
+        self.model.Params.Cutoff = round(self.objective_value) - 0.5 + int(ascending)
 
     # def recover(self):
     #     self.drop_latest_branching_constraint()
@@ -93,6 +93,8 @@ class ConstrainedModel:
 
     def save_var_values(self):
         self.saved_var_values = tuple(var.X for var in self.model.getVars())
+
+    def save_decision_var_values(self):
         self.assign_students_vars_values = tuple(var.X for var in self.assign_students_vars)
         self.establish_groups_vars_values = tuple(var.X for var in self.establish_groups_vars)
 
@@ -172,6 +174,9 @@ class ConstrainedModel:
         for copied_var, var_value in zip(model.getVars(), self.saved_var_values):
             copied_var.Start = var_value
 
+        # Maybe eliminate cutoff here
+        model.Params.TimeLimit = float("inf")
+        model.Params.Cutoff = round(self.objective_value) - 0.5
         model.Params.SolutionLimit = 1
         model.optimize()
         model.Params.SolutionLimit = 2_000_000_000
