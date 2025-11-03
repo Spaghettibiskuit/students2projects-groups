@@ -149,7 +149,7 @@ def get_base_model(
 
     model.addConstrs(
         (
-            mutual_unrealized[first, second] * num_projects
+            (mutual_unrealized[first, second] - unassigned_students[first]) * num_projects
             >= sum(
                 unique_group_identifiers[project_id, group_id]
                 * (
@@ -165,7 +165,7 @@ def get_base_model(
 
     model.addConstrs(
         (
-            mutual_unrealized[first, second] * num_projects
+            (mutual_unrealized[first, second] - unassigned_students[second]) * num_projects
             >= sum(
                 unique_group_identifiers[project_id, group_id]
                 * (
