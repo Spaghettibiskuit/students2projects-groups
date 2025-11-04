@@ -2,11 +2,10 @@ from time import time
 
 from gurobipy import GRB
 
-from branching_constraints_efficacy_checker import BranchingConstraintsEfficacyChecker
+# from branching_constraints_efficacy_checker import BranchingConstraintsEfficacyChecker
 from configuration import Configuration
 from constrained_model import ConstrainedModel
 from derived_modeling_data import DerivedModelingData
-from model_components import LinExpressions, Variables
 from solution import Solution
 from solution_checker import SolutionChecker
 from solution_info_retriever import SolutionInformationRetriever
@@ -35,7 +34,7 @@ class VariableNeighborhoodSearch:
         self.best_solution = None
 
     def gurobi_alone(self, time_limit: int | float = float("inf")) -> ConstrainedModel:
-        active_model = ConstrainedModel.initial_model(
+        active_model = ConstrainedModel(
             config=self.config,
             derived=self.derived,
         )
@@ -46,92 +45,92 @@ class VariableNeighborhoodSearch:
         self._post_processing()
         return self.best_model
 
-    def run_vns_with_lb_basic(
-        self, total_time_limit: int | float, node_time_limit: int | float, k_step: int
-    ):
-        active_model = ConstrainedModel.initial_model(
-            config=self.config,
-            derived=self.derived,
-        )
-        start_time = time()
-        k_cur = k_step
-        active_model.set_solution_limit(1)
-        time_limit = total_time_limit - (time() - start_time)
-        active_model.set_time_limit(max(0, time_limit))
-        active_model.optimize()
-        active_model.save_var_values()
-        active_model.save_decision_var_values()
-        self.best_model = active_model.copy()
-        current_model = active_model.copy()
-        active_model.set_cutoff(ascending=False)
-        while time() - start_time < total_time_limit:
-            rhs = 1
-            active_model.eliminate_solution_limit()
-            branching_constraints_efficacy_checker = BranchingConstraintsEfficacyChecker()
-            while time() - start_time < total_time_limit:
-                active_model.add_bounding_branching_constraint(rhs)
-                time_limit = min(node_time_limit, total_time_limit - (time() - start_time))
-                active_model.set_time_limit(max(0, time_limit))
-                active_model.optimize()
-                status_code = active_model.status
-                if proven_infeasible := status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
-                    active_model.drop_latest_branching_constraint()
-                    active_model.add_excluding_branching_constraint(rhs)
-                    rhs += 1
+    # def run_vns_with_lb_basic(
+    #     self, total_time_limit: int | float, node_time_limit: int | float, k_step: int
+    # ):
+    #     active_model = ConstrainedModel.initial_model(
+    #         config=self.config,
+    #         derived=self.derived,
+    #     )
+    #     start_time = time()
+    #     k_cur = k_step
+    #     active_model.set_solution_limit(1)
+    #     time_limit = total_time_limit - (time() - start_time)
+    #     active_model.set_time_limit(max(0, time_limit))
+    #     active_model.optimize()
+    #     active_model.save_var_values()
+    #     active_model.save_decision_var_values()
+    #     self.best_model = active_model.copy()
+    #     current_model = active_model.copy()
+    #     active_model.set_cutoff(ascending=False)
+    #     while time() - start_time < total_time_limit:
+    #         rhs = 1
+    #         active_model.eliminate_solution_limit()
+    #         branching_constraints_efficacy_checker = BranchingConstraintsEfficacyChecker()
+    #         while time() - start_time < total_time_limit:
+    #             active_model.add_bounding_branching_constraint(rhs)
+    #             time_limit = min(node_time_limit, total_time_limit - (time() - start_time))
+    #             active_model.set_time_limit(max(0, time_limit))
+    #             active_model.optimize()
+    #             status_code = active_model.status
+    #             if proven_infeasible := status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
+    #                 active_model.drop_latest_branching_constraint()
+    #                 active_model.add_excluding_branching_constraint(rhs)
+    #                 rhs += 1
 
-                elif status_code == GRB.OPTIMAL:
-                    active_model.save_var_values()
-                    current_model = active_model.copy()
-                    active_model.drop_latest_branching_constraint()
-                    active_model.add_excluding_branching_constraint(rhs)
-                    active_model.save_decision_var_values()
-                    branching_constraints_efficacy_checker.check(
-                        active_model.saved_var_values, is_optimal_within_bounds=True
-                    )
-                    rhs = 1
+    #             elif status_code == GRB.OPTIMAL:
+    #                 active_model.save_var_values()
+    #                 current_model = active_model.copy()
+    #                 active_model.drop_latest_branching_constraint()
+    #                 active_model.add_excluding_branching_constraint(rhs)
+    #                 active_model.save_decision_var_values()
+    #                 branching_constraints_efficacy_checker.check(
+    #                     active_model.saved_var_values, is_optimal_within_bounds=True
+    #                 )
+    #                 rhs = 1
 
-                elif status_code == GRB.TIME_LIMIT:
-                    if active_model.solution_count == 0:
-                        break
+    #             elif status_code == GRB.TIME_LIMIT:
+    #                 if active_model.solution_count == 0:
+    #                     break
 
-                    active_model.save_var_values()
-                    current_model = active_model.copy()
-                    active_model.drop_latest_branching_constraint()
-                    active_model.prohibit_last_solution()
-                    active_model.save_decision_var_values()
-                    branching_constraints_efficacy_checker.check(
-                        active_model.saved_var_values, is_optimal_within_bounds=False
-                    )
-                    rhs = 1
+    #                 active_model.save_var_values()
+    #                 current_model = active_model.copy()
+    #                 active_model.drop_latest_branching_constraint()
+    #                 active_model.prohibit_last_solution()
+    #                 active_model.save_decision_var_values()
+    #                 branching_constraints_efficacy_checker.check(
+    #                     active_model.saved_var_values, is_optimal_within_bounds=False
+    #                 )
+    #                 rhs = 1
 
-                if not proven_infeasible:
-                    active_model.set_cutoff(ascending=False)
+    #             if not proven_infeasible:
+    #                 active_model.set_cutoff(ascending=False)
 
-            if current_model.objective_value > self.best_model.objective_value:
-                self.best_model = current_model.copy()
-                k_cur = k_step
-            else:
-                k_cur += k_step
+    #         if current_model.objective_value > self.best_model.objective_value:
+    #             self.best_model = current_model.copy()
+    #             k_cur = k_step
+    #         else:
+    #             k_cur += k_step
 
-            active_model = self.best_model.copy()
-            active_model.drop_all_branching_constraints()
-            while time() - start_time < total_time_limit:
-                active_model.add_shaking_constraints(k_cur, k_step)
-                active_model.eliminate_cutoff()
-                time_limit = total_time_limit - (time() - start_time)
-                active_model.set_time_limit(max(0, time_limit))
-                active_model.set_solution_limit(1)
-                active_model.optimize()
-                active_model.remove_shaking_constraints()
-                if active_model.status == GRB.INFEASIBLE:
-                    k_cur += k_step
-                else:
-                    active_model.save_var_values()
-                    active_model.save_decision_var_values()
-                    break
+    #         active_model = self.best_model.copy()
+    #         active_model.drop_all_branching_constraints()
+    #         while time() - start_time < total_time_limit:
+    #             active_model.add_shaking_constraints(k_cur, k_step)
+    #             active_model.eliminate_cutoff()
+    #             time_limit = total_time_limit - (time() - start_time)
+    #             active_model.set_time_limit(max(0, time_limit))
+    #             active_model.set_solution_limit(1)
+    #             active_model.optimize()
+    #             active_model.remove_shaking_constraints()
+    #             if active_model.status == GRB.INFEASIBLE:
+    #                 k_cur += k_step
+    #             else:
+    #                 active_model.save_var_values()
+    #                 active_model.save_decision_var_values()
+    #                 break
 
-        self._post_processing()
-        return self.best_model
+    #     self._post_processing()
+    #     return self.best_model
 
     def run_vns_with_lb(
         self,
@@ -151,84 +150,76 @@ class VariableNeighborhoodSearch:
             l_step_perc,
         )
 
-        active_model = ConstrainedModel.initial_model(
+        model = ConstrainedModel(
             config=self.config,
             derived=self.derived,
         )
         start_time = time()
         k_cur = k_min
-        active_model.set_solution_limit(initial_solution_limit)
+        model.set_solution_limit(initial_solution_limit)
         time_limit = total_time_limit - (time() - start_time)
-        active_model.set_time_limit(max(0, time_limit))
-        active_model.optimize()
-        active_model.save_var_values()
-        active_model.save_decision_var_values()
-        self.best_model = active_model.copy()
-        current_model = active_model.copy()
-        active_model.set_cutoff()
+        model.set_time_limit(max(0, time_limit))
+        model.optimize()
+        model.store_solution()
+        model.store_last_feasible_solution_as_incumbent()
         while self._time_not_over(start_time, total_time_limit):
             rhs = l_min
-            active_model.eliminate_solution_limit()
+            model.eliminate_solution_limit()
             while self._time_not_over(start_time, total_time_limit):
                 if rhs > l_max:
                     break
-                active_model.add_bounding_branching_constraint(rhs)
+                model.set_branching_var_values_for_inside_vnd()
+                model.add_bounding_branching_constraint(rhs)
                 time_limit = min(node_time_limit, total_time_limit - (time() - start_time))
-                active_model.set_time_limit(max(0, time_limit))
-                active_model.optimize()
-                status_code = active_model.status
-                if proven_infeasible := status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
-                    active_model.drop_latest_branching_constraint()
-                    active_model.add_excluding_branching_constraint(rhs)
+                model.set_time_limit(max(0, time_limit))
+                model.set_cutoff()
+                model.optimize()
+                status_code = model.status
+                if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
+                    model.drop_latest_branching_constraint()
+                    model.add_excluding_branching_constraint(rhs)
                     rhs += l_step
 
                 elif status_code == GRB.OPTIMAL:
-                    active_model.save_var_values()
-                    current_model = active_model.copy()
-                    active_model.drop_latest_branching_constraint()
-                    active_model.add_excluding_branching_constraint(rhs)
-                    active_model.save_decision_var_values()
+                    model.store_solution()
+                    model.drop_latest_branching_constraint()
+                    model.add_excluding_branching_constraint(rhs)
                     rhs = l_min
 
                 elif status_code == GRB.TIME_LIMIT:
-                    if active_model.solution_count == 0:
+                    if model.solution_count == 0:
                         break
 
-                    active_model.save_var_values()
-                    current_model = active_model.copy()
-                    active_model.drop_latest_branching_constraint()
-                    active_model.save_decision_var_values()
+                    model.store_solution()
+                    model.drop_latest_branching_constraint()
                     rhs = l_min
 
-                if not proven_infeasible:
-                    active_model.set_cutoff()
-
-            if current_model.objective_value > self.best_model.objective_value:
-                self.best_model = current_model.copy()
+            if model.last_feasible_solution_better_than_incumbent():
+                model.store_last_feasible_solution_as_incumbent()
                 k_cur = k_min
             else:
                 k_cur += k_step
                 if k_cur > k_max:
                     k_cur = k_min
 
-            if self._time_not_over(start_time, total_time_limit):
-                active_model = self.best_model.copy()
-                active_model.drop_all_branching_constraints()
+            model.drop_all_branching_constraints()
+            model.set_branching_var_values_for_shake()
             while self._time_not_over(start_time, total_time_limit):
-                active_model.add_shaking_constraints(k_cur, k_step)
-                active_model.eliminate_cutoff()
+                model.add_shaking_constraints(k_cur, k_step)
+                model.eliminate_cutoff()
                 time_limit = total_time_limit - (time() - start_time)
-                active_model.set_time_limit(max(0, time_limit))
-                active_model.set_solution_limit(shake_solution_limit)
-                active_model.optimize()
-                active_model.remove_shaking_constraints()
-                if active_model.status == GRB.INFEASIBLE:
+                model.set_time_limit(max(0, time_limit))
+                model.set_solution_limit(shake_solution_limit)
+                model.optimize()
+                model.remove_shaking_constraints()
+                if model.status == GRB.INFEASIBLE:
                     k_cur = max(0, k_cur - k_step)
                 else:
-                    active_model.save_var_values()
-                    active_model.save_decision_var_values()
+                    model.store_solution()
                     break
 
+        model.recover_to_best_solution_at_end()
+        self.best_model = model
         self._post_processing()
         return self.best_model
 
@@ -270,28 +261,22 @@ class VariableNeighborhoodSearch:
     def _post_processing(self):
         if self.best_model is None:
             raise TypeError("No postprocessing possible if best model is None.")
-        variables = Variables.get(self.derived, self.best_model)
-        lin_expressions = LinExpressions.get(self.config, self.derived, variables)
         retriever = SolutionInformationRetriever(
             config=self.config,
             derived=self.derived,
             constrained_model=self.best_model,
-            variables=variables,
-            lin_expressions=lin_expressions,
         )
         viewer = SolutionViewer(derived=self.derived, retriever=retriever)
         checker = SolutionChecker(
             config=self.config,
             derived=self.derived,
-            variables=variables,
-            lin_expressions=lin_expressions,
+            constrained_model=self.best_model,
             retriever=retriever,
         )
         self.best_solution = Solution(
             config=self.config,
             derived=self.derived,
-            variables=variables,
-            lin_expressions=lin_expressions,
+            constrained_model=self.best_model,
             retriever=retriever,
             viewer=viewer,
             checker=checker,

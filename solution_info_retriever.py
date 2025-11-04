@@ -10,7 +10,6 @@ if TYPE_CHECKING:
     from configuration import Configuration
     from constrained_model import ConstrainedModel
     from derived_modeling_data import DerivedModelingData
-    from model_components import LinExpressions, Variables
 
 
 class SolutionInformationRetriever:
@@ -21,14 +20,12 @@ class SolutionInformationRetriever:
         config: Configuration,
         derived: DerivedModelingData,
         constrained_model: ConstrainedModel,
-        variables: Variables,
-        lin_expressions: LinExpressions,
     ):
         self.config = config
         self.derived = derived
         self.model = constrained_model.model
-        self.variables = variables
-        self.lin_expressions = lin_expressions
+        self.variables = constrained_model.variables
+        self.lin_expressions = constrained_model.lin_expressions
 
     @cached_property
     def objective_value(self):

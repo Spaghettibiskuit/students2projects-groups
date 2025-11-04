@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from configuration import Configuration
+    from constrained_model import ConstrainedModel
     from derived_modeling_data import DerivedModelingData
-    from model_components import LinExpressions, Variables
     from solution_info_retriever import SolutionInformationRetriever
 
 
@@ -19,14 +19,13 @@ class SolutionChecker:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        variables: Variables,
-        lin_expressions: LinExpressions,
+        constrained_model: ConstrainedModel,
         retriever: SolutionInformationRetriever,
     ):
         self.config = config
         self.derived = derived
-        self.variables = variables
-        self.lin_expressions = lin_expressions
+        self.variables = constrained_model.variables
+        self.lin_expressions = constrained_model.lin_expressions
         self.retriever = retriever
 
     @functools.cached_property

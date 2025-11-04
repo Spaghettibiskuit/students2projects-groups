@@ -17,18 +17,16 @@ class SolutionViewer:
 
     @cached_property
     def solution_summary(self) -> pd.DataFrame:
-        all_summary_tables = [
-            self.summary_table_project(project_id) for project_id in self.derived.project_ids
-        ]
         open_projects = {
             project_id: summary_table
-            for project_id, summary_table in zip(self.derived.project_ids, all_summary_tables)
-            if not summary_table.empty
+            for project_id in self.derived.project_ids
+            if not (summary_table := self.summary_table_project(project_id)).empty
         }
         summary_tables = open_projects.values()
 
         group_quantities = [len(summary_table) for summary_table in summary_tables]
         student_quantities = [sum(summary_table["#students"]) for summary_table in summary_tables]
+
         result = {}
         result["ID"] = open_projects.keys()
         result["#groups"] = group_quantities
