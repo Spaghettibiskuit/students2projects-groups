@@ -8,7 +8,6 @@ import gurobipy as gp
 from gurobipy import GRB
 
 from model_components import InitialConstraints, LinExpressions, Variables
-from names import InitialConstraintNames, VariableNames
 
 if TYPE_CHECKING:
     from configuration import Configuration
@@ -42,23 +41,22 @@ class BaseModelBuilder:
         assign_students = self.model.addVars(
             self.project_group_student_triples,
             vtype=GRB.BINARY,
-            name=VariableNames.ASSIGN_STUDENTS.value,
+            name="assign_students",
         )
         establish_groups = self.model.addVars(
-            self.project_group_pairs, vtype=GRB.BINARY, name=VariableNames.ESTABLISH_GROUPS.value
+            self.project_group_pairs, vtype=GRB.BINARY, name="establish_groups"
         )
         mutual_unrealized = self.model.addVars(
-            self.mutual_pairs, vtype=GRB.BINARY, name=VariableNames.MUTUAL_UNREALIZED.value
+            self.mutual_pairs, vtype=GRB.BINARY, name="mutual_unrealized"
         )
-        unassigned_students = self.model.addVars(
-            self.student_ids, name=VariableNames.UNASSIGNED_STUDENTS.value
-        )
+        unassigned_students = self.model.addVars(self.student_ids, name="unassigned_students")
+
         group_size_surplus = self.model.addVars(
-            self.project_group_pairs, name=VariableNames.GROUP_SIZE_SURPLUS.value
+            self.project_group_pairs, name="group_size_surplus"
         )
 
         group_size_deficit = self.model.addVars(
-            self.project_group_pairs, name=VariableNames.GROUP_SIZE_DEFICIT.value
+            self.project_group_pairs, name="group_size_deficit"
         )
         return Variables(
             assign_students=cast(gp.tupledict[tuple[int, int, int], gp.Var], assign_students),
@@ -139,7 +137,7 @@ class BaseModelBuilder:
                 assign_students.sum("*", "*", student_id) + unassigned_students[student_id] == 1
                 for student_id in self.student_ids
             ),
-            name=InitialConstraintNames.ONE_ASSIGNMENT_OR_UNASSIGNED.value,
+            name="one_assignment_or_unassigned",
         )
 
         open_groups_consecutively = self.model.addConstrs(
@@ -149,7 +147,7 @@ class BaseModelBuilder:
                 for project_id, group_id in self.project_group_pairs
                 if group_id > 0
             ),
-            name=InitialConstraintNames.OPEN_GROUPS_CONSECUTIVELY.value,
+            name="open_groups_consecutively",
         )
 
         min_group_size_if_open = self.model.addConstrs(
@@ -159,7 +157,7 @@ class BaseModelBuilder:
                 for project_id, min_group_size in enumerate(self.projects_info["min_group_size"])
                 for group_id in self.group_ids[project_id]
             ),
-            name=InitialConstraintNames.MIN_GROUP_SIZE_IF_OPEN.value,
+            name="min_group_size_if_open",
         )
 
         max_group_size_if_open = self.model.addConstrs(
@@ -169,7 +167,7 @@ class BaseModelBuilder:
                 for project_id, max_group_size in enumerate(self.projects_info["max_group_size"])
                 for group_id in self.group_ids[project_id]
             ),
-            name=InitialConstraintNames.MAX_GROUP_SIZE_IF_OPEN.value,
+            name="max_group_size_if_open",
         )
 
         lower_bound_group_size_surplus = self.model.addConstrs(
@@ -181,7 +179,7 @@ class BaseModelBuilder:
                 )
                 for group_id in self.group_ids[project_id]
             ),
-            name=InitialConstraintNames.LOWER_BOUND_GROUP_SIZE_SURPLUS.value,
+            name="lower_bound_group_size_surplus",
         )
 
         lower_bound_group_size_deficit = self.model.addConstrs(
@@ -197,7 +195,7 @@ class BaseModelBuilder:
                 )
                 for group_id in self.group_ids[project_id]
             ),
-            name=InitialConstraintNames.LOWER_BOUND_GROUP_SIZE_DEFICIT.value,
+            name="lower_bound_group_size_deficit",
         )
 
         max_num_groups = max(self.projects_info["max#groups"])
@@ -222,7 +220,7 @@ class BaseModelBuilder:
                 )
                 for first, second in self.mutual_pairs
             ),
-            name=InitialConstraintNames.ONLY_REWARD_MATERIALIZED_PAIRS_1.value,
+            name="only_reward_materialized_pairs_1",
         )
 
         only_reward_materialized_pairs_2 = self.model.addConstrs(
@@ -238,7 +236,7 @@ class BaseModelBuilder:
                 )
                 for first, second in self.mutual_pairs
             ),
-            name=InitialConstraintNames.ONLY_REWARD_MATERIALIZED_PAIRS_2.value,
+            name="only_reward_materialized_pairs_2",
         )
 
         return InitialConstraints(

@@ -7,8 +7,10 @@ import itertools as it
 from typing import TYPE_CHECKING
 
 import gurobipy as gp
+from gurobipy import GRB
 
 from base_model import BaseModelBuilder
+from patience_callback import PatienceCallback
 from solution_reminder import SolutionReminder
 
 if TYPE_CHECKING:
@@ -49,7 +51,7 @@ class ConstrainedModel:
         self.model.Params.SolutionLimit = solution_limit
 
     def eliminate_solution_limit(self) -> None:
-        self.model.Params.SolutionLimit = 2_000_000_000
+        self.model.Params.SolutionLimit = GRB.MAXINT
 
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
@@ -69,6 +71,10 @@ class ConstrainedModel:
 
     def optimize(self):
         self.model.optimize()
+
+    def optimize_while_momentum(self, patience: float | int):
+        callback = PatienceCallback(patience=patience)
+        self.model.optimize(callback=callback)
 
     def store_solution(self):
         self.last_feasible_solution = SolutionReminder(
@@ -90,18 +96,15 @@ class ConstrainedModel:
     def store_last_feasible_solution_as_incumbent(self):
         self.incumbent_solution = copy.copy(self.last_feasible_solution)
 
-    def set_branching_var_values_for_inside_vnd(self):
-        if self.last_feasible_solution is None:
+    def set_branching_var_values_for_vnd(self):
+        if (last_feasible_solution := self.last_feasible_solution) is None:
             raise TypeError("last_feasible_solution should not be None at this point.")
-        last_feasible_solution = self.last_feasible_solution
         self.assign_students_vars_values = last_feasible_solution.assign_students_vars_values
         self.establish_groups_vars_values = last_feasible_solution.establish_groups_vars_values
 
     def set_branching_var_values_for_shake(self):
-        if self.incumbent_solution is None:
+        if (incumbent_solution := self.incumbent_solution) is None:
             raise TypeError("incumbent_solution should not be None at this point.")
-
-        incumbent_solution = self.incumbent_solution
         self.assign_students_vars_values = incumbent_solution.assign_students_vars_values
         self.establish_groups_vars_values = incumbent_solution.establish_groups_vars_values
 
@@ -146,6 +149,7 @@ class ConstrainedModel:
 
     def drop_all_branching_constraints(self):
         self.model.remove(self.branching_constraints)
+        self.branching_constraints.clear()
 
     def add_shaking_constraints(self, k_cur: int, k_step: int):
 
@@ -179,3 +183,4 @@ class ConstrainedModel:
         self.model.Params.SolutionLimit = 1
         self.model.Params.TimeLimit = float("inf")
         self.model.optimize()
+        self.model.Params.SolutionLimit = GRB.MAXINT

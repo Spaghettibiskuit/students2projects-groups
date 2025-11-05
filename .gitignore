@@ -6,4 +6,5 @@ solutions/
 pseudo_code.txt
 gurobi_benchmarks_verbose.json
 todo.md
-one_model.md
+patience.md
+separate_permanent.md
