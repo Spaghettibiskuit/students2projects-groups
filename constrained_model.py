@@ -127,7 +127,7 @@ class ConstrainedModel:
         )
         self.branching_constraints.append(branching_constr)
 
-    def drop_latest_branching_constraint(self):
+    def pop_branching_constraints_stack(self):
         branching_constraint = self.branching_constraints.pop()
         self.model.remove(branching_constraint)
 

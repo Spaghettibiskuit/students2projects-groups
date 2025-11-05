@@ -74,13 +74,13 @@ class VariableNeighborhoodSearch:
                 model.optimize()
                 status_code = model.status
                 if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
-                    model.drop_latest_branching_constraint()
+                    model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs += 1
 
                 elif status_code == GRB.OPTIMAL:
                     model.store_solution()
-                    model.drop_latest_branching_constraint()
+                    model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     if model.last_feasible_solution is None or model.incumbent_solution is None:
                         raise TypeError("Should not be None at this point.")
@@ -94,7 +94,7 @@ class VariableNeighborhoodSearch:
                         break
 
                     model.store_solution()
-                    model.drop_latest_branching_constraint()
+                    model.pop_branching_constraints_stack()
                     model.prohibit_last_solution()
                     if model.last_feasible_solution is None or model.incumbent_solution is None:
                         raise TypeError("Should not be None at this point.")
@@ -142,6 +142,7 @@ class VariableNeighborhoodSearch:
         l_step_perc: int | float = 5,
         initial_patience: float | int = 0.5,
         shake_patience: float | int = 0.2,
+        drop_branching_constrs_before_shake: bool = False,
     ):
         k_min, l_min, k_step, l_step, k_max, l_max = self._absolute_branching_parameters(
             k_min_perc,
@@ -175,15 +176,18 @@ class VariableNeighborhoodSearch:
                 model.set_time_limit(max(0, time_limit))
                 model.set_cutoff()
                 model.optimize()
+                model.pop_branching_constraints_stack()
                 status_code = model.status
                 if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
-                    model.drop_latest_branching_constraint()
+                    if rhs > l_min:
+                        model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs += l_step
 
                 elif status_code == GRB.OPTIMAL:
                     model.store_solution()
-                    model.drop_latest_branching_constraint()
+                    if rhs > l_min:
+                        model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs = l_min
 
@@ -192,7 +196,6 @@ class VariableNeighborhoodSearch:
                         break
 
                     model.store_solution()
-                    model.drop_latest_branching_constraint()
                     rhs = l_min
 
             if model.last_feasible_solution_better_than_incumbent():
@@ -202,8 +205,9 @@ class VariableNeighborhoodSearch:
                 k_cur += k_step
                 if k_cur > k_max:
                     k_cur = k_min
+            if drop_branching_constrs_before_shake:
+                model.drop_all_branching_constraints()
 
-            model.drop_all_branching_constraints()
             model.set_branching_var_values_for_shake()
             while self._time_not_over(start_time, total_time_limit):
                 model.add_shaking_constraints(k_cur, k_step)
