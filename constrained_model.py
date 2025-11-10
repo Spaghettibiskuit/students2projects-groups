@@ -66,9 +66,6 @@ class ConstrainedModel:
     def eliminate_cutoff(self):
         self.model.Params.Cutoff = float("-inf")
 
-    def update(self):
-        self.model.update()
-
     def optimize(self):
         self.model.optimize()
 

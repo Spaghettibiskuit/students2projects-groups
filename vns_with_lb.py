@@ -134,14 +134,14 @@ class VariableNeighborhoodSearch:
 
     def run_vns_with_lb(
         self,
-        total_time_limit: int | float = 10,
-        node_time_limit: int | float = 0.5,
-        k_min_perc: int | float = 10,
-        k_step_perc: int | float = 10,
-        l_min_perc: int | float = 5,
-        l_step_perc: int | float = 5,
-        initial_patience: float | int = 0.5,
-        shake_patience: float | int = 0.2,
+        total_time_limit: int | float = 60,
+        node_time_limit: int | float = 5,
+        k_min_perc: int | float = 20,
+        k_step_perc: int | float = 20,
+        l_min_perc: int | float = 10,
+        l_step_perc: int | float = 10,
+        initial_patience: float | int = 3,
+        shake_patience: float | int = 2,
         drop_branching_constrs_before_shake: bool = False,
     ):
         k_min, l_min, k_step, l_step, k_max, l_max = self._absolute_branching_parameters(
@@ -162,6 +162,7 @@ class VariableNeighborhoodSearch:
         time_limit = total_time_limit - (time() - start_time)
         model.set_time_limit(max(0, time_limit))
         model.optimize_while_momentum(patience=initial_patience)
+        print(f"\nTIME ELAPSED: {time() - start_time}\n")
         model.store_solution()
         model.store_last_feasible_solution_as_incumbent()
 
@@ -176,6 +177,7 @@ class VariableNeighborhoodSearch:
                 model.set_time_limit(max(0, time_limit))
                 model.set_cutoff()
                 model.optimize()
+                print(f"\nTIME ELAPSED: {time() - start_time}\n")
                 model.pop_branching_constraints_stack()
                 status_code = model.status
                 if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
@@ -215,6 +217,7 @@ class VariableNeighborhoodSearch:
                 time_limit = total_time_limit - (time() - start_time)
                 model.set_time_limit(max(0, time_limit))
                 model.optimize_while_momentum(patience=shake_patience)
+                print(f"\nTIME ELAPSED: {time() - start_time}\n")
                 model.remove_shaking_constraints()
                 if model.status == GRB.INFEASIBLE:
                     k_cur += k_step
@@ -295,4 +298,4 @@ class VariableNeighborhoodSearch:
 
 if __name__ == "__main__":
     vns = VariableNeighborhoodSearch(5, 50, 4, 2, 100)
-    vns.run_vns_with_lb(total_time_limit=10_000)
+    vns.run_vns_with_lb(total_time_limit=10_000, node_time_limit=5)
