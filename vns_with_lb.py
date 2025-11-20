@@ -157,7 +157,7 @@ class VariableNeighborhoodSearch:
         )
 
         start_time = time()
-        k_cur = k_min
+        k_cur = k_min - k_step  # lets shake begin at k_min even if no better sol found during VND
 
         time_limit = total_time_limit - (time() - start_time)
         model.set_time_limit(max(0, time_limit))
@@ -166,9 +166,9 @@ class VariableNeighborhoodSearch:
         model.store_solution()
         model.store_last_feasible_solution_as_incumbent()
 
-        while self._time_not_over(start_time, total_time_limit):
+        while not self._time_over(start_time, total_time_limit):
             rhs = l_min
-            while self._time_not_over(start_time, total_time_limit):
+            while not self._time_over(start_time, total_time_limit):
                 if rhs > l_max:
                     break
                 model.set_branching_var_values_for_vnd()
@@ -211,7 +211,7 @@ class VariableNeighborhoodSearch:
                 model.drop_all_branching_constraints()
 
             model.set_branching_var_values_for_shake()
-            while self._time_not_over(start_time, total_time_limit):
+            while not self._time_over(start_time, total_time_limit):
                 model.add_shaking_constraints(k_cur, k_step)
                 model.eliminate_cutoff()
                 time_limit = total_time_limit - (time() - start_time)
@@ -232,8 +232,37 @@ class VariableNeighborhoodSearch:
         self._post_processing()
         return self.best_model
 
-    def _time_not_over(self, start_time: float, total_time_limit: int | float):
-        return time() - start_time < total_time_limit
+    def run_vns_with_var_fixing(
+        self,
+        total_time_limit: int | float = 60,
+        min_num_zones: int = 4,
+        step_num_zones: int = 2,
+        max_num_zones: int = 10,
+        max_iterations_per_num_zones: int = 20,
+        min_shake_perc: int = 10,
+        step_shake_perc: int = 10,
+        max_shake_perc: int = 50,
+        initial_patience: int | float = 3,
+        shake_patience: int | float = 2,
+        min_optimization_patience: int | float = 0.5,
+        step_optimization_patience: int | float = 0.5,
+    ):
+        min_shake, step_shake, max_shake = self._absolute_fixing_parameters(
+            [min_shake_perc, step_shake_perc, max_shake_perc]
+        )
+
+        pass
+
+    def _time_over(self, start_time: float, total_time_limit: int | float):
+        return time() - start_time > total_time_limit
+
+    def _absolute_fixing_parameters(self, shake_percentages: list[int]) -> list[int]:
+        if any(not 0 < param <= 100 for param in shake_percentages):
+            raise ValueError("Percentages must be greater than 0 not greater than 100.")
+        shake_params = list(round(percentage / 100) for percentage in shake_percentages)
+        if any(param == 0 for param in shake_params):
+            raise ValueError("An absolute branching parameter is zero due to rounding.")
+        return shake_params
 
     def _absolute_branching_parameters(
         self,

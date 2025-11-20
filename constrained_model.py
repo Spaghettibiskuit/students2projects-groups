@@ -10,8 +10,8 @@ import gurobipy as gp
 from gurobipy import GRB
 
 from base_model import BaseModelBuilder
-from patience_callback import PatienceCallback
-from solution_reminder import SolutionReminder
+from patience_callback import PatienceOutsideLocalSearch
+from solution_reminder import SolutionReminderBranching
 
 if TYPE_CHECKING:
     from configuration import Configuration
@@ -32,8 +32,8 @@ class ConstrainedModel:
         self.branching_constraints: list[gp.Constr] = []
         self.counter = it.count()
         self.shake_constraints: tuple[gp.Constr, gp.Constr] | None = None
-        self.last_feasible_solution: SolutionReminder | None = None
-        self.incumbent_solution: SolutionReminder | None = None
+        self.last_feasible_solution: SolutionReminderBranching | None = None
+        self.incumbent_solution: SolutionReminderBranching | None = None
 
     @property
     def status(self) -> int:
@@ -70,11 +70,11 @@ class ConstrainedModel:
         self.model.optimize()
 
     def optimize_while_momentum(self, patience: float | int):
-        callback = PatienceCallback(patience=patience)
+        callback = PatienceOutsideLocalSearch(patience=patience)
         self.model.optimize(callback=callback)
 
     def store_solution(self):
-        self.last_feasible_solution = SolutionReminder(
+        self.last_feasible_solution = SolutionReminderBranching(
             variable_values=tuple(var.X for var in self.model.getVars()),
             objective_value=self.objective_value,
             assign_students_vars_values=tuple(var.X for var in self.assign_students_vars),
