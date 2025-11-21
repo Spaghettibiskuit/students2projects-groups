@@ -1,3 +1,4 @@
+import itertools
 from time import time
 
 from gurobipy import GRB
@@ -6,6 +7,7 @@ from branching_constraints_efficacy_checker import BranchingConstraintsEfficacyC
 from configuration import Configuration
 from constrained_model import ConstrainedModel
 from derived_modeling_data import DerivedModelingData
+from reduced_model import ReducedModel
 from solution import Solution
 from solution_checker import SolutionChecker
 from solution_info_retriever import SolutionInformationRetriever
@@ -244,22 +246,121 @@ class VariableNeighborhoodSearch:
         max_shake_perc: int = 50,
         initial_patience: int | float = 3,
         shake_patience: int | float = 2,
-        min_optimization_patience: int | float = 0.5,
-        step_optimization_patience: int | float = 0.5,
+        min_optimization_patience: int | float = 1,
+        step_optimization_patience: int | float = 1,
     ):
         min_shake, step_shake, max_shake = self._absolute_fixing_parameters(
-            [min_shake_perc, step_shake_perc, max_shake_perc]
+            (min_shake_perc, step_shake_perc, max_shake_perc)
         )
+        k = min_shake - step_shake
+
+        model = ReducedModel(self.config, self.derived)
+
+        start_time = time()
+        time_limit = total_time_limit - (time() - start_time)
+        model.set_time_limit(max(0, time_limit))
+        model.optimize_outside_vnd(initial_patience)
+        model.store_solution()
+        model.store_current_solution_as_best()
+        model.update_basis_for_fixing_decisions()
+        model.set_cutoff()
+
+        while not self._time_over(start_time, total_time_limit):
+            current_num_zones = max_num_zones
+            iterations_current_num_zones = 0
+
+            free_zones_pairs = itertools.combinations(range(current_num_zones), 2)
+            new_pairs = False
+
+            patience = min_optimization_patience
+
+            iterations_current_num_zones = 0
+
+            k = min_shake
+
+            while not self._time_over(start_time, total_time_limit):
+                if new_pairs:
+                    free_zones_pairs = itertools.combinations(range(current_num_zones), 2)
+                    new_pairs = False
+                    iterations_current_num_zones = 0
+
+                if iterations_current_num_zones > max_iterations_per_num_zones:
+                    if current_num_zones == min_num_zones:
+                        break
+                    new_pairs = True
+                    current_num_zones = max(current_num_zones - step_num_zones, min_num_zones)
+                    patience += step_optimization_patience
+                    continue
+
+                if (free_zones_pair := next(free_zones_pairs, None)) is None:
+                    if current_num_zones == min_num_zones:
+                        break
+
+                    new_pairs = True
+                    current_num_zones = max(current_num_zones - step_num_zones, min_num_zones)
+                    patience += step_optimization_patience
+                    continue
+
+                iterations_current_num_zones += 1
+                model.fix_rest(*free_zones_pair, current_num_zones)
+
+                time_limit = total_time_limit - (time() - start_time)
+                model.set_time_limit(max(0, time_limit))
+                model.optimize_inside_vnd(patience)
+
+                if model.solution_count == 0:
+                    continue
+
+                model.store_solution()
+                model.set_cutoff()
+                model.update_basis_for_fixing_decisions()
+
+                new_pairs = True
+                current_num_zones = max_num_zones
+                patience = min_optimization_patience
+
+            if model.new_best_found():
+                model.store_current_solution_as_best()
+                k = min_shake
+            elif k == max_shake:
+                k = min_shake
+                model.increment_random_seed()
+                model.delete_zoning_rules()
+            else:
+                k = min(k + step_shake, max_shake)
+
+            # model.make_best_solution_current_solution()
+            # model.update_basis_for_fixing_decisions()
+
+            model.eliminate_cutoff()
+            model.force_k_worst_to_change(k)
+
+            time_limit = total_time_limit - (time() - start_time)
+            model.set_time_limit(max(0, time_limit))
+            model.optimize_outside_vnd(shake_patience)
+
+            model.store_solution()
+            model.set_cutoff()
+
+            model.update_basis_for_fixing_decisions()
+
+        model.recover_to_best_found()
+        self.best_model = model
+        self._post_processing()
+        return self.best_model
 
         pass
 
     def _time_over(self, start_time: float, total_time_limit: int | float):
         return time() - start_time > total_time_limit
 
-    def _absolute_fixing_parameters(self, shake_percentages: list[int]) -> list[int]:
+    def _absolute_fixing_parameters(self, shake_percentages: tuple[int, ...]) -> tuple[int, ...]:
         if any(not 0 < param <= 100 for param in shake_percentages):
             raise ValueError("Percentages must be greater than 0 not greater than 100.")
-        shake_params = list(round(percentage / 100) for percentage in shake_percentages)
+        shake_params = tuple(
+            round(percentage / 100 * self.config.number_of_students)
+            for percentage in shake_percentages
+        )
         if any(param == 0 for param in shake_params):
             raise ValueError("An absolute branching parameter is zero due to rounding.")
         return shake_params
@@ -302,19 +403,19 @@ class VariableNeighborhoodSearch:
         retriever = SolutionInformationRetriever(
             config=self.config,
             derived=self.derived,
-            constrained_model=self.best_model,
+            wrapped_model=self.best_model,
         )
         viewer = SolutionViewer(derived=self.derived, retriever=retriever)
         checker = SolutionChecker(
             config=self.config,
             derived=self.derived,
-            constrained_model=self.best_model,
+            wrapped_model=self.best_model,
             retriever=retriever,
         )
         self.best_solution = Solution(
             config=self.config,
             derived=self.derived,
-            constrained_model=self.best_model,
+            wrapped_model=self.best_model,
             retriever=retriever,
             viewer=viewer,
             checker=checker,
@@ -326,5 +427,5 @@ class VariableNeighborhoodSearch:
 
 
 if __name__ == "__main__":
-    vns = VariableNeighborhoodSearch(5, 50, 4, 2, 100)
-    vns.run_vns_with_lb(total_time_limit=10_000, node_time_limit=5)
+    vns = VariableNeighborhoodSearch(5, 50, 4, 2, 3)
+    vns.run_vns_with_var_fixing(total_time_limit=10_000)

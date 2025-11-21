@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from configuration import Configuration
     from constrained_model import ConstrainedModel
     from derived_modeling_data import DerivedModelingData
+    from reduced_model import ReducedModel
     from solution_checker import SolutionChecker
     from solution_info_retriever import SolutionInformationRetriever
     from solution_viewer import SolutionViewer
@@ -26,15 +27,15 @@ class Solution:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        constrained_model: ConstrainedModel,
+        wrapped_model: ConstrainedModel | ReducedModel,
         retriever: SolutionInformationRetriever,
         viewer: SolutionViewer,
         checker: SolutionChecker,
     ):
         self.config = config
         self.derived = derived
-        self.variables = constrained_model.variables
-        self.lin_expressions = constrained_model.lin_expressions
+        self.variables = wrapped_model.variables
+        self.lin_expressions = wrapped_model.lin_expressions
         self.retriever = retriever
         self.viewer = viewer
         self.checker = checker

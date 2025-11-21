@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from configuration import Configuration
     from constrained_model import ConstrainedModel
     from derived_modeling_data import DerivedModelingData
+    from reduced_model import ReducedModel
 
 
 class SolutionInformationRetriever:
@@ -19,13 +20,13 @@ class SolutionInformationRetriever:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        constrained_model: ConstrainedModel,
+        wrapped_model: ConstrainedModel | ReducedModel,
     ):
         self.config = config
         self.derived = derived
-        self.model = constrained_model.model
-        self.variables = constrained_model.variables
-        self.lin_expressions = constrained_model.lin_expressions
+        self.model = wrapped_model.model
+        self.variables = wrapped_model.variables
+        self.lin_expressions = wrapped_model.lin_expressions
 
     @cached_property
     def objective_value(self):

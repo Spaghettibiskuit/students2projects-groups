@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from base_model import BaseModelBuilder
 from individual_assignment_scorer import IndividualAssignmentScorer
-from patience_callback import PatienceOutsideLocalSearch
+from patience_callback import PatienceInsideLocalSearch, PatienceOutsideLocalSearch
 from solution_reminder import SolutionReminderDiving
 
 if TYPE_CHECKING:
@@ -25,7 +25,7 @@ class ReducedModel:
         self.variables, self.lin_expressions, self.initial_constraints, self.model = (
             BaseModelBuilder(config=self.config, derived=self.derived).get_base_model()
         )
-        self.latest_solution: SolutionReminderDiving | None = None
+        self.current_solution: SolutionReminderDiving | None = None
         self.best_found_solution: SolutionReminderDiving | None = None
         self.ranked_assignments: list[tuple[int, int, int]] | None = None
         self.ranked_assigned_ids: list[int] | None = None
@@ -39,12 +39,25 @@ class ReducedModel:
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
 
+    def eliminate_time_limit(self):
+        self.model.Params.TimeLimit = float("inf")
+
+    def set_cutoff(self):
+        if self.current_solution is None:
+            raise ValueError()
+        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 0.5
+
+    def eliminate_cutoff(self):
+        self.model.Params.Cutoff = float("-inf")
+
+    def optimize_inside_vnd(self, patience: float | int):
+        self.model.optimize(PatienceInsideLocalSearch(patience))
+
     def optimize_outside_vnd(self, patience: float | int):
-        callback = PatienceOutsideLocalSearch(patience)
-        self.model.optimize(callback)
+        self.model.optimize(PatienceOutsideLocalSearch(patience))
 
     def store_solution(self):
-        self.latest_solution = SolutionReminderDiving(
+        self.current_solution = SolutionReminderDiving(
             variable_values=tuple(var.X for var in self.model.getVars()),
             objective_value=self.model.ObjVal,
             assign_students_vars_values=tuple(
@@ -58,8 +71,11 @@ class ReducedModel:
             ),
         )
 
-    def store_latest_solution_as_best(self):
-        self.best_found_solution = self.latest_solution
+    def store_current_solution_as_best(self):
+        self.best_found_solution = self.current_solution
+
+    def make_best_solution_current_solution(self):
+        self.current_solution = self.best_found_solution
 
     def update_basis_for_fixing_decisions(self):
         scorer = IndividualAssignmentScorer(self.config, self.derived, self.variables)
@@ -73,12 +89,12 @@ class ReducedModel:
         if self.ranked_assigned_ids is None:
             raise ValueError("Should have been calculated immediately before.")
         if (num_unassigned := self.config.number_of_students - len(self.ranked_assigned_ids)) > 0:
-            if self.latest_solution is None:
+            if self.current_solution is None:
                 raise ValueError("Should not be called before first solution found.")
             unassigned_ids = (
                 student_id
                 for student_id, val in enumerate(
-                    self.latest_solution.unassigned_students_vars_values
+                    self.current_solution.unassigned_students_vars_values
                 )
                 if val > 0.5
             )
@@ -110,7 +126,7 @@ class ReducedModel:
         for size in sizes:
             boundaries.append((current_idx, current_idx + size))
             current_idx += size
-        if current_idx == num_students:
+        if current_idx != num_students:
             raise ValueError("Sizes do not add up to number of students.")
         return boundaries
 
@@ -124,7 +140,7 @@ class ReducedModel:
         return set(self.fixing_line_up[start_a:end_a] + self.fixing_line_up[start_b:end_b])
 
     def fix_rest(self, zone_a: int, zone_b: int, num_zones: int):
-        if self.latest_solution is None or self.assignments is None:
+        if self.current_solution is None or self.assignments is None:
             raise ValueError("Should not be called before first solution found.")
         allowed_to_move = self.ids_allowed_to_move(zone_a, zone_b, num_zones)
 
@@ -164,11 +180,11 @@ class ReducedModel:
                 var.UB = 1
 
     def _fix_rest_mutual_unrealized(self, allowed_to_move: set[int]):
-        if self.latest_solution is None:
+        if self.current_solution is None:
             raise ValueError("Should not be called before first solution found.")
         for ((first_id, second_id), var), val in zip(
             self.variables.mutual_unrealized.items(),
-            self.latest_solution.mutual_unrealized_vars_values,
+            self.current_solution.mutual_unrealized_vars_values,
         ):
             if first_id in allowed_to_move or second_id in allowed_to_move:
                 var.LB = 0
@@ -179,9 +195,9 @@ class ReducedModel:
                 var.UB = val
 
     def new_best_found(self):
-        if self.latest_solution is None or self.best_found_solution is None:
+        if self.current_solution is None or self.best_found_solution is None:
             raise ValueError("Should not be called before first solution found.")
-        return self.latest_solution.objective_value > self.best_found_solution.objective_value
+        return self.current_solution.objective_value > self.best_found_solution.objective_value
 
     def increment_random_seed(self):
         self.model.Params.Seed += 1
@@ -217,13 +233,15 @@ class ReducedModel:
             self.variables.mutual_unrealized,
         ):
             self.model.setAttr("LB", list(var_cat.values()), [0] * len(var_cat))
-            self.model.setAttr("UB", list(var_cat.values()), [0] * len(var_cat))
+            self.model.setAttr("UB", list(var_cat.values()), [1] * len(var_cat))
 
-    def _recover_to_best_found(self):
+    def recover_to_best_found(self):
         if self.best_found_solution is None:
             raise ValueError()
         variables = self.model.getVars()
         var_values = self.best_found_solution.variable_values
         self.model.setAttr("LB", variables, var_values)
         self.model.setAttr("UB", variables, var_values)
+        self.eliminate_time_limit()
+        self.eliminate_cutoff()
         self.model.optimize()

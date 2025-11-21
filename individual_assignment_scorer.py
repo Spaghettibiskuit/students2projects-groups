@@ -69,7 +69,7 @@ class IndividualAssignmentScorer:
     def _individual_penalty_surplus_groups(self, project_id: int) -> float:
         projects_info = self.config.projects_info
         penalty = projects_info["pen_groups"][project_id]
-        num_desired_groups = projects_info["desired#groups"]
+        num_desired_groups = projects_info["desired#groups"][project_id]
         num_groups = len(self._groups_in_project(project_id))
         total_num_students = self._num_students_in_project(project_id)
         return penalty * max(0, num_groups - num_desired_groups) / total_num_students
