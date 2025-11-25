@@ -9,8 +9,8 @@ class SolutionReminderBranching:
 
     variable_values: tuple[int | float, ...]
     objective_value: int | float
-    assign_students_vars_values: tuple[int | float, ...]
-    establish_groups_vars_values: tuple[int | float, ...]
+    assign_students_var_values: tuple[int | float, ...]
+    establish_groups_var_values: tuple[int | float, ...]
 
 
 @dataclass
@@ -19,6 +19,6 @@ class SolutionReminderDiving:
 
     variable_values: tuple[int | float, ...]
     objective_value: int | float
-    assign_students_vars_values: tuple[int | float, ...]
-    mutual_unrealized_vars_values: tuple[int | float, ...]
-    unassigned_students_vars_values: tuple[int | float, ...]
+    assign_students_var_values: tuple[int | float, ...]
+    mutual_unrealized_var_values: tuple[int | float, ...]
+    unassigned_students_var_values: tuple[int | float, ...]

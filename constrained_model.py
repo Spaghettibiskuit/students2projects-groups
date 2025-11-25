@@ -12,6 +12,7 @@ from gurobipy import GRB
 from base_model import BaseModelBuilder
 from patience_callback import PatienceOutsideLocalSearch
 from solution_reminder import SolutionReminderBranching
+from utilities import var_values
 
 if TYPE_CHECKING:
     from configuration import Configuration
@@ -60,7 +61,7 @@ class ConstrainedModel:
         if self.last_feasible_solution is None:
             raise TypeError("last_feasible_solution should not be None at this point.")
         self.model.Params.Cutoff = (
-            round(self.last_feasible_solution.objective_value) - 0.5 + int(ascending)
+            round(self.last_feasible_solution.objective_value) + int(ascending) - 1e-6
         )
 
     def eliminate_cutoff(self):
@@ -75,10 +76,10 @@ class ConstrainedModel:
 
     def store_solution(self):
         self.last_feasible_solution = SolutionReminderBranching(
-            variable_values=tuple(var.X for var in self.model.getVars()),
+            variable_values=var_values(self.model.getVars()),
             objective_value=self.objective_value,
-            assign_students_vars_values=tuple(var.X for var in self.assign_students_vars),
-            establish_groups_vars_values=tuple(var.X for var in self.establish_groups_vars),
+            assign_students_var_values=var_values(self.assign_students_vars),
+            establish_groups_var_values=var_values(self.establish_groups_vars),
         )
 
     def last_feasible_solution_better_than_incumbent(self) -> bool:
@@ -96,14 +97,14 @@ class ConstrainedModel:
     def set_branching_var_values_for_vnd(self):
         if (last_feasible_solution := self.last_feasible_solution) is None:
             raise TypeError("last_feasible_solution should not be None at this point.")
-        self.assign_students_vars_values = last_feasible_solution.assign_students_vars_values
-        self.establish_groups_vars_values = last_feasible_solution.establish_groups_vars_values
+        self.assign_students_vars_values = last_feasible_solution.assign_students_var_values
+        self.establish_groups_vars_values = last_feasible_solution.establish_groups_var_values
 
     def set_branching_var_values_for_shake(self):
         if (incumbent_solution := self.incumbent_solution) is None:
             raise TypeError("incumbent_solution should not be None at this point.")
-        self.assign_students_vars_values = incumbent_solution.assign_students_vars_values
-        self.establish_groups_vars_values = incumbent_solution.establish_groups_vars_values
+        self.assign_students_vars_values = incumbent_solution.assign_students_var_values
+        self.establish_groups_vars_values = incumbent_solution.establish_groups_var_values
 
     def branching_lin_expression(self):
         if not self.establish_groups_vars_values or not self.assign_students_vars_values:

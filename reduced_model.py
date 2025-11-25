@@ -7,9 +7,10 @@ import random
 from typing import TYPE_CHECKING
 
 from base_model import BaseModelBuilder
-from individual_assignment_scorer import IndividualAssignmentScorer
+from fixing_data import FixingData
 from patience_callback import PatienceInsideLocalSearch, PatienceOutsideLocalSearch
 from solution_reminder import SolutionReminderDiving
+from utilities import var_values
 
 if TYPE_CHECKING:
     from configuration import Configuration
@@ -27,10 +28,12 @@ class ReducedModel:
         )
         self.current_solution: SolutionReminderDiving | None = None
         self.best_found_solution: SolutionReminderDiving | None = None
-        self.ranked_assignments: list[tuple[int, int, int]] | None = None
-        self.ranked_assigned_ids: list[int] | None = None
-        self.fixing_line_up: list[int] | None = None
-        self.assignments: set[tuple[int, int, int]] | None = None
+        self.current_sol_fixing_data: FixingData | None = None
+        self.best_sol_fixing_data: FixingData | None = None
+
+    @property
+    def status(self):
+        return self.model.Status
 
     @property
     def solution_count(self):
@@ -45,7 +48,7 @@ class ReducedModel:
     def set_cutoff(self):
         if self.current_solution is None:
             raise ValueError()
-        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 0.5
+        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-6
 
     def eliminate_cutoff(self):
         self.model.Params.Cutoff = float("-inf")
@@ -58,60 +61,22 @@ class ReducedModel:
 
     def store_solution(self):
         self.current_solution = SolutionReminderDiving(
-            variable_values=tuple(var.X for var in self.model.getVars()),
+            variable_values=var_values(self.model.getVars()),
             objective_value=self.model.ObjVal,
-            assign_students_vars_values=tuple(
-                var.X for var in self.variables.assign_students.values()
-            ),
-            mutual_unrealized_vars_values=tuple(
-                var.X for var in self.variables.mutual_unrealized.values()
-            ),
-            unassigned_students_vars_values=tuple(
-                var.X for var in self.variables.unassigned_students.values()
-            ),
+            assign_students_var_values=var_values(self.variables.assign_students.values()),
+            mutual_unrealized_var_values=var_values(self.variables.mutual_unrealized.values()),
+            unassigned_students_var_values=var_values(self.variables.unassigned_students.values()),
         )
 
-    def store_current_solution_as_best(self):
+        self.current_sol_fixing_data = FixingData.get(self.config, self.derived, self.variables)
+
+    def make_current_solution_best_solution(self):
         self.best_found_solution = self.current_solution
+        self.best_sol_fixing_data = self.current_sol_fixing_data
 
     def make_best_solution_current_solution(self):
         self.current_solution = self.best_found_solution
-
-    def update_basis_for_fixing_decisions(self):
-        scorer = IndividualAssignmentScorer(self.config, self.derived, self.variables)
-        scores = scorer.assignment_scores
-        self.ranked_assignments = sorted(scores.keys(), key=lambda k: scores[k])
-        self.assignments = set(self.ranked_assignments)
-        self.ranked_assigned_ids = [student_id for _, _, student_id in self.ranked_assignments]
-        self._update_fixing_line_up()
-
-    def _update_fixing_line_up(self):
-        if self.ranked_assigned_ids is None:
-            raise ValueError("Should have been calculated immediately before.")
-        if (num_unassigned := self.config.number_of_students - len(self.ranked_assigned_ids)) > 0:
-            if self.current_solution is None:
-                raise ValueError("Should not be called before first solution found.")
-            unassigned_ids = (
-                student_id
-                for student_id, val in enumerate(
-                    self.current_solution.unassigned_students_vars_values
-                )
-                if val > 0.5
-            )
-            positions = random.sample(self.derived.student_ids, k=num_unassigned)
-            ranked_student_ids = iter(self.ranked_assigned_ids)
-            mixed_ids: list[int] = []
-            for student_id in self.derived.student_ids:
-                if student_id in positions:
-                    mixed_ids.append(next(unassigned_ids))
-                else:
-                    mixed_ids.append(next(ranked_student_ids))
-
-            if len(mixed_ids) != self.config.number_of_students:
-                raise ValueError("Length does not match.")
-            self.fixing_line_up = mixed_ids
-
-        self.fixing_line_up = self.ranked_assigned_ids
+        self.current_sol_fixing_data = self.best_sol_fixing_data
 
     @functools.lru_cache(maxsize=128)
     def zones(self, num_zones: int) -> list[tuple[int, int]]:
@@ -131,27 +96,27 @@ class ReducedModel:
         return boundaries
 
     def ids_allowed_to_move(self, zone_a: int, zone_b: int, num_zones: int) -> set[int]:
-        if self.fixing_line_up is None:
-            raise ValueError("No ranking available.")
+        if self.current_sol_fixing_data is None:
+            raise ValueError()
+        lin_up_ids = self.current_sol_fixing_data.line_up_ids
         zones = self.zones(num_zones)
         start_a, end_a = zones[zone_a]
         start_b, end_b = zones[zone_b]
 
-        return set(self.fixing_line_up[start_a:end_a] + self.fixing_line_up[start_b:end_b])
+        return set(lin_up_ids[start_a:end_a] + lin_up_ids[start_b:end_b])
 
     def fix_rest(self, zone_a: int, zone_b: int, num_zones: int):
-        if self.current_solution is None or self.assignments is None:
-            raise ValueError("Should not be called before first solution found.")
         allowed_to_move = self.ids_allowed_to_move(zone_a, zone_b, num_zones)
 
         groups_open_by_force = self._fix_rest_assign_students(allowed_to_move)
         self._fix_rest_establish_groups(groups_open_by_force)
+        # self._fix_rest_unassigned_students(allowed_to_move)
         self._fix_rest_mutual_unrealized(allowed_to_move)
 
     def _fix_rest_assign_students(self, allowed_to_move: set[int]) -> set[tuple[int, int]]:
-        if self.assignments is None:
-            raise ValueError("Should not be called before first solution found.")
-
+        if self.current_sol_fixing_data is None:
+            raise ValueError()
+        assignments = self.current_sol_fixing_data.assignments
         groups_open_by_force: set[tuple[int, int]] = set()
 
         for (project_id, group_id, student_id), var in self.variables.assign_students.items():
@@ -159,7 +124,7 @@ class ReducedModel:
                 var.LB = 0
                 var.UB = 1
 
-            elif (project_id, group_id, student_id) in self.assignments:
+            elif (project_id, group_id, student_id) in assignments:
                 var.LB = 1
                 var.UB = 1
                 groups_open_by_force.add((project_id, group_id))
@@ -179,12 +144,48 @@ class ReducedModel:
                 var.LB = 0
                 var.UB = 1
 
+    def _fix_rest_unassigned_students(self, allowed_to_move: set[int]):
+        if self.current_sol_fixing_data is None:
+            raise ValueError()
+
+        if self.current_sol_fixing_data.unassigned_ids.difference(allowed_to_move):
+            self.__fix_rest_unassigned_students_some_unassigned(allowed_to_move)
+            return
+
+        for student_id, var in self.variables.unassigned_students.items():
+            if student_id in allowed_to_move:
+                var.LB = 0
+                var.UB = 1
+
+            else:
+                var.LB = 0
+                var.UB = 0
+
+    def __fix_rest_unassigned_students_some_unassigned(self, alllowed_to_move: set[int]):
+        if self.current_sol_fixing_data is None:
+            raise ValueError()
+
+        unassigned_ids = self.current_sol_fixing_data.unassigned_ids
+
+        for student_id, var in self.variables.unassigned_students.items():
+            if student_id in alllowed_to_move:
+                var.LB = 0
+                var.UB = 1
+
+            elif student_id in unassigned_ids:
+                var.LB = 1
+                var.UB = 1
+
+            else:
+                var.LB = 0
+                var.UB = 0
+
     def _fix_rest_mutual_unrealized(self, allowed_to_move: set[int]):
         if self.current_solution is None:
             raise ValueError("Should not be called before first solution found.")
         for ((first_id, second_id), var), val in zip(
             self.variables.mutual_unrealized.items(),
-            self.current_solution.mutual_unrealized_vars_values,
+            self.current_solution.mutual_unrealized_var_values,
         ):
             if first_id in allowed_to_move or second_id in allowed_to_move:
                 var.LB = 0
@@ -196,7 +197,7 @@ class ReducedModel:
 
     def new_best_found(self):
         if self.current_solution is None or self.best_found_solution is None:
-            raise ValueError("Should not be called before first solution found.")
+            raise ValueError()
         return self.current_solution.objective_value > self.best_found_solution.objective_value
 
     def increment_random_seed(self):
@@ -206,21 +207,17 @@ class ReducedModel:
         self.zones.cache_clear()
 
     def force_k_worst_to_change(self, k: int):
-        if self.ranked_assignments is None or self.fixing_line_up is None:
-            raise ValueError("Both should exist by now.")
+        if self.current_sol_fixing_data is None:
+            raise ValueError()
+
         self._free_all_possibly_fixed()
-        assignments = self.ranked_assignments[:k]
+        worst_k = self.current_sol_fixing_data.line_up_assignments[:k]
 
-        keys = [
-            next((a for a in assignments if a[2] == student_id), student_id)
-            for student_id in self.fixing_line_up[:k]
-        ]
-
-        for key in keys:
-            if isinstance(key, int):
-                var = self.variables.unassigned_students[key]
+        for project_id, group_id, student_id in worst_k:
+            if project_id == -1:  # It is a pseudo_assignment
+                var = self.variables.unassigned_students[student_id]
             else:
-                var = self.variables.assign_students[key]
+                var = self.variables.assign_students[project_id, group_id, student_id]
 
             var.LB = 0
             var.UB = 0
@@ -231,6 +228,7 @@ class ReducedModel:
             self.variables.assign_students,
             self.variables.establish_groups,
             self.variables.mutual_unrealized,
+            self.variables.unassigned_students,
         ):
             self.model.setAttr("LB", list(var_cat.values()), [0] * len(var_cat))
             self.model.setAttr("UB", list(var_cat.values()), [1] * len(var_cat))
@@ -239,9 +237,9 @@ class ReducedModel:
         if self.best_found_solution is None:
             raise ValueError()
         variables = self.model.getVars()
-        var_values = self.best_found_solution.variable_values
-        self.model.setAttr("LB", variables, var_values)
-        self.model.setAttr("UB", variables, var_values)
+        variable_values = self.best_found_solution.variable_values
+        self.model.setAttr("LB", variables, variable_values)
+        self.model.setAttr("UB", variables, variable_values)
         self.eliminate_time_limit()
         self.eliminate_cutoff()
         self.model.optimize()

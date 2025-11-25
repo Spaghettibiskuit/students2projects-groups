@@ -36,12 +36,11 @@ class IndividualAssignmentScorer:
         }
 
     def _individual_score(self, project_id: int, group_id: int, student_id: int):
-
         return (
             self.derived.project_preferences[student_id, project_id]
             + self._individual_reward_mutual(project_id, group_id, student_id)
-            + self._individual_penalty_surplus_groups(project_id)
-            + self._individual_penalty_group_size(project_id, group_id)
+            - self._individual_penalty_surplus_groups(project_id)
+            - self._individual_penalty_group_size(project_id, group_id)
         )
 
     @functools.lru_cache(maxsize=128)

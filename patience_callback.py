@@ -13,7 +13,7 @@ class PatienceOutsideLocalSearch:
         self.time_last_sol_found: float | None = None
         self.patience = patience
 
-    def __call__(self, model: gp.Model, where: int):
+    def __call__(self, model: gp.Model, where: int):  # intenum oder typedef z.B gurobidef
         if where == GRB.Callback.MIPSOL:
             self.time_last_sol_found = time()
 

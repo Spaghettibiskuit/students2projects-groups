@@ -161,8 +161,8 @@ class VariableNeighborhoodSearch:
         start_time = time()
         k_cur = k_min - k_step  # lets shake begin at k_min even if no better sol found during VND
 
-        time_limit = total_time_limit - (time() - start_time)
-        model.set_time_limit(max(0, time_limit))
+        time_limit = max(0, total_time_limit - (time() - start_time))
+        model.set_time_limit(time_limit)
         model.optimize_while_momentum(patience=initial_patience)
         print(f"\nTIME ELAPSED: {time() - start_time}\n")
         model.store_solution()
@@ -175,15 +175,15 @@ class VariableNeighborhoodSearch:
                     break
                 model.set_branching_var_values_for_vnd()
                 model.add_bounding_branching_constraint(rhs)
-                time_limit = min(node_time_limit, total_time_limit - (time() - start_time))
-                model.set_time_limit(max(0, time_limit))
+                time_limit = max(0, min(node_time_limit, total_time_limit - (time() - start_time)))
+                model.set_time_limit(time_limit)
                 model.set_cutoff()
                 model.optimize()
                 print(f"\nTIME ELAPSED: {time() - start_time}\n")
                 model.pop_branching_constraints_stack()
                 status_code = model.status
                 if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
-                    if rhs > l_min:
+                    if rhs > l_min:  # Kommentieren
                         model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs += l_step
@@ -216,8 +216,8 @@ class VariableNeighborhoodSearch:
             while not self._time_over(start_time, total_time_limit):
                 model.add_shaking_constraints(k_cur, k_step)
                 model.eliminate_cutoff()
-                time_limit = total_time_limit - (time() - start_time)
-                model.set_time_limit(max(0, time_limit))
+                time_limit = max(0, total_time_limit - (time() - start_time))
+                model.set_time_limit(time_limit)
                 model.optimize_while_momentum(patience=shake_patience)
                 print(f"\nTIME ELAPSED: {time() - start_time}\n")
                 model.remove_shaking_constraints()
@@ -252,17 +252,17 @@ class VariableNeighborhoodSearch:
         min_shake, step_shake, max_shake = self._absolute_fixing_parameters(
             (min_shake_perc, step_shake_perc, max_shake_perc)
         )
+
         k = min_shake - step_shake
 
         model = ReducedModel(self.config, self.derived)
 
         start_time = time()
-        time_limit = total_time_limit - (time() - start_time)
-        model.set_time_limit(max(0, time_limit))
+        time_limit = max(0, total_time_limit - (time() - start_time))
+        model.set_time_limit(time_limit)
         model.optimize_outside_vnd(initial_patience)
         model.store_solution()
-        model.store_current_solution_as_best()
-        model.update_basis_for_fixing_decisions()
+        model.make_current_solution_best_solution()
         model.set_cutoff()
 
         while not self._time_over(start_time, total_time_limit):
@@ -273,10 +273,6 @@ class VariableNeighborhoodSearch:
             new_pairs = False
 
             patience = min_optimization_patience
-
-            iterations_current_num_zones = 0
-
-            k = min_shake
 
             while not self._time_over(start_time, total_time_limit):
                 if new_pairs:
@@ -304,8 +300,8 @@ class VariableNeighborhoodSearch:
                 iterations_current_num_zones += 1
                 model.fix_rest(*free_zones_pair, current_num_zones)
 
-                time_limit = total_time_limit - (time() - start_time)
-                model.set_time_limit(max(0, time_limit))
+                time_limit = max(0, total_time_limit - (time() - start_time))
+                model.set_time_limit(time_limit)
                 model.optimize_inside_vnd(patience)
 
                 if model.solution_count == 0:
@@ -313,14 +309,13 @@ class VariableNeighborhoodSearch:
 
                 model.store_solution()
                 model.set_cutoff()
-                model.update_basis_for_fixing_decisions()
 
                 new_pairs = True
                 current_num_zones = max_num_zones
                 patience = min_optimization_patience
 
             if model.new_best_found():
-                model.store_current_solution_as_best()
+                model.make_current_solution_best_solution()
                 k = min_shake
             elif k == max_shake:
                 k = min_shake
@@ -329,27 +324,28 @@ class VariableNeighborhoodSearch:
             else:
                 k = min(k + step_shake, max_shake)
 
-            # model.make_best_solution_current_solution()
-            # model.update_basis_for_fixing_decisions()
+            model.make_best_solution_current_solution()
 
             model.eliminate_cutoff()
             model.force_k_worst_to_change(k)
 
-            time_limit = total_time_limit - (time() - start_time)
-            model.set_time_limit(max(0, time_limit))
+            time_limit = max(0, total_time_limit - (time() - start_time))
+            model.set_time_limit(time_limit)
             model.optimize_outside_vnd(shake_patience)
 
-            model.store_solution()
-            model.set_cutoff()
+            if model.status == GRB.TIME_LIMIT:
+                break
 
-            model.update_basis_for_fixing_decisions()
+            model.store_solution()
+            if model.new_best_found():
+                model.make_current_solution_best_solution()
+                k = min_shake - step_shake
+            model.set_cutoff()
 
         model.recover_to_best_found()
         self.best_model = model
         self._post_processing()
         return self.best_model
-
-        pass
 
     def _time_over(self, start_time: float, total_time_limit: int | float):
         return time() - start_time > total_time_limit
