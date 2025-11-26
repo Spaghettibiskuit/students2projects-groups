@@ -15,7 +15,6 @@ class FixingData:
     assignments: set[tuple[int, int, int]]
     line_up_assignments: list[tuple[int, int, int]]
     line_up_ids: list[int]
-    unassigned_ids: set[int]
 
     @classmethod
     def get(cls, config: Configuration, derived: DerivedModelingData, variables: Variables):
@@ -42,7 +41,6 @@ class FixingData:
             assignments,
             line_up_assignments,
             line_up_ids,
-            unassigned_ids,
         )
 
 
