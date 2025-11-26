@@ -7,8 +7,11 @@ import functools
 import random
 from typing import TYPE_CHECKING
 
-from base_model import BaseModelBuilder
+import gurobipy
+
 from fixing_data import FixingData
+from initial_wrappers import ReducedModelInitializer
+from model_components import InitialConstraints, LinExpressions, Variables
 from patience_callback import PatienceInsideLocalSearch, PatienceOutsideLocalSearch
 from solution_reminder import SolutionReminderDiving
 from utilities import var_values
@@ -21,16 +24,29 @@ if TYPE_CHECKING:
 class ReducedModel:
     """Contains a model further constrained for local branching."""
 
-    def __init__(self, config: Configuration, derived: DerivedModelingData):
+    def __init__(
+        self,
+        config: Configuration,
+        derived: DerivedModelingData,
+        variables: Variables,
+        lin_expressions: LinExpressions,
+        initial_constraints: InitialConstraints,
+        model: gurobipy.Model,
+        current_solution: SolutionReminderDiving,
+        best_found_solution: SolutionReminderDiving,
+        current_sol_fixing_data: FixingData,
+        best_sol_fixing_data: FixingData,
+    ):
         self.config = config
         self.derived = derived
-        self.variables, self.lin_expressions, self.initial_constraints, self.model = (
-            BaseModelBuilder(config=self.config, derived=self.derived).get_base_model()
-        )
-        self.current_solution: SolutionReminderDiving | None = None
-        self.best_found_solution: SolutionReminderDiving | None = None
-        self.current_sol_fixing_data: FixingData | None = None
-        self.best_sol_fixing_data: FixingData | None = None
+        self.variables = variables
+        self.lin_expressions = lin_expressions
+        self.initial_constraints = initial_constraints
+        self.model = model
+        self.current_solution = current_solution
+        self.best_found_solution = best_found_solution
+        self.current_sol_fixing_data = current_sol_fixing_data
+        self.best_sol_fixing_data = best_sol_fixing_data
 
     @property
     def status(self):
@@ -47,8 +63,6 @@ class ReducedModel:
         self.model.Params.TimeLimit = float("inf")
 
     def set_cutoff(self):
-        if self.current_solution is None:
-            raise ValueError()
         self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-6
 
     def eliminate_cutoff(self):
@@ -97,8 +111,6 @@ class ReducedModel:
         return boundaries
 
     def _ids_allowed_to_move(self, zone_a: int, zone_b: int, num_zones: int) -> set[int]:
-        if self.current_sol_fixing_data is None:
-            raise ValueError()
         lin_up_ids = self.current_sol_fixing_data.line_up_ids
         zones = self.zones(num_zones)
         start_a, end_a = zones[zone_a]
@@ -109,9 +121,6 @@ class ReducedModel:
     def _fixation_info(
         self, allowed_to_move: set[int]
     ) -> tuple[set[int], list[tuple[int, int, int]], dict[int, dict[int, int]]]:
-        if self.current_sol_fixing_data is None:
-            raise ValueError()
-
         unassigned_to_be_fixed: set[int] = set()
         assignments_to_be_fixed: list[tuple[int, int, int]] = []
         group_ids: collections.defaultdict[int, set[int]] = collections.defaultdict(set)
@@ -151,8 +160,6 @@ class ReducedModel:
         assignments_to_be_fixed: list[tuple[int, int, int]],
         shifted_group_ids: dict[int, dict[int, int]],
     ) -> set[tuple[int, int]]:
-        if self.current_sol_fixing_data is None:
-            raise ValueError()
         groups_open_by_force: set[tuple[int, int]] = set()
         assign_students = self.variables.assign_students
         for (project_id, group_id, student_id), var in assign_students.items():
@@ -198,8 +205,6 @@ class ReducedModel:
                 var.UB = 0
 
     def _fix_rest_mutual_unrealized(self, allowed_to_move: set[int]):
-        if self.current_solution is None:
-            raise ValueError("Should not be called before first solution found.")
         for ((first_id, second_id), var), val in zip(
             self.variables.mutual_unrealized.items(),
             self.current_solution.mutual_unrealized_var_values,
@@ -213,8 +218,6 @@ class ReducedModel:
                 var.UB = val
 
     def new_best_found(self):
-        if self.current_solution is None or self.best_found_solution is None:
-            raise ValueError()
         return self.current_solution.objective_value > self.best_found_solution.objective_value
 
     def increment_random_seed(self):
@@ -224,9 +227,6 @@ class ReducedModel:
         self.zones.cache_clear()
 
     def force_k_worst_to_change(self, k: int):
-        if self.current_sol_fixing_data is None:
-            raise ValueError()
-
         self._free_all_possibly_fixed()
         worst_k = self.current_sol_fixing_data.line_up_assignments[:k]
 
@@ -251,8 +251,6 @@ class ReducedModel:
             self.model.setAttr("UB", list(var_cat.values()), [1] * len(var_cat))
 
     def recover_to_best_found(self):
-        if self.best_found_solution is None:
-            raise ValueError()
         variables = self.model.getVars()
         variable_values = self.best_found_solution.variable_values
         self.model.setAttr("LB", variables, variable_values)
@@ -260,3 +258,18 @@ class ReducedModel:
         self.eliminate_time_limit()
         self.eliminate_cutoff()
         self.model.optimize()
+
+    @classmethod
+    def get(cls, initializer: ReducedModelInitializer):
+        return cls(
+            config=initializer.config,
+            derived=initializer.derived,
+            variables=initializer.variables,
+            lin_expressions=initializer.lin_expressions,
+            initial_constraints=initializer.initial_constraints,
+            model=initializer.model,
+            current_solution=initializer.solution_data,
+            best_found_solution=initializer.solution_data,
+            current_sol_fixing_data=initializer.fixing_data,
+            best_sol_fixing_data=initializer.fixing_data,
+        )

@@ -7,6 +7,7 @@ from branching_constraints_efficacy_checker import BranchingConstraintsEfficacyC
 from configuration import Configuration
 from constrained_model import ConstrainedModel
 from derived_modeling_data import DerivedModelingData
+from initial_wrappers import ReducedModelInitializer
 from reduced_model import ReducedModel
 from solution import Solution
 from solution_checker import SolutionChecker
@@ -255,14 +256,14 @@ class VariableNeighborhoodSearch:
 
         k = min_shake - step_shake
 
-        model = ReducedModel(self.config, self.derived)
+        initial_model = ReducedModelInitializer(self.config, self.derived)
 
         start_time = time()
         time_limit = max(0, total_time_limit - (time() - start_time))
-        model.set_time_limit(time_limit)
-        model.optimize_outside_vnd(initial_patience)
-        model.store_solution()
-        model.make_current_solution_best_solution()
+        initial_model.set_time_limit(time_limit)
+        initial_model.optimize_initially(initial_patience)
+
+        model = ReducedModel.get(initial_model)
         model.set_cutoff()
 
         while not self._time_over(start_time, total_time_limit):
