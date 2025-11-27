@@ -1,40 +1,45 @@
 """A class that contains a model further constrained for local branching."""
 
-from __future__ import annotations
-
-import copy
 import itertools as it
-from typing import TYPE_CHECKING
 
 import gurobipy as gp
 from gurobipy import GRB
 
-from base_model import BaseModelBuilder
 from callbacks import PatienceOutsideLocalSearch
+from model_components import InitialConstraints, LinExpressions, Variables
 from solution_reminder import SolutionReminderBranching
+from thin_wrappers import ConstrainedModelInitializer
 from utilities import var_values
-
-if TYPE_CHECKING:
-    from configuration import Configuration
-    from derived_modeling_data import DerivedModelingData
 
 
 class ConstrainedModel:
     """Contains a model further constrained for local branching."""
 
-    def __init__(self, config: Configuration, derived: DerivedModelingData):
-        self.variables, self.lin_expressions, self.initial_constraints, self.model = (
-            BaseModelBuilder(config=config, derived=derived).get_base_model()
-        )
+    def __init__(
+        self,
+        variables: Variables,
+        lin_expressions: LinExpressions,
+        initial_constraints: InitialConstraints,
+        model: gp.Model,
+        sol_reminder: SolutionReminderBranching,
+    ):
+        self.variables = variables
+        self.lin_expressions = lin_expressions
+        self.initial_constraints = initial_constraints
+        self.model = model
         self.assign_students_vars = list(self.variables.assign_students.values())
-        self.assign_students_vars_values: tuple[int | float, ...] | None = None
+        self.assign_students_vars_values: tuple[int | float, ...] = (
+            sol_reminder.assign_students_var_values
+        )
         self.establish_groups_vars = list(self.variables.establish_groups.values())
-        self.establish_groups_vars_values: tuple[int | float, ...] | None = None
+        self.establish_groups_vars_values: tuple[int | float, ...] = (
+            sol_reminder.assign_students_var_values
+        )
         self.branching_constraints: list[gp.Constr] = []
         self.counter = it.count()
         self.shake_constraints: tuple[gp.Constr, gp.Constr] | None = None
-        self.last_feasible_solution: SolutionReminderBranching | None = None
-        self.incumbent_solution: SolutionReminderBranching | None = None
+        self.last_feasible_solution: SolutionReminderBranching = sol_reminder
+        self.incumbent_solution: SolutionReminderBranching = sol_reminder
 
     @property
     def status(self) -> int:
@@ -48,18 +53,11 @@ class ConstrainedModel:
     def solution_count(self) -> int:
         return self.model.SolCount
 
-    def set_solution_limit(self, solution_limit: int):
-        self.model.Params.SolutionLimit = solution_limit
-
-    def eliminate_solution_limit(self) -> None:
-        self.model.Params.SolutionLimit = GRB.MAXINT
-
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
 
     def set_cutoff(self, ascending: bool = True):
-        if self.last_feasible_solution is None:
-            raise TypeError("last_feasible_solution should not be None at this point.")
+
         self.model.Params.Cutoff = (
             round(self.last_feasible_solution.objective_value) + int(ascending) - 1e-6
         )
@@ -83,32 +81,23 @@ class ConstrainedModel:
         )
 
     def last_feasible_solution_better_than_incumbent(self) -> bool:
-        if self.last_feasible_solution is None or self.incumbent_solution is None:
-            raise TypeError(
-                "last_feasible_solution and incumbent_solution should not be None at this point."
-            )
+
         return (
             self.last_feasible_solution.objective_value > self.incumbent_solution.objective_value
         )
 
     def store_last_feasible_solution_as_incumbent(self):
-        self.incumbent_solution = copy.copy(self.last_feasible_solution)
+        self.incumbent_solution = self.last_feasible_solution
 
     def set_branching_var_values_for_vnd(self):
-        if (last_feasible_solution := self.last_feasible_solution) is None:
-            raise TypeError("last_feasible_solution should not be None at this point.")
-        self.assign_students_vars_values = last_feasible_solution.assign_students_var_values
-        self.establish_groups_vars_values = last_feasible_solution.establish_groups_var_values
+        self.assign_students_vars_values = self.last_feasible_solution.assign_students_var_values
+        self.establish_groups_vars_values = self.last_feasible_solution.establish_groups_var_values
 
     def set_branching_var_values_for_shake(self):
-        if (incumbent_solution := self.incumbent_solution) is None:
-            raise TypeError("incumbent_solution should not be None at this point.")
-        self.assign_students_vars_values = incumbent_solution.assign_students_var_values
-        self.establish_groups_vars_values = incumbent_solution.establish_groups_var_values
+        self.assign_students_vars_values = self.incumbent_solution.assign_students_var_values
+        self.establish_groups_vars_values = self.incumbent_solution.establish_groups_var_values
 
     def branching_lin_expression(self):
-        if not self.establish_groups_vars_values or not self.assign_students_vars_values:
-            raise ValueError("Values for decision variables not saved.")
         return gp.quicksum(
             1 - var if var_value > 0.5 else var
             for var, var_value in zip(
@@ -168,9 +157,6 @@ class ConstrainedModel:
         self.shake_constraints = None
 
     def recover_to_best_solution_at_end(self):
-        if self.incumbent_solution is None:
-            raise TypeError("incumbent_solution should not be None at this point.")
-
         for var, var_value_incumbent in zip(
             self.model.getVars(), self.incumbent_solution.variable_values
         ):
@@ -182,3 +168,13 @@ class ConstrainedModel:
         self.model.Params.TimeLimit = float("inf")
         self.model.optimize()
         self.model.Params.SolutionLimit = GRB.MAXINT
+
+    @classmethod
+    def get(cls, initializer: ConstrainedModelInitializer):
+        return cls(
+            variables=initializer.variables,
+            lin_expressions=initializer.lin_expressions,
+            initial_constraints=initializer.initial_constraints,
+            model=initializer.model,
+            sol_reminder=initializer.current_solution,
+        )

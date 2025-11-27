@@ -51,10 +51,35 @@ class GurobiAloneProgressTracker:
         if where == GRB.Callback.MIPSOL:
             best_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJBST) + 1e-6)
             best_bound = int(model.cbGet(GRB.Callback.MIPSOL_OBJBND) + 1e-6)
+
             if best_objective > self.best_obj or best_bound < self.best_bound:
+                self.best_obj = best_objective
+                self.best_bound = best_bound
+
                 summary: dict[str, int | float] = {
                     "objective": best_objective,
                     "bound": best_bound,
                     "runtime": model.cbGet(GRB.Callback.RUNTIME),
+                }
+                self.solution_summaries.append(summary)
+
+
+class InitialOptimizationTracker:
+
+    def __init__(self, solution_summaries: list[dict[str, int | float | str]], start_time: float):
+        self.best_obj = -GRB.MAXINT
+        self.solution_summaries = solution_summaries
+        self.start_time = start_time
+
+    def __call__(self, model: gp.Model, where: int):
+        if where == GRB.Callback.MIPSOL:
+            best_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJBST) + 1e-6)
+
+            if best_objective > self.best_obj:
+                self.best_obj = best_objective
+                summary: dict[str, int | float | str] = {
+                    "objective": best_objective,
+                    "runtime": time() - self.start_time,
+                    "station": "initial_optimization",
                 }
                 self.solution_summaries.append(summary)

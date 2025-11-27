@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 
 
-@dataclass
+@dataclass(frozen=True)
 class SolutionReminderBranching:
     """Stores the variable values and the objective value of a solution."""
 
@@ -13,7 +13,7 @@ class SolutionReminderBranching:
     establish_groups_var_values: tuple[int | float, ...]
 
 
-@dataclass
+@dataclass(frozen=True)
 class SolutionReminderDiving:
     """Stores the variable values and the objective of a solution."""
 
