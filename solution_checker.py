@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from derived_modeling_data import DerivedModelingData
     from reduced_model import ReducedModel
     from solution_info_retriever import SolutionInformationRetriever
+    from thin_wrappers import GurobiDuck
 
 
 class SolutionChecker:
@@ -20,7 +21,7 @@ class SolutionChecker:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        wrapped_model: ConstrainedModel | ReducedModel,
+        wrapped_model: ConstrainedModel | ReducedModel | GurobiDuck,
         retriever: SolutionInformationRetriever,
     ):
         self.config = config

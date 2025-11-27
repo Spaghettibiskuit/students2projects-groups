@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from solution_checker import SolutionChecker
     from solution_info_retriever import SolutionInformationRetriever
     from solution_viewer import SolutionViewer
+    from thin_wrappers import GurobiDuck
 
 SOLUTIONS_FOLDER_NAME = "solutions"
 
@@ -27,7 +28,7 @@ class Solution:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        wrapped_model: ConstrainedModel | ReducedModel,
+        wrapped_model: ConstrainedModel | ReducedModel | GurobiDuck,
         retriever: SolutionInformationRetriever,
         viewer: SolutionViewer,
         checker: SolutionChecker,

@@ -9,11 +9,11 @@ from typing import TYPE_CHECKING
 
 import gurobipy
 
+from callbacks import PatienceInsideLocalSearch, PatienceOutsideLocalSearch
 from fixing_data import FixingData
-from initial_wrappers import ReducedModelInitializer
 from model_components import InitialConstraints, LinExpressions, Variables
-from patience_callback import PatienceInsideLocalSearch, PatienceOutsideLocalSearch
 from solution_reminder import SolutionReminderDiving
+from thin_wrappers import ReducedModelInitializer
 from utilities import var_values
 
 if TYPE_CHECKING:

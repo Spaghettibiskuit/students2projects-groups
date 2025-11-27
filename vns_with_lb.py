@@ -7,12 +7,12 @@ from branching_constraints_efficacy_checker import BranchingConstraintsEfficacyC
 from configuration import Configuration
 from constrained_model import ConstrainedModel
 from derived_modeling_data import DerivedModelingData
-from initial_wrappers import ReducedModelInitializer
 from reduced_model import ReducedModel
 from solution import Solution
 from solution_checker import SolutionChecker
 from solution_info_retriever import SolutionInformationRetriever
 from solution_viewer import SolutionViewer
+from thin_wrappers import GurobiDuck, ReducedModelInitializer
 
 
 class VariableNeighborhoodSearch:
@@ -22,8 +22,8 @@ class VariableNeighborhoodSearch:
         number_of_projects: int,
         number_of_students: int,
         instance_index: int,
-        reward_mutual_pair: int,
-        penalty_unassigned: int,
+        reward_mutual_pair: int = 2,
+        penalty_unassigned: int = 3,
     ):
         self.config = Configuration.get(
             number_of_projects=number_of_projects,
@@ -36,17 +36,18 @@ class VariableNeighborhoodSearch:
         self.best_model = None
         self.best_solution = None
 
-    def gurobi_alone(self, time_limit: int | float = float("inf")) -> ConstrainedModel:
-        active_model = ConstrainedModel(
+    def gurobi_alone(self, time_limit: int | float = float("inf")) -> list[dict[str, int | float]]:
+        solution_summaries: list[dict[str, int | float]] = []
+        model = GurobiDuck(
             config=self.config,
             derived=self.derived,
         )
-        active_model.model.Params.TimeLimit = time_limit
-        active_model.model.optimize()
+        model.set_time_limit(time_limit)
+        model.optimize(solution_summaries)
 
-        self.best_model = active_model
+        self.best_model = model
         self._post_processing()
-        return self.best_model
+        return solution_summaries
 
     def run_vns_with_lb_basic(
         self, total_time_limit: int | float, node_time_limit: int | float, k_step: int
@@ -165,7 +166,7 @@ class VariableNeighborhoodSearch:
         time_limit = max(0, total_time_limit - (time() - start_time))
         model.set_time_limit(time_limit)
         model.optimize_while_momentum(patience=initial_patience)
-        print(f"\nTIME ELAPSED: {time() - start_time}\n")
+
         model.store_solution()
         model.store_last_feasible_solution_as_incumbent()
 
@@ -180,7 +181,7 @@ class VariableNeighborhoodSearch:
                 model.set_time_limit(time_limit)
                 model.set_cutoff()
                 model.optimize()
-                print(f"\nTIME ELAPSED: {time() - start_time}\n")
+
                 model.pop_branching_constraints_stack()
                 status_code = model.status
                 if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
@@ -220,7 +221,7 @@ class VariableNeighborhoodSearch:
                 time_limit = max(0, total_time_limit - (time() - start_time))
                 model.set_time_limit(time_limit)
                 model.optimize_while_momentum(patience=shake_patience)
-                print(f"\nTIME ELAPSED: {time() - start_time}\n")
+
                 model.remove_shaking_constraints()
                 if model.status == GRB.INFEASIBLE:
                     k_cur += k_step

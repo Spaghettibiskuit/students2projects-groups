@@ -37,3 +37,24 @@ class PatienceInsideLocalSearch:
 
         elif time() - self.reference_time > self.patience:
             model.terminate()
+
+
+class GurobiAloneProgressTracker:
+    """Tracks the progress of Gurobi"""
+
+    def __init__(self, solution_summaries: list[dict[str, int | float]]):
+        self.best_obj = -GRB.MAXINT
+        self.best_bound = GRB.MAXINT
+        self.solution_summaries = solution_summaries
+
+    def __call__(self, model: gp.Model, where: int):
+        if where == GRB.Callback.MIPSOL:
+            best_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJBST) + 1e-6)
+            best_bound = int(model.cbGet(GRB.Callback.MIPSOL_OBJBND) + 1e-6)
+            if best_objective > self.best_obj or best_bound < self.best_bound:
+                summary: dict[str, int | float] = {
+                    "objective": best_objective,
+                    "bound": best_bound,
+                    "runtime": model.cbGet(GRB.Callback.RUNTIME),
+                }
+                self.solution_summaries.append(summary)

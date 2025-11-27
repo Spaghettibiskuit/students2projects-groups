@@ -10,7 +10,7 @@ import gurobipy as gp
 from gurobipy import GRB
 
 from base_model import BaseModelBuilder
-from patience_callback import PatienceOutsideLocalSearch
+from callbacks import PatienceOutsideLocalSearch
 from solution_reminder import SolutionReminderBranching
 from utilities import var_values
 
