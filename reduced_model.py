@@ -5,11 +5,12 @@ from __future__ import annotations
 import collections
 import functools
 import random
+from time import time
 from typing import TYPE_CHECKING
 
 import gurobipy
 
-from callbacks import PatienceInsideLocalSearch, PatienceOutsideLocalSearch
+from callbacks import PatienceShake, PatienceVND
 from fixing_data import FixingData
 from model_components import InitialConstraints, LinExpressions, Variables
 from solution_reminder import SolutionReminderDiving
@@ -36,6 +37,8 @@ class ReducedModel:
         best_found_solution: SolutionReminderDiving,
         current_sol_fixing_data: FixingData,
         best_sol_fixing_data: FixingData,
+        start_time: float,
+        solution_summaries: list[dict[str, int | float | str]],
     ):
         self.config = config
         self.derived = derived
@@ -47,6 +50,8 @@ class ReducedModel:
         self.best_found_solution = best_found_solution
         self.current_sol_fixing_data = current_sol_fixing_data
         self.best_sol_fixing_data = best_sol_fixing_data
+        self.start_time = start_time
+        self.solution_summaries = solution_summaries
 
     @property
     def status(self):
@@ -55,6 +60,10 @@ class ReducedModel:
     @property
     def solution_count(self):
         return self.model.SolCount
+
+    @property
+    def objective_value(self):
+        return int(self.model.ObjVal + 1e-6)
 
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
@@ -68,16 +77,42 @@ class ReducedModel:
     def eliminate_cutoff(self):
         self.model.Params.Cutoff = float("-inf")
 
-    def optimize_inside_vnd(self, patience: float | int):
-        self.model.optimize(PatienceInsideLocalSearch(patience))
+    def optimize_vnd(self, patience: float | int):
+        callback = PatienceVND(
+            patience=patience,
+            start_time=self.start_time,
+            best_obj=self.best_found_solution.objective_value,
+            solution_summaries=self.solution_summaries,
+        )
+        self.model.optimize(callback)
+        if self.solution_count > 0 and self.objective_value > callback.best_obj:
+            summary: dict[str, int | float | str] = {
+                "objective": self.objective_value,
+                "runtime": time() - self.start_time,
+                "station": "vnd",
+            }
+            self.solution_summaries.append(summary)
 
-    def optimize_outside_vnd(self, patience: float | int):
-        self.model.optimize(PatienceOutsideLocalSearch(patience))
+    def optimize_shake(self, patience: float | int):
+        callback = PatienceShake(
+            patience=patience,
+            start_time=self.start_time,
+            best_obj=self.best_found_solution.objective_value,
+            solution_summaries=self.solution_summaries,
+        )
+        self.model.optimize(callback)
+        if self.solution_count > 0 and self.objective_value > callback.best_obj:
+            summary: dict[str, int | float | str] = {
+                "objective": self.objective_value,
+                "runtime": time() - self.start_time,
+                "station": "shake",
+            }
+            self.solution_summaries.append(summary)
 
     def store_solution(self):
         self.current_solution = SolutionReminderDiving(
             variable_values=var_values(self.model.getVars()),
-            objective_value=self.model.ObjVal,
+            objective_value=self.objective_value,
             assign_students_var_values=var_values(self.variables.assign_students.values()),
             mutual_unrealized_var_values=var_values(self.variables.mutual_unrealized.values()),
             unassigned_students_var_values=var_values(self.variables.unassigned_students.values()),
@@ -272,4 +307,6 @@ class ReducedModel:
             best_found_solution=initializer.solution_data,
             current_sol_fixing_data=initializer.fixing_data,
             best_sol_fixing_data=initializer.fixing_data,
+            start_time=initializer.start_time,
+            solution_summaries=initializer.solution_summaries,
         )

@@ -40,17 +40,16 @@ class VariableNeighborhoodSearch:
         self.best_solution = None
 
     def gurobi_alone(self, time_limit: int | float = float("inf")) -> list[dict[str, int | float]]:
-        solution_summaries: list[dict[str, int | float]] = []
         model = GurobiDuck(
             config=self.config,
             derived=self.derived,
         )
         model.set_time_limit(time_limit)
-        model.optimize(solution_summaries)
+        model.optimize()
 
         self.best_model = model
         self._post_processing()
-        return solution_summaries
+        return model.solution_summaries
 
     def run_vns_with_lb(
         self,
@@ -71,12 +70,9 @@ class VariableNeighborhoodSearch:
             l_step_perc,
         )
 
-        initial_model = ConstrainedModelInitializer(
-            config=self.config,
-            derived=self.derived,
-        )
+        initial_model = ConstrainedModelInitializer(config=self.config, derived=self.derived)
+        start_time = initial_model.start_time
 
-        start_time = time()
         k_cur = k_min - k_step  # lets shake begin at k_min even if no better sol found during VND
 
         time_limit = max(0, total_time_limit - (time() - start_time))
@@ -136,7 +132,7 @@ class VariableNeighborhoodSearch:
                 model.eliminate_cutoff()
                 time_limit = max(0, total_time_limit - (time() - start_time))
                 model.set_time_limit(time_limit)
-                model.optimize_while_momentum(patience=shake_patience)
+                model.optimize_shake(patience=shake_patience)
 
                 model.remove_shaking_constraints()
                 if model.status == GRB.INFEASIBLE:
@@ -150,7 +146,7 @@ class VariableNeighborhoodSearch:
         model.recover_to_best_solution_at_end()
         self.best_model = model
         self._post_processing()
-        return self.best_model
+        return model.solution_summaries
 
     def run_vns_with_var_fixing(
         self,
@@ -174,8 +170,8 @@ class VariableNeighborhoodSearch:
         k = min_shake - step_shake
 
         initial_model = ReducedModelInitializer(self.config, self.derived)
+        start_time = initial_model.start_time
 
-        start_time = time()
         time_limit = max(0, total_time_limit - (time() - start_time))
         initial_model.set_time_limit(time_limit)
         initial_model.optimize_initially(initial_patience)
@@ -220,7 +216,7 @@ class VariableNeighborhoodSearch:
 
                 time_limit = max(0, total_time_limit - (time() - start_time))
                 model.set_time_limit(time_limit)
-                model.optimize_inside_vnd(patience)
+                model.optimize_vnd(patience)
 
                 if model.solution_count == 0:
                     continue
@@ -249,7 +245,7 @@ class VariableNeighborhoodSearch:
 
             time_limit = max(0, total_time_limit - (time() - start_time))
             model.set_time_limit(time_limit)
-            model.optimize_outside_vnd(shake_patience)
+            model.optimize_shake(shake_patience)
 
             if model.status == GRB.TIME_LIMIT:
                 break
@@ -263,7 +259,7 @@ class VariableNeighborhoodSearch:
         model.recover_to_best_found()
         self.best_model = model
         self._post_processing()
-        return self.best_model
+        return model.solution_summaries
 
     def _time_over(self, start_time: float, total_time_limit: int | float):
         return time() - start_time > total_time_limit
@@ -336,10 +332,13 @@ class VariableNeighborhoodSearch:
         )
         if checker.is_correct:
             print("IS CORRECT")
+            correct = 1
         else:
+            correct = 0
             print("IS INCORRECT")
+        self.best_model.solution_summaries.append({"is_correct": correct})
 
 
 if __name__ == "__main__":
     vns = VariableNeighborhoodSearch(5, 50, 4, 2, 3)
-    vns.run_vns_with_var_fixing(total_time_limit=10_000)
+    vns.run_vns_with_lb(total_time_limit=10_000)

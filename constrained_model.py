@@ -1,11 +1,12 @@
 """A class that contains a model further constrained for local branching."""
 
 import itertools as it
+from time import time
 
 import gurobipy as gp
 from gurobipy import GRB
 
-from callbacks import PatienceOutsideLocalSearch
+from callbacks import PatienceShake, SimpleVNDTracker
 from model_components import InitialConstraints, LinExpressions, Variables
 from solution_reminder import SolutionReminderBranching
 from thin_wrappers import ConstrainedModelInitializer
@@ -22,6 +23,8 @@ class ConstrainedModel:
         initial_constraints: InitialConstraints,
         model: gp.Model,
         sol_reminder: SolutionReminderBranching,
+        start_time: float,
+        solution_summaries: list[dict[str, int | float | str]],
     ):
         self.variables = variables
         self.lin_expressions = lin_expressions
@@ -40,14 +43,16 @@ class ConstrainedModel:
         self.shake_constraints: tuple[gp.Constr, gp.Constr] | None = None
         self.last_feasible_solution: SolutionReminderBranching = sol_reminder
         self.incumbent_solution: SolutionReminderBranching = sol_reminder
+        self.start_time = start_time
+        self.solution_summaries = solution_summaries
 
     @property
     def status(self) -> int:
         return self.model.Status
 
     @property
-    def objective_value(self) -> int | float:
-        return self.model.ObjVal
+    def objective_value(self) -> int:
+        return int(self.model.ObjVal + 1e-6)
 
     @property
     def solution_count(self) -> int:
@@ -66,11 +71,33 @@ class ConstrainedModel:
         self.model.Params.Cutoff = float("-inf")
 
     def optimize(self):
-        self.model.optimize()
+        callback = SimpleVNDTracker(
+            self.solution_summaries, self.start_time, self.incumbent_solution.objective_value
+        )
+        self.model.optimize(callback)
+        if self.solution_count > 0 and self.objective_value > callback.best_obj:
+            summary: dict[str, int | float | str] = {
+                "objective": self.objective_value,
+                "runtime": time() - self.start_time,
+                "station": "vnd",
+            }
+            self.solution_summaries.append(summary)
 
-    def optimize_while_momentum(self, patience: float | int):
-        callback = PatienceOutsideLocalSearch(patience=patience)
-        self.model.optimize(callback=callback)
+    def optimize_shake(self, patience: float | int):
+        callback = PatienceShake(
+            patience=patience,
+            start_time=self.start_time,
+            best_obj=self.incumbent_solution.objective_value,
+            solution_summaries=self.solution_summaries,
+        )
+        self.model.optimize(callback)
+        if self.solution_count > 0 and self.objective_value > callback.best_obj:
+            summary: dict[str, int | float | str] = {
+                "objective": self.objective_value,
+                "runtime": time() - self.start_time,
+                "station": "shake",
+            }
+            self.solution_summaries.append(summary)
 
     def store_solution(self):
         self.last_feasible_solution = SolutionReminderBranching(
@@ -170,11 +197,16 @@ class ConstrainedModel:
         self.model.Params.SolutionLimit = GRB.MAXINT
 
     @classmethod
-    def get(cls, initializer: ConstrainedModelInitializer):
+    def get(
+        cls,
+        initializer: ConstrainedModelInitializer,
+    ):
         return cls(
             variables=initializer.variables,
             lin_expressions=initializer.lin_expressions,
             initial_constraints=initializer.initial_constraints,
             model=initializer.model,
             sol_reminder=initializer.current_solution,
+            start_time=initializer.start_time,
+            solution_summaries=initializer.solution_summaries,
         )

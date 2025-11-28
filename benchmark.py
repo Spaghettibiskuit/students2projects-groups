@@ -1,5 +1,8 @@
 import json
+import random
 from pathlib import Path
+
+random.seed = 0
 
 from vns_with_lb import VariableNeighborhoodSearch
 
@@ -12,26 +15,55 @@ ALL_INSTANCES = [
     for instance_index in range(10)
 ]
 
+GUROBI = 0
+LOCAL_BRANCHING = 1
+VARIABLE_FIXING = 2
 
-def instance_benchmark_gurobi(
-    num_projects: int, num_students: int, instance_index: int, time_limit: int | float
+SUBFOLDERS = {
+    GUROBI: "gurobi",
+    LOCAL_BRANCHING: "local_branching",
+    VARIABLE_FIXING: "variable_fixing",
+}
+
+
+def instance_benchmark(
+    num_projects: int, num_students: int, instance_index: int, time_limit: int | float, method: int
 ):
     vns = VariableNeighborhoodSearch(num_projects, num_students, instance_index)
-    return vns.gurobi_alone(time_limit)
+    if method == GUROBI:
+        return vns.gurobi_alone(time_limit)
+    if method == LOCAL_BRANCHING:
+        return vns.run_vns_with_lb(total_time_limit=time_limit)
+    if method == VARIABLE_FIXING:
+        return vns.run_vns_with_var_fixing(total_time_limit=time_limit)
+    raise ValueError()
 
 
-def benchmark_gurobi(
+def benchmark_method(
     name: str,
+    method: int,
     time_limit_per_instance: float | int,
     instances: list[tuple[int, int, int]] = ALL_INSTANCES,
 ):
-    path = BENCHMARKS_FOLDER / "gurobi" / (name + ".json")
+    if (subfolder := SUBFOLDERS.get(method)) is None:
+        raise ValueError()
+
+    path = BENCHMARKS_FOLDER / subfolder / (name + ".json")
     if path.exists():
         raise ValueError()
-    instance_solutions: dict[str, list[dict[str, int | float]]] = {}
+    instance_solutions = {}  # type: ignore
 
     for instance in instances:
         key = "_".join(str(elem) for elem in instance)
-        solutions = instance_benchmark_gurobi(*instance, time_limit_per_instance)
+        solutions = instance_benchmark(*instance, time_limit_per_instance, method)
         instance_solutions[key] = solutions
         path.write_text(json.dumps(instance_solutions, indent=4), encoding="utf-8")
+
+
+def benchmark_all(
+    name: str,
+    time_limit_per_instance: int | float,
+    instances: list[tuple[int, int, int]] = ALL_INSTANCES,
+):
+    for method in SUBFOLDERS.keys():
+        benchmark_method(name, method, time_limit_per_instance, instances)
