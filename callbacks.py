@@ -2,7 +2,7 @@
 
 from time import time
 
-import gurobipy as gp
+import gurobipy
 from gurobipy import GRB
 
 
@@ -22,7 +22,7 @@ class PatienceShake:
         self.best_obj = best_obj
         self.solution_summaries = solution_summaries
 
-    def __call__(self, model: gp.Model, where: int):  # intenum oder typedef z.B gurobidef
+    def __call__(self, model: gurobipy.Model, where: int):  # intenum oder typedef z.B gurobidef
         if where == GRB.Callback.MIPSOL:
             self.time_last_sol_found = time()
 
@@ -61,7 +61,7 @@ class PatienceVND:
         self.best_obj = best_obj
         self.solution_summaries = solution_summaries
 
-    def __call__(self, model: gp.Model, where: int):
+    def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
             self.reference_time = time()
 
@@ -89,7 +89,7 @@ class GurobiAloneProgressTracker:
         self.best_bound = GRB.MAXINT
         self.solution_summaries = solution_summaries
 
-    def __call__(self, model: gp.Model, where: int):
+    def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
             current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
             best_bound = int(model.cbGet(GRB.Callback.MIPSOL_OBJBND) + 1e-6)
@@ -120,7 +120,7 @@ class InitialOptimizationTracker:
         self.solution_summaries = solution_summaries
         self.start_time = start_time
 
-    def __call__(self, model: gp.Model, where: int):
+    def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
             self.time_last_sol_found = time()
             current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
@@ -153,7 +153,7 @@ class SimpleVNDTracker:
         self.start_time = start_time
         self.best_obj = best_obj
 
-    def __call__(self, model: gp.Model, where: int):
+    def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
             current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
 

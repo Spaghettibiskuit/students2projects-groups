@@ -1,17 +1,13 @@
 """Create model of SPAwGBP instance before any local branching constraints."""
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING, cast
+from typing import cast
 
 import gurobipy as gp
 from gurobipy import GRB
 
+from configuration import Configuration
+from derived_modeling_data import DerivedModelingData
 from model_components import InitialConstraints, LinExpressions, Variables
-
-if TYPE_CHECKING:
-    from configuration import Configuration
-    from derived_modeling_data import DerivedModelingData
 
 
 class BaseModelBuilder:
@@ -26,7 +22,7 @@ class BaseModelBuilder:
         self.group_ids = derived.group_ids
         self.project_group_pairs = derived.project_group_pairs
         self.project_group_student_triples = derived.project_group_student_triples
-        self.mutual_pairs = derived.mutual_pairs
+        self.mutual_pairs = derived.mutual_pairs_ordered
         self.project_preferences = derived.project_preferences
         self.model = gp.Model()
 

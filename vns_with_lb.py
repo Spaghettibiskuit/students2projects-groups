@@ -332,11 +332,9 @@ class VariableNeighborhoodSearch:
         )
         if checker.is_correct:
             print("IS CORRECT")
-            correct = 1
         else:
-            correct = 0
             print("IS INCORRECT")
-        self.best_model.solution_summaries.append({"is_correct": correct})
+        self.best_model.solution_summaries.append({"is_correct": checker.is_correct})
 
 
 if __name__ == "__main__":

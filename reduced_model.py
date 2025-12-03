@@ -1,25 +1,20 @@
 """A class that contains a model which it reduces according to VNS rules."""
 
-from __future__ import annotations
-
 import collections
 import functools
 import random
 from time import time
-from typing import TYPE_CHECKING
 
 import gurobipy
 
 from callbacks import PatienceShake, PatienceVND
+from configuration import Configuration
+from derived_modeling_data import DerivedModelingData
 from fixing_data import FixingData
 from model_components import InitialConstraints, LinExpressions, Variables
 from solution_reminder import SolutionReminderDiving
 from thin_wrappers import ReducedModelInitializer
 from utilities import var_values
-
-if TYPE_CHECKING:
-    from configuration import Configuration
-    from derived_modeling_data import DerivedModelingData
 
 
 class ReducedModel:
@@ -282,8 +277,9 @@ class ReducedModel:
             self.variables.mutual_unrealized,
             self.variables.unassigned_students,
         ):
-            self.model.setAttr("LB", list(var_cat.values()), [0] * len(var_cat))
-            self.model.setAttr("UB", list(var_cat.values()), [1] * len(var_cat))
+            variables = list(var_cat.values())
+            self.model.setAttr("LB", variables, [0] * len(var_cat))
+            self.model.setAttr("UB", variables, [1] * len(var_cat))
 
     def recover_to_best_found(self):
         variables = self.model.getVars()

@@ -3,7 +3,7 @@
 import itertools as it
 from time import time
 
-import gurobipy as gp
+import gurobipy
 from gurobipy import GRB
 
 from callbacks import PatienceShake, SimpleVNDTracker
@@ -21,7 +21,7 @@ class ConstrainedModel:
         variables: Variables,
         lin_expressions: LinExpressions,
         initial_constraints: InitialConstraints,
-        model: gp.Model,
+        model: gurobipy.Model,
         sol_reminder: SolutionReminderBranching,
         start_time: float,
         solution_summaries: list[dict[str, int | float | str]],
@@ -38,9 +38,9 @@ class ConstrainedModel:
         self.establish_groups_vars_values: tuple[int | float, ...] = (
             sol_reminder.assign_students_var_values
         )
-        self.branching_constraints: list[gp.Constr] = []
+        self.branching_constraints: list[gurobipy.Constr] = []
         self.counter = it.count()
-        self.shake_constraints: tuple[gp.Constr, gp.Constr] | None = None
+        self.shake_constraints: tuple[gurobipy.Constr, gurobipy.Constr] | None = None
         self.last_feasible_solution: SolutionReminderBranching = sol_reminder
         self.incumbent_solution: SolutionReminderBranching = sol_reminder
         self.start_time = start_time
@@ -61,11 +61,8 @@ class ConstrainedModel:
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
 
-    def set_cutoff(self, ascending: bool = True):
-
-        self.model.Params.Cutoff = (
-            round(self.last_feasible_solution.objective_value) + int(ascending) - 1e-6
-        )
+    def set_cutoff(self):
+        self.model.Params.Cutoff = round(self.last_feasible_solution.objective_value) + 1 - 1e-6
 
     def eliminate_cutoff(self):
         self.model.Params.Cutoff = float("-inf")
@@ -125,7 +122,7 @@ class ConstrainedModel:
         self.establish_groups_vars_values = self.incumbent_solution.establish_groups_var_values
 
     def branching_lin_expression(self):
-        return gp.quicksum(
+        return gurobipy.quicksum(
             1 - var if var_value > 0.5 else var
             for var, var_value in zip(
                 it.chain(self.assign_students_vars, self.establish_groups_vars),
@@ -149,14 +146,6 @@ class ConstrainedModel:
         branching_constr_name = f"branching{next(self.counter)}"
         branching_constr = self.model.addConstr(
             self.branching_lin_expression() >= rhs + 1,
-            name=branching_constr_name,
-        )
-        self.branching_constraints.append(branching_constr)
-
-    def prohibit_last_solution(self):
-        branching_constr_name = f"branching{next(self.counter)}"
-        branching_constr = self.model.addConstr(
-            self.branching_lin_expression() >= 1,
             name=branching_constr_name,
         )
         self.branching_constraints.append(branching_constr)

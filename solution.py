@@ -1,23 +1,19 @@
 """Class that bundles all that is relevant in the context of a solution."""
 
-from __future__ import annotations
-
 from dataclasses import fields
 from functools import cached_property
 from pathlib import Path
-from typing import TYPE_CHECKING
 
-import pandas as pd
+import pandas
 
-if TYPE_CHECKING:
-    from configuration import Configuration
-    from constrained_model import ConstrainedModel
-    from derived_modeling_data import DerivedModelingData
-    from reduced_model import ReducedModel
-    from solution_checker import SolutionChecker
-    from solution_info_retriever import SolutionInformationRetriever
-    from solution_viewer import SolutionViewer
-    from thin_wrappers import GurobiDuck
+from configuration import Configuration
+from constrained_model import ConstrainedModel
+from derived_modeling_data import DerivedModelingData
+from reduced_model import ReducedModel
+from solution_checker import SolutionChecker
+from solution_info_retriever import SolutionInformationRetriever
+from solution_viewer import SolutionViewer
+from thin_wrappers import GurobiDuck
 
 SOLUTIONS_FOLDER_NAME = "solutions"
 
@@ -50,10 +46,10 @@ class Solution:
                 self.retriever.students_in_group(project_id, group_id)
                 for project_id in self.derived.project_ids
             ]
-        return pd.DataFrame(students_in_groups)
+        return pandas.DataFrame(students_in_groups)
 
     def save_as_csv(self, filename: str, suffix: str = "csv"):
-        target_folder = Path().cwd() / SOLUTIONS_FOLDER_NAME / "custom"
+        target_folder = Path(__file__).parent / SOLUTIONS_FOLDER_NAME / "custom"
         path = target_folder / f"{filename}.{suffix}"
         if path.exists():
             raise ValueError("Filename already exists.")
@@ -79,7 +75,7 @@ class Solution:
         ]
 
         middle_comments = [
-            f"# {descriptor} is: {value:.1f}"
+            f"# {descriptor}: {value:.1f}"
             for descriptor, value in zip(descriptors, lin_expr_values)
         ]
 

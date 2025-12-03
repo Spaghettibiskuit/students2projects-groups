@@ -1,17 +1,13 @@
 """A class that checks whether a solution that was found is valid and correct."""
 
-from __future__ import annotations
-
 import functools
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from configuration import Configuration
-    from constrained_model import ConstrainedModel
-    from derived_modeling_data import DerivedModelingData
-    from reduced_model import ReducedModel
-    from solution_info_retriever import SolutionInformationRetriever
-    from thin_wrappers import GurobiDuck
+from configuration import Configuration
+from constrained_model import ConstrainedModel
+from derived_modeling_data import DerivedModelingData
+from reduced_model import ReducedModel
+from solution_info_retriever import SolutionInformationRetriever
+from thin_wrappers import GurobiDuck
 
 
 class SolutionChecker:
@@ -135,16 +131,45 @@ class SolutionChecker:
         )
 
     @functools.cached_property
-    def objective_value_calculated_correctly(self) -> bool:
-        lin_exprs = self.lin_expressions
+    def sum_realized_project_preferences_correct(self) -> bool:
         return (
             self.sum_realized_project_preferences
-            == lin_exprs.sum_realized_project_preferences.getValue()
-            and self.sum_reward_mutual == lin_exprs.sum_reward_mutual.getValue()
-            and self.sum_penalties_unassigned == lin_exprs.sum_penalties_unassigned.getValue()
-            and self.sum_penalties_surplus_groups
-            == lin_exprs.sum_penalties_surplus_groups.getValue()
-            and self.sum_penalties_group_size == lin_exprs.sum_penalties_group_size.getValue()
+            == self.lin_expressions.sum_realized_project_preferences.getValue()
+        )
+
+    @functools.cached_property
+    def sum_reward_mutual_correct(self) -> bool:
+        return self.sum_reward_mutual == self.lin_expressions.sum_reward_mutual.getValue()
+
+    @functools.cached_property
+    def sum_penalties_unassigned_correct(self) -> bool:
+        return (
+            self.sum_penalties_unassigned
+            == self.lin_expressions.sum_penalties_unassigned.getValue()
+        )
+
+    @functools.cached_property
+    def sum_penalties_surplus_groups_correct(self) -> bool:
+        return (
+            self.sum_penalties_surplus_groups
+            == self.lin_expressions.sum_penalties_surplus_groups.getValue()
+        )
+
+    @functools.cached_property
+    def sum_penalties_group_size_correct(self) -> bool:
+        return (
+            self.sum_penalties_group_size
+            == self.lin_expressions.sum_penalties_group_size.getValue()
+        )
+
+    @functools.cached_property
+    def objective_value_calculated_correctly(self) -> bool:
+        return (
+            self.sum_realized_project_preferences_correct
+            and self.sum_reward_mutual_correct
+            and self.sum_penalties_unassigned_correct
+            and self.sum_penalties_surplus_groups_correct
+            and self.sum_penalties_group_size_correct
         )
 
     @functools.cached_property

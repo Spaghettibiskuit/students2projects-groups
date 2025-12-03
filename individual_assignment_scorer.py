@@ -1,15 +1,11 @@
 """Class that handles assigning a score to the assignments of students."""
 
-from __future__ import annotations
-
 import functools
 import itertools
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from configuration import Configuration
-    from derived_modeling_data import DerivedModelingData
-    from model_components import Variables
+from configuration import Configuration
+from derived_modeling_data import DerivedModelingData
+from model_components import Variables
 
 
 class IndividualAssignmentScorer:
@@ -26,8 +22,7 @@ class IndividualAssignmentScorer:
 
     @functools.cached_property
     def _assignments(self) -> list[tuple[int, int, int]]:
-        assign_students = self.variables.assign_students
-        return [k for k, v in assign_students.items() if v.X > 0.5]
+        return [k for k, v in self.variables.assign_students.items() if v.X > 0.5]
 
     @functools.cached_property
     def assignment_scores(self):
@@ -61,8 +56,8 @@ class IndividualAssignmentScorer:
 
     @functools.lru_cache(maxsize=1_280)
     def _mutual_pairs_in_group(self, project_id: int, group_id: int) -> list[tuple[int, int]]:
-        pairs = set(itertools.combinations(self._students_in_group(project_id, group_id), 2))
-        return [pair for pair in self.derived.mutual_pairs if pair in pairs]
+        pairs = itertools.combinations(self._students_in_group(project_id, group_id), 2)
+        return [pair for pair in pairs if pair in self.derived.mutual_pairs_items]
 
     @functools.lru_cache(maxsize=128)
     def _individual_penalty_surplus_groups(self, project_id: int) -> float:

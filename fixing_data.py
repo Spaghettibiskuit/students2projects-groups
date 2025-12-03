@@ -26,21 +26,21 @@ class FixingData:
         if num_unassigned > 0:
             assigned_ids = set(student_id for _, _, student_id in ranked_assignments)
             unassigned_ids = assigned_ids.difference(derived.student_ids)
+
             line_up_assignments = fixing_line_up_assignments(
                 config, derived, ranked_assignments, unassigned_ids
             )
         else:
             line_up_assignments = ranked_assignments
-            unassigned_ids: set[int] = set()
 
         line_up_ids = [student_id for _, _, student_id in line_up_assignments]
 
         return cls(
-            scores,
-            ranked_assignments,
-            assignments,
-            line_up_assignments,
-            line_up_ids,
+            scores=scores,
+            ranked_assignments=ranked_assignments,
+            assignments=assignments,
+            line_up_assignments=line_up_assignments,
+            line_up_ids=line_up_ids,
         )
 
 

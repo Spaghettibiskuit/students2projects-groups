@@ -1,12 +1,6 @@
 .vscode/
 __pycache__/
 modeling_sandbox.ipynb
-notes.md
 solutions/
-pseudo_code.txt
-todo.md
-patience.md
-separate_permanent.md
 gurobi_benchmarks_1h_verbose.json
-collection.md
-notes_lk.md
+markdowns/

@@ -2,9 +2,10 @@ import json
 import random
 from pathlib import Path
 
+from vns_with_lb import VariableNeighborhoodSearch
+
 random.seed = 0
 
-from vns_with_lb import VariableNeighborhoodSearch
 
 BENCHMARKS_FOLDER = Path(__file__).parent / "benchmarks"
 
@@ -65,5 +66,5 @@ def benchmark_all(
     time_limit_per_instance: int | float,
     instances: list[tuple[int, int, int]] = ALL_INSTANCES,
 ):
-    for method in SUBFOLDERS.keys():
+    for method in SUBFOLDERS:
         benchmark_method(name, method, time_limit_per_instance, instances)
