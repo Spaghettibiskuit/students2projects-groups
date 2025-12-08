@@ -11,22 +11,21 @@ from callbacks import PatienceShake, PatienceVND
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
 from fixing_data import FixingData
-from model_components import InitialConstraints, LinExpressions, Variables
+from model_components import ModelComponents
+from model_wrapper import ModelWrapper
 from solution_reminder import SolutionReminderDiving
 from thin_wrappers import ReducedModelInitializer
 from utilities import var_values
 
 
-class ReducedModel:
+class ReducedModel(ModelWrapper):
     """Contains a model further constrained for local branching."""
 
     def __init__(
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        variables: Variables,
-        lin_expressions: LinExpressions,
-        initial_constraints: InitialConstraints,
+        model_components: ModelComponents,
         model: gurobipy.Model,
         current_solution: SolutionReminderDiving,
         best_found_solution: SolutionReminderDiving,
@@ -35,12 +34,9 @@ class ReducedModel:
         start_time: float,
         solution_summaries: list[dict[str, int | float | str]],
     ):
+        super().__init__(model_components, model)
         self.config = config
         self.derived = derived
-        self.variables = variables
-        self.lin_expressions = lin_expressions
-        self.initial_constraints = initial_constraints
-        self.model = model
         self.current_solution = current_solution
         self.best_found_solution = best_found_solution
         self.current_sol_fixing_data = current_sol_fixing_data
@@ -48,29 +44,8 @@ class ReducedModel:
         self.start_time = start_time
         self.solution_summaries = solution_summaries
 
-    @property
-    def status(self):
-        return self.model.Status
-
-    @property
-    def solution_count(self):
-        return self.model.SolCount
-
-    @property
-    def objective_value(self):
-        return int(self.model.ObjVal + 1e-6)
-
-    def set_time_limit(self, time_limit: int | float):
-        self.model.Params.TimeLimit = time_limit
-
-    def eliminate_time_limit(self):
-        self.model.Params.TimeLimit = float("inf")
-
     def set_cutoff(self):
         self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-6
-
-    def eliminate_cutoff(self):
-        self.model.Params.Cutoff = float("-inf")
 
     def optimize_vnd(self, patience: float | int):
         callback = PatienceVND(
@@ -105,15 +80,16 @@ class ReducedModel:
             self.solution_summaries.append(summary)
 
     def store_solution(self):
+        variables = self.model_components.variables
         self.current_solution = SolutionReminderDiving(
             variable_values=var_values(self.model.getVars()),
             objective_value=self.objective_value,
-            assign_students_var_values=var_values(self.variables.assign_students.values()),
-            mutual_unrealized_var_values=var_values(self.variables.mutual_unrealized.values()),
-            unassigned_students_var_values=var_values(self.variables.unassigned_students.values()),
+            assign_students_var_values=var_values(variables.assign_students.values()),
+            mutual_unrealized_var_values=var_values(variables.mutual_unrealized.values()),
+            unassigned_students_var_values=var_values(variables.unassigned_students.values()),
         )
 
-        self.current_sol_fixing_data = FixingData.get(self.config, self.derived, self.variables)
+        self.current_sol_fixing_data = FixingData.get(self.config, self.derived, variables)
 
     def make_current_solution_best_solution(self):
         self.best_found_solution = self.current_solution
@@ -191,7 +167,7 @@ class ReducedModel:
         shifted_group_ids: dict[int, dict[int, int]],
     ) -> set[tuple[int, int]]:
         groups_open_by_force: set[tuple[int, int]] = set()
-        assign_students = self.variables.assign_students
+        assign_students = self.model_components.variables.assign_students
         for (project_id, group_id, student_id), var in assign_students.items():
             if student_id in allowed_to_move:
                 var.LB = 0
@@ -210,7 +186,7 @@ class ReducedModel:
         return groups_open_by_force
 
     def _fix_rest_establish_groups(self, groups_open_by_force: set[tuple[int, int]]):
-        for key, var in self.variables.establish_groups.items():
+        for key, var in self.model_components.variables.establish_groups.items():
             if key in groups_open_by_force:
                 var.LB = 1
                 var.UB = 1
@@ -221,7 +197,7 @@ class ReducedModel:
     def _fix_rest_unassigned_students(
         self, allowed_to_move: set[int], unassigned_to_be_fixed: set[int]
     ):
-        for student_id, var in self.variables.unassigned_students.items():
+        for student_id, var in self.model_components.variables.unassigned_students.items():
             if student_id in allowed_to_move:
                 var.LB = 0
                 var.UB = 1
@@ -236,7 +212,7 @@ class ReducedModel:
 
     def _fix_rest_mutual_unrealized(self, allowed_to_move: set[int]):
         for ((first_id, second_id), var), val in zip(
-            self.variables.mutual_unrealized.items(),
+            self.model_components.variables.mutual_unrealized.items(),
             self.current_solution.mutual_unrealized_var_values,
         ):
             if first_id in allowed_to_move or second_id in allowed_to_move:
@@ -259,23 +235,23 @@ class ReducedModel:
     def force_k_worst_to_change(self, k: int):
         self._free_all_possibly_fixed()
         worst_k = self.current_sol_fixing_data.line_up_assignments[:k]
+        variables = self.model_components.variables
 
         for project_id, group_id, student_id in worst_k:
             if project_id == -1:  # It is a pseudo_assignment
-                var = self.variables.unassigned_students[student_id]
+                var = variables.unassigned_students[student_id]
             else:
-                var = self.variables.assign_students[project_id, group_id, student_id]
+                var = variables.assign_students[project_id, group_id, student_id]
 
             var.LB = 0
             var.UB = 0
 
     def _free_all_possibly_fixed(self):
-
         for var_cat in (
-            self.variables.assign_students,
-            self.variables.establish_groups,
-            self.variables.mutual_unrealized,
-            self.variables.unassigned_students,
+            self.model_components.variables.assign_students,
+            self.model_components.variables.establish_groups,
+            self.model_components.variables.mutual_unrealized,
+            self.model_components.variables.unassigned_students,
         ):
             variables = list(var_cat.values())
             self.model.setAttr("LB", variables, [0] * len(var_cat))
@@ -295,9 +271,7 @@ class ReducedModel:
         return cls(
             config=initializer.config,
             derived=initializer.derived,
-            variables=initializer.variables,
-            lin_expressions=initializer.lin_expressions,
-            initial_constraints=initializer.initial_constraints,
+            model_components=initializer.model_components,
             model=initializer.model,
             current_solution=initializer.solution_data,
             best_found_solution=initializer.solution_data,

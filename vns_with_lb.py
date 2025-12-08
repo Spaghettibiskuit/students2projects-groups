@@ -77,10 +77,10 @@ class VariableNeighborhoodSearch:
 
         time_limit = max(0, total_time_limit - (time() - start_time))
         initial_model.set_time_limit(time_limit)
-        initial_model.optimize_initially(patience=initial_patience)
+        initial_model.optimize(patience=initial_patience)
 
         model = ConstrainedModel.get(initial_model)
-        model.store_last_feasible_solution_as_incumbent()
+        model.make_current_solution_best_solution()
 
         while not self._time_over(start_time, total_time_limit):
             rhs = l_min
@@ -116,8 +116,8 @@ class VariableNeighborhoodSearch:
                     model.store_solution()
                     rhs = l_min
 
-            if model.last_feasible_solution_better_than_incumbent():
-                model.store_last_feasible_solution_as_incumbent()
+            if model.new_best_found():
+                model.make_current_solution_best_solution()
                 k_cur = k_min
             else:
                 k_cur += k_step
@@ -143,7 +143,7 @@ class VariableNeighborhoodSearch:
                     model.store_solution()
                     break
 
-        model.recover_to_best_solution_at_end()
+        model.recover_to_best_found()
         self.best_model = model
         self._post_processing()
         return model.solution_summaries
@@ -174,7 +174,7 @@ class VariableNeighborhoodSearch:
 
         time_limit = max(0, total_time_limit - (time() - start_time))
         initial_model.set_time_limit(time_limit)
-        initial_model.optimize_initially(initial_patience)
+        initial_model.optimize(initial_patience)
 
         model = ReducedModel.get(initial_model)
         model.set_cutoff()

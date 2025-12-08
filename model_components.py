@@ -1,11 +1,11 @@
 """Central place where linear expressions for the SPAwGBP are created."""
 
-from dataclasses import dataclass
+import dataclasses
 
 import gurobipy
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class Variables:
     assign_students: gurobipy.tupledict[tuple[int, int, int], gurobipy.Var]
     establish_groups: gurobipy.tupledict[tuple[int, int], gurobipy.Var]
@@ -15,7 +15,7 @@ class Variables:
     group_size_deficit: gurobipy.tupledict[tuple[int, int], gurobipy.Var]
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class LinExpressions:
     sum_realized_project_preferences: gurobipy.LinExpr
     sum_reward_mutual: gurobipy.LinExpr
@@ -24,7 +24,7 @@ class LinExpressions:
     sum_penalties_group_size: gurobipy.LinExpr
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class InitialConstraints:
     one_assignment_or_unassigned: gurobipy.tupledict[int, gurobipy.Constr]
     open_groups_consecutively: gurobipy.tupledict[int, gurobipy.Constr]
@@ -34,3 +34,10 @@ class InitialConstraints:
     lower_bound_group_size_deficit: gurobipy.tupledict[tuple[int, int, int, int], gurobipy.Constr]
     only_reward_materialized_pairs_1: gurobipy.tupledict[tuple[int, int], gurobipy.Constr]
     only_reward_materialized_pairs_2: gurobipy.tupledict[tuple[int, int], gurobipy.Constr]
+
+
+@dataclasses.dataclass(frozen=True)
+class ModelComponents:
+    variables: Variables
+    lin_expressions: LinExpressions
+    initial_constraints: InitialConstraints

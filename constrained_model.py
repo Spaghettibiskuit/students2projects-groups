@@ -7,34 +7,31 @@ import gurobipy
 from gurobipy import GRB
 
 from callbacks import PatienceShake, SimpleVNDTracker
-from model_components import InitialConstraints, LinExpressions, Variables
+from model_components import ModelComponents
+from model_wrapper import ModelWrapper
 from solution_reminder import SolutionReminderBranching
 from thin_wrappers import ConstrainedModelInitializer
 from utilities import var_values
 
 
-class ConstrainedModel:
+class ConstrainedModel(ModelWrapper):
     """Contains a model further constrained for local branching."""
 
     def __init__(
         self,
-        variables: Variables,
-        lin_expressions: LinExpressions,
-        initial_constraints: InitialConstraints,
+        model_components: ModelComponents,
         model: gurobipy.Model,
         sol_reminder: SolutionReminderBranching,
         start_time: float,
         solution_summaries: list[dict[str, int | float | str]],
     ):
-        self.variables = variables
-        self.lin_expressions = lin_expressions
-        self.initial_constraints = initial_constraints
-        self.model = model
-        self.assign_students_vars = list(self.variables.assign_students.values())
+        super().__init__(model_components, model)
+        variables = self.model_components.variables
+        self.assign_students_vars = list(variables.assign_students.values())
         self.assign_students_vars_values: tuple[int | float, ...] = (
             sol_reminder.assign_students_var_values
         )
-        self.establish_groups_vars = list(self.variables.establish_groups.values())
+        self.establish_groups_vars = list(variables.establish_groups.values())
         self.establish_groups_vars_values: tuple[int | float, ...] = (
             sol_reminder.assign_students_var_values
         )
@@ -46,26 +43,8 @@ class ConstrainedModel:
         self.start_time = start_time
         self.solution_summaries = solution_summaries
 
-    @property
-    def status(self) -> int:
-        return self.model.Status
-
-    @property
-    def objective_value(self) -> int:
-        return int(self.model.ObjVal + 1e-6)
-
-    @property
-    def solution_count(self) -> int:
-        return self.model.SolCount
-
-    def set_time_limit(self, time_limit: int | float):
-        self.model.Params.TimeLimit = time_limit
-
     def set_cutoff(self):
         self.model.Params.Cutoff = round(self.last_feasible_solution.objective_value) + 1 - 1e-6
-
-    def eliminate_cutoff(self):
-        self.model.Params.Cutoff = float("-inf")
 
     def optimize(self):
         callback = SimpleVNDTracker(
@@ -104,13 +83,13 @@ class ConstrainedModel:
             establish_groups_var_values=var_values(self.establish_groups_vars),
         )
 
-    def last_feasible_solution_better_than_incumbent(self) -> bool:
+    def new_best_found(self) -> bool:
 
         return (
             self.last_feasible_solution.objective_value > self.incumbent_solution.objective_value
         )
 
-    def store_last_feasible_solution_as_incumbent(self):
+    def make_current_solution_best_solution(self):
         self.incumbent_solution = self.last_feasible_solution
 
     def set_branching_var_values_for_vnd(self):
@@ -172,7 +151,7 @@ class ConstrainedModel:
         self.model.remove(self.shake_constraints)
         self.shake_constraints = None
 
-    def recover_to_best_solution_at_end(self):
+    def recover_to_best_found(self):
         for var, var_value_incumbent in zip(
             self.model.getVars(), self.incumbent_solution.variable_values
         ):
@@ -191,9 +170,7 @@ class ConstrainedModel:
         initializer: ConstrainedModelInitializer,
     ):
         return cls(
-            variables=initializer.variables,
-            lin_expressions=initializer.lin_expressions,
-            initial_constraints=initializer.initial_constraints,
+            model_components=initializer.model_components,
             model=initializer.model,
             sol_reminder=initializer.current_solution,
             start_time=initializer.start_time,

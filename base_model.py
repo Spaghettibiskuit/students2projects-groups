@@ -7,7 +7,12 @@ from gurobipy import GRB
 
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
-from model_components import InitialConstraints, LinExpressions, Variables
+from model_components import (
+    InitialConstraints,
+    LinExpressions,
+    ModelComponents,
+    Variables,
+)
 
 
 class BaseModelBuilder:
@@ -26,12 +31,12 @@ class BaseModelBuilder:
         self.project_preferences = derived.project_preferences
         self.model = gp.Model()
 
-    def get_base_model(self) -> tuple[Variables, LinExpressions, InitialConstraints, gp.Model]:
+    def get_base_model(self) -> tuple[ModelComponents, gp.Model]:
         variables = self._add_variables()
         lin_expressions = self._construct_linear_expressions(variables=variables)
         self._set_objective(lin_expressions=lin_expressions)
         initial_constraints = self._add_constraints(variables=variables)
-        return variables, lin_expressions, initial_constraints, self.model
+        return ModelComponents(variables, lin_expressions, initial_constraints), self.model
 
     def _add_variables(self) -> Variables:
         assign_students = self.model.addVars(

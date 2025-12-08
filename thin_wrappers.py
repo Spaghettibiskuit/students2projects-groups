@@ -1,3 +1,4 @@
+import abc
 import functools
 from time import time
 
@@ -10,21 +11,28 @@ from solution_reminder import SolutionReminderBranching, SolutionReminderDiving
 from utilities import var_values
 
 
-class ReducedModelInitializer:
+class ThinWrapper(abc.ABC):
 
     def __init__(self, config: Configuration, derived: DerivedModelingData):
         self.config = config
         self.derived = derived
-        self.variables, self.lin_expressions, self.initial_constraints, self.model = (
-            BaseModelBuilder(config=self.config, derived=self.derived).get_base_model()
-        )
+        self.model_components, self.model = BaseModelBuilder(
+            config=self.config, derived=self.derived
+        ).get_base_model()
         self.start_time = time()
         self.solution_summaries: list[dict[str, int | float | str]] = []
 
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
 
-    def optimize_initially(self, patience: int | float):
+    @abc.abstractmethod
+    def optimize(self, patience: int | float):
+        pass
+
+
+class ReducedModelInitializer(ThinWrapper):
+
+    def optimize(self, patience: int | float):
         callback = InitialOptimizationTracker(patience, self.solution_summaries, self.start_time)
         self.model.optimize(callback)
         if (obj := int(self.model.ObjVal + 1e-6)) > callback.best_obj:
@@ -37,35 +45,23 @@ class ReducedModelInitializer:
 
     @functools.cached_property
     def solution_data(self) -> SolutionReminderDiving:
+        variables = self.model_components.variables
         return SolutionReminderDiving(
             variable_values=var_values(self.model.getVars()),
             objective_value=int(self.model.ObjVal + 1e-6),
-            assign_students_var_values=var_values(self.variables.assign_students.values()),
-            mutual_unrealized_var_values=var_values(self.variables.mutual_unrealized.values()),
-            unassigned_students_var_values=var_values(self.variables.unassigned_students.values()),
+            assign_students_var_values=var_values(variables.assign_students.values()),
+            mutual_unrealized_var_values=var_values(variables.mutual_unrealized.values()),
+            unassigned_students_var_values=var_values(variables.unassigned_students.values()),
         )
 
     @functools.cached_property
     def fixing_data(self) -> FixingData:
-        # self.solution_data ORDER MATTERS hier. Verbessern!
-        return FixingData.get(self.config, self.derived, self.variables)
+        return FixingData.get(self.config, self.derived, self.model_components.variables)
 
 
-class ConstrainedModelInitializer:
+class ConstrainedModelInitializer(ThinWrapper):
 
-    def __init__(self, config: Configuration, derived: DerivedModelingData):
-        self.config = config
-        self.derived = derived
-        self.variables, self.lin_expressions, self.initial_constraints, self.model = (
-            BaseModelBuilder(config=self.config, derived=self.derived).get_base_model()
-        )
-        self.start_time = time()
-        self.solution_summaries: list[dict[str, int | float | str]] = []
-
-    def set_time_limit(self, time_limit: int | float):
-        self.model.Params.TimeLimit = time_limit
-
-    def optimize_initially(self, patience: int | float):
+    def optimize(self, patience: int | float):
         callback = InitialOptimizationTracker(patience, self.solution_summaries, self.start_time)
         self.model.optimize(callback)
         if (obj := int(self.model.ObjVal + 1e-6)) > callback.best_obj:
@@ -78,11 +74,12 @@ class ConstrainedModelInitializer:
 
     @functools.cached_property
     def current_solution(self):
+        variables = self.model_components.variables
         return SolutionReminderBranching(
             variable_values=var_values(self.model.getVars()),
             objective_value=int(self.model.ObjVal + 1e-6),
-            assign_students_var_values=var_values(list(self.variables.assign_students.values())),
-            establish_groups_var_values=var_values(list(self.variables.establish_groups.values())),
+            assign_students_var_values=var_values(list(variables.assign_students.values())),
+            establish_groups_var_values=var_values(list(variables.establish_groups.values())),
         )
 
 
@@ -91,9 +88,9 @@ class GurobiDuck:
     def __init__(self, config: Configuration, derived: DerivedModelingData):
         self.config = config
         self.derived = derived
-        self.variables, self.lin_expressions, self.initial_constraints, self.model = (
-            BaseModelBuilder(config=self.config, derived=self.derived).get_base_model()
-        )
+        self.model_components, self.model = BaseModelBuilder(
+            config=self.config, derived=self.derived
+        ).get_base_model()
         self.solution_summaries: list[dict[str, int | float]] = []
 
     def set_time_limit(self, time_limit: int | float):

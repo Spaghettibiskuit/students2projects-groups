@@ -7,9 +7,8 @@ from pathlib import Path
 import pandas
 
 from configuration import Configuration
-from constrained_model import ConstrainedModel
 from derived_modeling_data import DerivedModelingData
-from reduced_model import ReducedModel
+from model_wrapper import ModelWrapper
 from solution_checker import SolutionChecker
 from solution_info_retriever import SolutionInformationRetriever
 from solution_viewer import SolutionViewer
@@ -24,15 +23,15 @@ class Solution:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        wrapped_model: ConstrainedModel | ReducedModel | GurobiDuck,
+        wrapped_model: ModelWrapper | GurobiDuck,
         retriever: SolutionInformationRetriever,
         viewer: SolutionViewer,
         checker: SolutionChecker,
     ):
         self.config = config
         self.derived = derived
-        self.variables = wrapped_model.variables
-        self.lin_expressions = wrapped_model.lin_expressions
+        self.variables = wrapped_model.model_components.variables
+        self.lin_expressions = wrapped_model.model_components.lin_expressions
         self.retriever = retriever
         self.viewer = viewer
         self.checker = checker
