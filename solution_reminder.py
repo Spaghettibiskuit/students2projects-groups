@@ -1,24 +1,22 @@
-"""A dataclass which is stores the variable values and the objective value of a solution."""
+"""A dataclass which stores the variable values and the objective value of a solution."""
 
-from dataclasses import dataclass
+import dataclasses
 
 
-@dataclass(frozen=True)
-class SolutionReminderBranching:
-    """Stores the variable values and the objective value of a solution."""
-
+@dataclasses.dataclass(frozen=True)
+class SolutionReminderBase:
     variable_values: tuple[int | float, ...]
     objective_value: int
+
+
+@dataclasses.dataclass(frozen=True)
+class SolutionReminderBranching(SolutionReminderBase):
     assign_students_var_values: tuple[int | float, ...]
     establish_groups_var_values: tuple[int | float, ...]
 
 
-@dataclass(frozen=True)
-class SolutionReminderDiving:
-    """Stores the variable values and the objective of a solution."""
-
-    variable_values: tuple[int | float, ...]
-    objective_value: int
+@dataclasses.dataclass(frozen=True)
+class SolutionReminderDiving(SolutionReminderBase):
     assign_students_var_values: tuple[int | float, ...]
     mutual_unrealized_var_values: tuple[int | float, ...]
     unassigned_students_var_values: tuple[int | float, ...]

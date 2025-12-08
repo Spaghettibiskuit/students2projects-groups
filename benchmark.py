@@ -18,13 +18,14 @@ class Subfolders(enum.StrEnum):
 @dataclasses.dataclass
 class LocalBranchingParameters:
     total_time_limit: int | float = 60
-    node_time_limit: int | float = 3
     k_min_perc: int | float = 20
     k_step_perc: int | float = 20
     l_min_perc: int | float = 10
     l_step_perc: int | float = 10
     initial_patience: float | int = 3
     shake_patience: float | int = 2
+    min_optimization_patience: int | float = 2
+    step_optimization_patience: int | float = 0.5
     drop_branching_constrs_before_shake: bool = False
 
 

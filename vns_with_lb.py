@@ -54,13 +54,14 @@ class VariableNeighborhoodSearch:
     def run_vns_with_lb(
         self,
         total_time_limit: int | float = 60,
-        node_time_limit: int | float = 3,
         k_min_perc: int | float = 20,
         k_step_perc: int | float = 20,
         l_min_perc: int | float = 10,
         l_step_perc: int | float = 10,
         initial_patience: float | int = 3,
         shake_patience: float | int = 2,
+        min_optimization_patience: int | float = 2,
+        step_optimization_patience: int | float = 0.5,
         drop_branching_constrs_before_shake: bool = False,
     ):
         k_min, l_min, k_step, l_step, k_max, l_max = self._absolute_branching_parameters(
@@ -84,15 +85,17 @@ class VariableNeighborhoodSearch:
 
         while not self._time_over(start_time, total_time_limit):
             rhs = l_min
+            patience = min_optimization_patience
+
             while not self._time_over(start_time, total_time_limit):
                 if rhs > l_max:
                     break
                 model.set_branching_var_values_for_vnd()
                 model.add_bounding_branching_constraint(rhs)
-                time_limit = max(0, min(node_time_limit, total_time_limit - (time() - start_time)))
+                time_limit = max(0, total_time_limit - (time() - start_time))
                 model.set_time_limit(time_limit)
                 model.set_cutoff()
-                model.optimize()
+                model.optimize(patience)
 
                 model.pop_branching_constraints_stack()
                 status_code = model.status
@@ -101,6 +104,7 @@ class VariableNeighborhoodSearch:
                         model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs += l_step
+                    patience += step_optimization_patience
 
                 elif status_code == GRB.OPTIMAL:
                     model.store_solution()
@@ -108,6 +112,7 @@ class VariableNeighborhoodSearch:
                         model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs = l_min
+                    patience = min_optimization_patience
 
                 elif status_code == GRB.TIME_LIMIT:
                     if model.solution_count == 0:
@@ -115,6 +120,7 @@ class VariableNeighborhoodSearch:
 
                     model.store_solution()
                     rhs = l_min
+                    patience = min_optimization_patience
 
             if model.new_best_found():
                 model.make_current_solution_best_solution()
@@ -132,7 +138,7 @@ class VariableNeighborhoodSearch:
                 model.eliminate_cutoff()
                 time_limit = max(0, total_time_limit - (time() - start_time))
                 model.set_time_limit(time_limit)
-                model.optimize_shake(patience=shake_patience)
+                model.optimize(patience=shake_patience, shake=True)
 
                 model.remove_shaking_constraints()
                 if model.status == GRB.INFEASIBLE:
@@ -216,7 +222,7 @@ class VariableNeighborhoodSearch:
 
                 time_limit = max(0, total_time_limit - (time() - start_time))
                 model.set_time_limit(time_limit)
-                model.optimize_vnd(patience)
+                model.optimize(patience)
 
                 if model.solution_count == 0:
                     continue
@@ -245,7 +251,7 @@ class VariableNeighborhoodSearch:
 
             time_limit = max(0, total_time_limit - (time() - start_time))
             model.set_time_limit(time_limit)
-            model.optimize_shake(shake_patience)
+            model.optimize(shake_patience, shake=True)
 
             if model.status == GRB.TIME_LIMIT:
                 break

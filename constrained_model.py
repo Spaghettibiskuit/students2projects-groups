@@ -1,12 +1,10 @@
 """A class that contains a model further constrained for local branching."""
 
 import itertools as it
-from time import time
 
 import gurobipy
 from gurobipy import GRB
 
-from callbacks import PatienceShake, SimpleVNDTracker
 from model_components import ModelComponents
 from model_wrapper import ModelWrapper
 from solution_reminder import SolutionReminderBranching
@@ -21,11 +19,17 @@ class ConstrainedModel(ModelWrapper):
         self,
         model_components: ModelComponents,
         model: gurobipy.Model,
-        sol_reminder: SolutionReminderBranching,
         start_time: float,
         solution_summaries: list[dict[str, int | float | str]],
+        sol_reminder: SolutionReminderBranching,
     ):
-        super().__init__(model_components, model)
+        super().__init__(
+            model_components=model_components,
+            model=model,
+            start_time=start_time,
+            solution_summaries=solution_summaries,
+            sol_reminder=sol_reminder,
+        )
         variables = self.model_components.variables
         self.assign_students_vars = list(variables.assign_students.values())
         self.assign_students_vars_values: tuple[int | float, ...] = (
@@ -38,45 +42,11 @@ class ConstrainedModel(ModelWrapper):
         self.branching_constraints: list[gurobipy.Constr] = []
         self.counter = it.count()
         self.shake_constraints: tuple[gurobipy.Constr, gurobipy.Constr] | None = None
-        self.last_feasible_solution: SolutionReminderBranching = sol_reminder
-        self.incumbent_solution: SolutionReminderBranching = sol_reminder
-        self.start_time = start_time
-        self.solution_summaries = solution_summaries
-
-    def set_cutoff(self):
-        self.model.Params.Cutoff = round(self.last_feasible_solution.objective_value) + 1 - 1e-6
-
-    def optimize(self):
-        callback = SimpleVNDTracker(
-            self.solution_summaries, self.start_time, self.incumbent_solution.objective_value
-        )
-        self.model.optimize(callback)
-        if self.solution_count > 0 and self.objective_value > callback.best_obj:
-            summary: dict[str, int | float | str] = {
-                "objective": self.objective_value,
-                "runtime": time() - self.start_time,
-                "station": "vnd",
-            }
-            self.solution_summaries.append(summary)
-
-    def optimize_shake(self, patience: float | int):
-        callback = PatienceShake(
-            patience=patience,
-            start_time=self.start_time,
-            best_obj=self.incumbent_solution.objective_value,
-            solution_summaries=self.solution_summaries,
-        )
-        self.model.optimize(callback)
-        if self.solution_count > 0 and self.objective_value > callback.best_obj:
-            summary: dict[str, int | float | str] = {
-                "objective": self.objective_value,
-                "runtime": time() - self.start_time,
-                "station": "shake",
-            }
-            self.solution_summaries.append(summary)
+        self.current_solution: SolutionReminderBranching
+        self.best_found_solution: SolutionReminderBranching
 
     def store_solution(self):
-        self.last_feasible_solution = SolutionReminderBranching(
+        self.current_solution = SolutionReminderBranching(
             variable_values=var_values(self.model.getVars()),
             objective_value=self.objective_value,
             assign_students_var_values=var_values(self.assign_students_vars),
@@ -84,21 +54,18 @@ class ConstrainedModel(ModelWrapper):
         )
 
     def new_best_found(self) -> bool:
-
-        return (
-            self.last_feasible_solution.objective_value > self.incumbent_solution.objective_value
-        )
+        return self.current_solution.objective_value > self.best_found_solution.objective_value
 
     def make_current_solution_best_solution(self):
-        self.incumbent_solution = self.last_feasible_solution
+        self.best_found_solution = self.current_solution
 
     def set_branching_var_values_for_vnd(self):
-        self.assign_students_vars_values = self.last_feasible_solution.assign_students_var_values
-        self.establish_groups_vars_values = self.last_feasible_solution.establish_groups_var_values
+        self.assign_students_vars_values = self.current_solution.assign_students_var_values
+        self.establish_groups_vars_values = self.current_solution.establish_groups_var_values
 
     def set_branching_var_values_for_shake(self):
-        self.assign_students_vars_values = self.incumbent_solution.assign_students_var_values
-        self.establish_groups_vars_values = self.incumbent_solution.establish_groups_var_values
+        self.assign_students_vars_values = self.best_found_solution.assign_students_var_values
+        self.establish_groups_vars_values = self.best_found_solution.establish_groups_var_values
 
     def branching_lin_expression(self):
         return gurobipy.quicksum(
@@ -153,12 +120,12 @@ class ConstrainedModel(ModelWrapper):
 
     def recover_to_best_found(self):
         for var, var_value_incumbent in zip(
-            self.model.getVars(), self.incumbent_solution.variable_values
+            self.model.getVars(), self.best_found_solution.variable_values
         ):
             var.Start = var_value_incumbent
 
         self.drop_all_branching_constraints()
-        self.model.Params.Cutoff = round(self.incumbent_solution.objective_value) - 0.5
+        self.model.Params.Cutoff = round(self.best_found_solution.objective_value) - 0.5
         self.model.Params.SolutionLimit = 1
         self.model.Params.TimeLimit = float("inf")
         self.model.optimize()

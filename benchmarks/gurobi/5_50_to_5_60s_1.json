@@ -1,0 +1,867 @@
+{
+    "5_50_0": [
+        {
+            "objective": -149,
+            "bound": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+            "runtime": 0.0019998550415039062
+        },
+        {
+            "objective": 78,
+            "bound": 199,
+            "runtime": 0.06200003623962402
+        },
+        {
+            "objective": 79,
+            "bound": 199,
+            "runtime": 0.06599998474121094
+        },
+        {
+            "objective": 90,
+            "bound": 199,
+            "runtime": 0.0709998607635498
+        },
+        {
+            "objective": 93,
+            "bound": 199,
+            "runtime": 0.08099985122680664
+        },
+        {
+            "objective": 94,
+            "bound": 199,
+            "runtime": 0.10299992561340332
+        },
+        {
+            "objective": 113,
+            "bound": 199,
+            "runtime": 0.14999985694885254
+        },
+        {
+            "objective": 115,
+            "bound": 199,
+            "runtime": 0.1510000228881836
+        },
+        {
+            "objective": 119,
+            "bound": 198,
+            "runtime": 0.21000003814697266
+        },
+        {
+            "objective": 121,
+            "bound": 198,
+            "runtime": 0.21000003814697266
+        },
+        {
+            "objective": 128,
+            "bound": 198,
+            "runtime": 0.22600007057189941
+        },
+        {
+            "objective": 129,
+            "bound": 198,
+            "runtime": 0.22699999809265137
+        },
+        {
+            "objective": 131,
+            "bound": 198,
+            "runtime": 0.23099994659423828
+        },
+        {
+            "objective": 136,
+            "bound": 197,
+            "runtime": 0.247999906539917
+        },
+        {
+            "objective": 138,
+            "bound": 196,
+            "runtime": 0.36699986457824707
+        },
+        {
+            "objective": 140,
+            "bound": 196,
+            "runtime": 0.3680000305175781
+        },
+        {
+            "objective": 143,
+            "bound": 196,
+            "runtime": 0.4270000457763672
+        },
+        {
+            "objective": 145,
+            "bound": 196,
+            "runtime": 0.42799997329711914
+        },
+        {
+            "objective": 147,
+            "bound": 196,
+            "runtime": 0.42799997329711914
+        },
+        {
+            "objective": 149,
+            "bound": 194,
+            "runtime": 0.5239999294281006
+        },
+        {
+            "objective": 151,
+            "bound": 194,
+            "runtime": 0.5239999294281006
+        },
+        {
+            "objective": 152,
+            "bound": 194,
+            "runtime": 0.559999942779541
+        },
+        {
+            "objective": 154,
+            "bound": 194,
+            "runtime": 0.5939998626708984
+        },
+        {
+            "objective": 156,
+            "bound": 192,
+            "runtime": 0.7749998569488525
+        },
+        {
+            "objective": 157,
+            "bound": 192,
+            "runtime": 0.7749998569488525
+        },
+        {
+            "objective": 158,
+            "bound": 192,
+            "runtime": 0.8810000419616699
+        },
+        {
+            "objective": 159,
+            "bound": 191,
+            "runtime": 0.9630000591278076
+        },
+        {
+            "objective": 160,
+            "bound": 190,
+            "runtime": 1.0759999752044678
+        },
+        {
+            "objective": 161,
+            "bound": 190,
+            "runtime": 1.316999912261963
+        },
+        {
+            "objective": 163,
+            "bound": 189,
+            "runtime": 1.5160000324249268
+        },
+        {
+            "objective": 164,
+            "bound": 189,
+            "runtime": 2.0329999923706055
+        },
+        {
+            "objective": 166,
+            "bound": 189,
+            "runtime": 2.0329999923706055
+        },
+        {
+            "objective": 167,
+            "bound": 189,
+            "runtime": 3.307999849319458
+        },
+        {
+            "objective": 168,
+            "bound": 189,
+            "runtime": 5.440000057220459
+        },
+        {
+            "objective": 169,
+            "bound": 189,
+            "runtime": 6.290999889373779
+        },
+        {
+            "objective": 170,
+            "bound": 187,
+            "runtime": 11.207000017166138
+        },
+        {
+            "objective": 170,
+            "bound": 185,
+            "runtime": 60.055999994277954
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "5_50_1": [
+        {
+            "objective": -149,
+            "bound": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+            "runtime": 0.006000041961669922
+        },
+        {
+            "objective": 43,
+            "bound": 187,
+            "runtime": 0.05200004577636719
+        },
+        {
+            "objective": 69,
+            "bound": 187,
+            "runtime": 0.053999900817871094
+        },
+        {
+            "objective": 86,
+            "bound": 187,
+            "runtime": 0.059999942779541016
+        },
+        {
+            "objective": 91,
+            "bound": 187,
+            "runtime": 0.10899996757507324
+        },
+        {
+            "objective": 102,
+            "bound": 187,
+            "runtime": 0.10899996757507324
+        },
+        {
+            "objective": 104,
+            "bound": 187,
+            "runtime": 0.1099998950958252
+        },
+        {
+            "objective": 108,
+            "bound": 187,
+            "runtime": 0.1099998950958252
+        },
+        {
+            "objective": 110,
+            "bound": 187,
+            "runtime": 0.1099998950958252
+        },
+        {
+            "objective": 112,
+            "bound": 184,
+            "runtime": 0.14800000190734863
+        },
+        {
+            "objective": 116,
+            "bound": 184,
+            "runtime": 0.16199994087219238
+        },
+        {
+            "objective": 120,
+            "bound": 184,
+            "runtime": 0.16299986839294434
+        },
+        {
+            "objective": 121,
+            "bound": 182,
+            "runtime": 0.29399991035461426
+        },
+        {
+            "objective": 122,
+            "bound": 182,
+            "runtime": 0.34200000762939453
+        },
+        {
+            "objective": 127,
+            "bound": 180,
+            "runtime": 0.4419999122619629
+        },
+        {
+            "objective": 130,
+            "bound": 178,
+            "runtime": 0.625
+        },
+        {
+            "objective": 131,
+            "bound": 178,
+            "runtime": 0.6269998550415039
+        },
+        {
+            "objective": 133,
+            "bound": 178,
+            "runtime": 0.6749999523162842
+        },
+        {
+            "objective": 134,
+            "bound": 176,
+            "runtime": 1.0309998989105225
+        },
+        {
+            "objective": 135,
+            "bound": 176,
+            "runtime": 1.0309998989105225
+        },
+        {
+            "objective": 137,
+            "bound": 175,
+            "runtime": 1.251999855041504
+        },
+        {
+            "objective": 138,
+            "bound": 174,
+            "runtime": 1.750999927520752
+        },
+        {
+            "objective": 139,
+            "bound": 174,
+            "runtime": 1.8849999904632568
+        },
+        {
+            "objective": 140,
+            "bound": 174,
+            "runtime": 1.933000087738037
+        },
+        {
+            "objective": 142,
+            "bound": 174,
+            "runtime": 1.933000087738037
+        },
+        {
+            "objective": 144,
+            "bound": 174,
+            "runtime": 2.8420000076293945
+        },
+        {
+            "objective": 145,
+            "bound": 174,
+            "runtime": 3.5320000648498535
+        },
+        {
+            "objective": 146,
+            "bound": 174,
+            "runtime": 3.618000030517578
+        },
+        {
+            "objective": 148,
+            "bound": 174,
+            "runtime": 4.309000015258789
+        },
+        {
+            "objective": 149,
+            "bound": 174,
+            "runtime": 4.677000045776367
+        },
+        {
+            "objective": 150,
+            "bound": 171,
+            "runtime": 49.680999994277954
+        },
+        {
+            "objective": 151,
+            "bound": 171,
+            "runtime": 53.9760000705719
+        },
+        {
+            "objective": 151,
+            "bound": 171,
+            "runtime": 60.037999868392944
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "5_50_2": [
+        {
+            "objective": -149,
+            "bound": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+            "runtime": 0.004000186920166016
+        },
+        {
+            "objective": 92,
+            "bound": 203,
+            "runtime": 0.06500005722045898
+        },
+        {
+            "objective": 93,
+            "bound": 203,
+            "runtime": 0.0690000057220459
+        },
+        {
+            "objective": 108,
+            "bound": 203,
+            "runtime": 0.07700014114379883
+        },
+        {
+            "objective": 109,
+            "bound": 203,
+            "runtime": 0.07700014114379883
+        },
+        {
+            "objective": 111,
+            "bound": 203,
+            "runtime": 0.07800006866455078
+        },
+        {
+            "objective": 112,
+            "bound": 203,
+            "runtime": 0.12100005149841309
+        },
+        {
+            "objective": 114,
+            "bound": 203,
+            "runtime": 0.12200021743774414
+        },
+        {
+            "objective": 118,
+            "bound": 203,
+            "runtime": 0.12200021743774414
+        },
+        {
+            "objective": 123,
+            "bound": 197,
+            "runtime": 0.16700005531311035
+        },
+        {
+            "objective": 126,
+            "bound": 197,
+            "runtime": 0.18500018119812012
+        },
+        {
+            "objective": 130,
+            "bound": 196,
+            "runtime": 0.21800017356872559
+        },
+        {
+            "objective": 132,
+            "bound": 195,
+            "runtime": 0.2650001049041748
+        },
+        {
+            "objective": 133,
+            "bound": 195,
+            "runtime": 0.2650001049041748
+        },
+        {
+            "objective": 134,
+            "bound": 195,
+            "runtime": 0.30100011825561523
+        },
+        {
+            "objective": 135,
+            "bound": 195,
+            "runtime": 0.30100011825561523
+        },
+        {
+            "objective": 136,
+            "bound": 195,
+            "runtime": 0.31100010871887207
+        },
+        {
+            "objective": 137,
+            "bound": 194,
+            "runtime": 0.3960001468658447
+        },
+        {
+            "objective": 138,
+            "bound": 194,
+            "runtime": 0.3960001468658447
+        },
+        {
+            "objective": 145,
+            "bound": 194,
+            "runtime": 0.41300010681152344
+        },
+        {
+            "objective": 147,
+            "bound": 192,
+            "runtime": 0.7390000820159912
+        },
+        {
+            "objective": 149,
+            "bound": 192,
+            "runtime": 0.7940001487731934
+        },
+        {
+            "objective": 151,
+            "bound": 192,
+            "runtime": 0.7960000038146973
+        },
+        {
+            "objective": 153,
+            "bound": 191,
+            "runtime": 0.9640002250671387
+        },
+        {
+            "objective": 154,
+            "bound": 191,
+            "runtime": 0.9640002250671387
+        },
+        {
+            "objective": 156,
+            "bound": 191,
+            "runtime": 0.9869999885559082
+        },
+        {
+            "objective": 157,
+            "bound": 191,
+            "runtime": 1.0240001678466797
+        },
+        {
+            "objective": 161,
+            "bound": 191,
+            "runtime": 1.2200000286102295
+        },
+        {
+            "objective": 162,
+            "bound": 190,
+            "runtime": 1.6180000305175781
+        },
+        {
+            "objective": 165,
+            "bound": 190,
+            "runtime": 2.055999994277954
+        },
+        {
+            "objective": 166,
+            "bound": 190,
+            "runtime": 2.1080000400543213
+        },
+        {
+            "objective": 168,
+            "bound": 189,
+            "runtime": 2.5880000591278076
+        },
+        {
+            "objective": 169,
+            "bound": 189,
+            "runtime": 5.981000185012817
+        },
+        {
+            "objective": 171,
+            "bound": 188,
+            "runtime": 14.434000015258789
+        },
+        {
+            "objective": 171,
+            "bound": 186,
+            "runtime": 60.045000076293945
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "5_50_3": [
+        {
+            "objective": -149,
+            "bound": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+            "runtime": 0.0
+        },
+        {
+            "objective": 95,
+            "bound": 194,
+            "runtime": 0.05099987983703613
+        },
+        {
+            "objective": 106,
+            "bound": 194,
+            "runtime": 0.05499982833862305
+        },
+        {
+            "objective": 116,
+            "bound": 194,
+            "runtime": 0.06399989128112793
+        },
+        {
+            "objective": 117,
+            "bound": 194,
+            "runtime": 0.06499981880187988
+        },
+        {
+            "objective": 118,
+            "bound": 194,
+            "runtime": 0.0690000057220459
+        },
+        {
+            "objective": 120,
+            "bound": 194,
+            "runtime": 0.06999993324279785
+        },
+        {
+            "objective": 125,
+            "bound": 194,
+            "runtime": 0.10500001907348633
+        },
+        {
+            "objective": 127,
+            "bound": 194,
+            "runtime": 0.10500001907348633
+        },
+        {
+            "objective": 138,
+            "bound": 191,
+            "runtime": 0.16299986839294434
+        },
+        {
+            "objective": 141,
+            "bound": 189,
+            "runtime": 0.2689998149871826
+        },
+        {
+            "objective": 143,
+            "bound": 189,
+            "runtime": 0.2689998149871826
+        },
+        {
+            "objective": 144,
+            "bound": 189,
+            "runtime": 0.2689998149871826
+        },
+        {
+            "objective": 145,
+            "bound": 189,
+            "runtime": 0.36699986457824707
+        },
+        {
+            "objective": 147,
+            "bound": 188,
+            "runtime": 0.47099995613098145
+        },
+        {
+            "objective": 149,
+            "bound": 187,
+            "runtime": 0.5850000381469727
+        },
+        {
+            "objective": 150,
+            "bound": 187,
+            "runtime": 0.5850000381469727
+        },
+        {
+            "objective": 152,
+            "bound": 187,
+            "runtime": 0.6510000228881836
+        },
+        {
+            "objective": 153,
+            "bound": 187,
+            "runtime": 0.6510000228881836
+        },
+        {
+            "objective": 154,
+            "bound": 187,
+            "runtime": 0.6510000228881836
+        },
+        {
+            "objective": 155,
+            "bound": 186,
+            "runtime": 0.7200000286102295
+        },
+        {
+            "objective": 157,
+            "bound": 186,
+            "runtime": 0.7219998836517334
+        },
+        {
+            "objective": 158,
+            "bound": 186,
+            "runtime": 0.7219998836517334
+        },
+        {
+            "objective": 159,
+            "bound": 186,
+            "runtime": 0.7219998836517334
+        },
+        {
+            "objective": 160,
+            "bound": 186,
+            "runtime": 0.9099998474121094
+        },
+        {
+            "objective": 161,
+            "bound": 185,
+            "runtime": 1.1599998474121094
+        },
+        {
+            "objective": 162,
+            "bound": 184,
+            "runtime": 2.1429998874664307
+        },
+        {
+            "objective": 163,
+            "bound": 184,
+            "runtime": 2.4649999141693115
+        },
+        {
+            "objective": 164,
+            "bound": 184,
+            "runtime": 2.4649999141693115
+        },
+        {
+            "objective": 166,
+            "bound": 184,
+            "runtime": 5.385999917984009
+        },
+        {
+            "objective": 168,
+            "bound": 182,
+            "runtime": 16.75599980354309
+        },
+        {
+            "objective": 168,
+            "bound": 179,
+            "runtime": 60.055999994277954
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "5_50_4": [
+        {
+            "objective": -149,
+            "bound": 10000000000000000159028911097599180468360808563945281389781327557747838772170381060813469985856815104,
+            "runtime": 0.002000093460083008
+        },
+        {
+            "objective": 68,
+            "bound": 193,
+            "runtime": 0.05099987983703613
+        },
+        {
+            "objective": 92,
+            "bound": 193,
+            "runtime": 0.05099987983703613
+        },
+        {
+            "objective": 98,
+            "bound": 193,
+            "runtime": 0.05800008773803711
+        },
+        {
+            "objective": 100,
+            "bound": 193,
+            "runtime": 0.06599998474121094
+        },
+        {
+            "objective": 101,
+            "bound": 193,
+            "runtime": 0.0690000057220459
+        },
+        {
+            "objective": 103,
+            "bound": 193,
+            "runtime": 0.06999993324279785
+        },
+        {
+            "objective": 106,
+            "bound": 193,
+            "runtime": 0.06999993324279785
+        },
+        {
+            "objective": 107,
+            "bound": 193,
+            "runtime": 0.07899999618530273
+        },
+        {
+            "objective": 114,
+            "bound": 193,
+            "runtime": 0.08599996566772461
+        },
+        {
+            "objective": 115,
+            "bound": 193,
+            "runtime": 0.10299992561340332
+        },
+        {
+            "objective": 119,
+            "bound": 193,
+            "runtime": 0.1119999885559082
+        },
+        {
+            "objective": 135,
+            "bound": 193,
+            "runtime": 0.1640000343322754
+        },
+        {
+            "objective": 138,
+            "bound": 193,
+            "runtime": 0.16499996185302734
+        },
+        {
+            "objective": 141,
+            "bound": 193,
+            "runtime": 0.16499996185302734
+        },
+        {
+            "objective": 145,
+            "bound": 193,
+            "runtime": 0.16499996185302734
+        },
+        {
+            "objective": 146,
+            "bound": 193,
+            "runtime": 0.16499996185302734
+        },
+        {
+            "objective": 149,
+            "bound": 189,
+            "runtime": 0.24099993705749512
+        },
+        {
+            "objective": 150,
+            "bound": 189,
+            "runtime": 0.24399995803833008
+        },
+        {
+            "objective": 151,
+            "bound": 189,
+            "runtime": 0.2869999408721924
+        },
+        {
+            "objective": 152,
+            "bound": 189,
+            "runtime": 0.28799986839294434
+        },
+        {
+            "objective": 153,
+            "bound": 184,
+            "runtime": 0.8009998798370361
+        },
+        {
+            "objective": 154,
+            "bound": 184,
+            "runtime": 0.8009998798370361
+        },
+        {
+            "objective": 156,
+            "bound": 184,
+            "runtime": 0.8009998798370361
+        },
+        {
+            "objective": 157,
+            "bound": 183,
+            "runtime": 1.0199999809265137
+        },
+        {
+            "objective": 158,
+            "bound": 183,
+            "runtime": 1.2070000171661377
+        },
+        {
+            "objective": 162,
+            "bound": 182,
+            "runtime": 1.4660000801086426
+        },
+        {
+            "objective": 163,
+            "bound": 182,
+            "runtime": 2.2899999618530273
+        },
+        {
+            "objective": 164,
+            "bound": 182,
+            "runtime": 4.615000009536743
+        },
+        {
+            "objective": 165,
+            "bound": 179,
+            "runtime": 28.51699995994568
+        },
+        {
+            "objective": 165,
+            "bound": 176,
+            "runtime": 60.06599998474121
+        },
+        {
+            "is_correct": 1
+        }
+    ]
+}

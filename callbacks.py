@@ -5,6 +5,8 @@ from time import time
 import gurobipy
 from gurobipy import GRB
 
+from utilities import Stations
+
 
 class PatienceShake:
     """Terminates solving when no solution is found in given time after first was found."""
@@ -16,7 +18,7 @@ class PatienceShake:
         best_obj: int,
         solution_summaries: list[dict[str, int | float | str]],
     ):
-        self.time_last_sol_found: float | None = None
+        self.reference_time: float | None = None
         self.patience = patience
         self.start_time = start_time
         self.best_obj = best_obj
@@ -24,24 +26,13 @@ class PatienceShake:
 
     def __call__(self, model: gurobipy.Model, where: int):  # intenum oder typedef z.B gurobidef
         if where == GRB.Callback.MIPSOL:
-            self.time_last_sol_found = time()
+            self.reference_time = time()
+            _save_time_and_solution_if_new_best(self, model, Stations.SHAKE)
 
-            current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
-
-            if current_objective > self.best_obj:
-                self.best_obj = current_objective
-
-                summary: dict[str, int | float | str] = {
-                    "objective": current_objective,
-                    "runtime": self.time_last_sol_found - self.start_time,
-                    "station": "shake",
-                }
-                self.solution_summaries.append(summary)
-
-        elif self.time_last_sol_found is None:
+        elif self.reference_time is None:
             return
 
-        elif time() - self.time_last_sol_found > self.patience:
+        elif time() - self.reference_time > self.patience:
             model.terminate()
 
 
@@ -63,19 +54,7 @@ class PatienceVND:
 
     def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
-            self.reference_time = time()
-
-            current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
-
-            if current_objective > self.best_obj:
-                self.best_obj = current_objective
-
-                summary: dict[str, int | float | str] = {
-                    "objective": current_objective,
-                    "runtime": self.reference_time - self.start_time,
-                    "station": "vnd",
-                }
-                self.solution_summaries.append(summary)
+            _save_time_and_solution_if_new_best(self, model, Stations.VND)
 
         elif time() - self.reference_time > self.patience:
             model.terminate()
@@ -115,54 +94,35 @@ class InitialOptimizationTracker:
         start_time: float,
     ):
         self.patience = patience
-        self.time_last_sol_found: float | None = None
+        self.reference_time: float | None = None
         self.best_obj = -GRB.MAXINT
         self.solution_summaries = solution_summaries
         self.start_time = start_time
 
     def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
-            self.time_last_sol_found = time()
-            current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
+            _save_time_and_solution_if_new_best(self, model, Stations.INITIAL_OPTIMIZATION)
 
-            if current_objective > self.best_obj:
-                self.best_obj = current_objective
-                summary: dict[str, int | float | str] = {
-                    "objective": current_objective,
-                    "runtime": self.time_last_sol_found - self.start_time,
-                    "station": "initial optimization",
-                }
-                self.solution_summaries.append(summary)
-
-        elif self.time_last_sol_found is None:
+        elif self.reference_time is None:
             return
 
-        elif time() - self.time_last_sol_found > self.patience:
+        elif time() - self.reference_time > self.patience:
             model.terminate()
 
 
-class SimpleVNDTracker:
+def _save_time_and_solution_if_new_best(
+    callback: PatienceShake | PatienceVND | InitialOptimizationTracker,
+    model: gurobipy.Model,
+    station: Stations,
+):
+    callback.reference_time = time()
+    current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
 
-    def __init__(
-        self,
-        solution_summaries: list[dict[str, int | float | str]],
-        start_time: float,
-        best_obj: int,
-    ):
-        self.solution_summaries = solution_summaries
-        self.start_time = start_time
-        self.best_obj = best_obj
-
-    def __call__(self, model: gurobipy.Model, where: int):
-        if where == GRB.Callback.MIPSOL:
-            current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
-
-            if current_objective > self.best_obj:
-                self.best_obj = current_objective
-
-                summary: dict[str, int | float | str] = {
-                    "objective": current_objective,
-                    "runtime": time() - self.start_time,
-                    "station": "vnd",
-                }
-                self.solution_summaries.append(summary)
+    if current_objective > callback.best_obj:
+        callback.best_obj = current_objective
+        summary: dict[str, int | float | str] = {
+            "objective": current_objective,
+            "runtime": callback.reference_time - callback.start_time,
+            "station": station,
+        }
+        callback.solution_summaries.append(summary)

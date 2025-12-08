@@ -3,11 +3,9 @@
 import collections
 import functools
 import random
-from time import time
 
 import gurobipy
 
-from callbacks import PatienceShake, PatienceVND
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
 from fixing_data import FixingData
@@ -23,61 +21,22 @@ class ReducedModel(ModelWrapper):
 
     def __init__(
         self,
-        config: Configuration,
-        derived: DerivedModelingData,
         model_components: ModelComponents,
         model: gurobipy.Model,
-        current_solution: SolutionReminderDiving,
-        best_found_solution: SolutionReminderDiving,
-        current_sol_fixing_data: FixingData,
-        best_sol_fixing_data: FixingData,
         start_time: float,
         solution_summaries: list[dict[str, int | float | str]],
+        config: Configuration,
+        derived: DerivedModelingData,
+        sol_reminder: SolutionReminderDiving,
+        fixing_data: FixingData,
     ):
-        super().__init__(model_components, model)
+        super().__init__(model_components, model, start_time, solution_summaries, sol_reminder)
         self.config = config
         self.derived = derived
-        self.current_solution = current_solution
-        self.best_found_solution = best_found_solution
-        self.current_sol_fixing_data = current_sol_fixing_data
-        self.best_sol_fixing_data = best_sol_fixing_data
-        self.start_time = start_time
-        self.solution_summaries = solution_summaries
-
-    def set_cutoff(self):
-        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-6
-
-    def optimize_vnd(self, patience: float | int):
-        callback = PatienceVND(
-            patience=patience,
-            start_time=self.start_time,
-            best_obj=self.best_found_solution.objective_value,
-            solution_summaries=self.solution_summaries,
-        )
-        self.model.optimize(callback)
-        if self.solution_count > 0 and self.objective_value > callback.best_obj:
-            summary: dict[str, int | float | str] = {
-                "objective": self.objective_value,
-                "runtime": time() - self.start_time,
-                "station": "vnd",
-            }
-            self.solution_summaries.append(summary)
-
-    def optimize_shake(self, patience: float | int):
-        callback = PatienceShake(
-            patience=patience,
-            start_time=self.start_time,
-            best_obj=self.best_found_solution.objective_value,
-            solution_summaries=self.solution_summaries,
-        )
-        self.model.optimize(callback)
-        if self.solution_count > 0 and self.objective_value > callback.best_obj:
-            summary: dict[str, int | float | str] = {
-                "objective": self.objective_value,
-                "runtime": time() - self.start_time,
-                "station": "shake",
-            }
-            self.solution_summaries.append(summary)
+        self.current_sol_fixing_data = fixing_data
+        self.best_sol_fixing_data = fixing_data
+        self.current_solution: SolutionReminderDiving
+        self.best_found_solution: SolutionReminderDiving
 
     def store_solution(self):
         variables = self.model_components.variables
@@ -273,10 +232,8 @@ class ReducedModel(ModelWrapper):
             derived=initializer.derived,
             model_components=initializer.model_components,
             model=initializer.model,
-            current_solution=initializer.solution_data,
-            best_found_solution=initializer.solution_data,
-            current_sol_fixing_data=initializer.fixing_data,
-            best_sol_fixing_data=initializer.fixing_data,
+            sol_reminder=initializer.solution_data,
+            fixing_data=initializer.fixing_data,
             start_time=initializer.start_time,
             solution_summaries=initializer.solution_summaries,
         )

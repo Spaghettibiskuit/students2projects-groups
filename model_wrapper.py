@@ -1,15 +1,30 @@
 import abc
+import time
 
 import gurobipy
 
+from callbacks import PatienceShake, PatienceVND
 from model_components import ModelComponents
+from solution_reminder import SolutionReminderBase
+from utilities import Stations
 
 
 class ModelWrapper(abc.ABC):
 
-    def __init__(self, model_components: ModelComponents, model: gurobipy.Model):
+    def __init__(
+        self,
+        model_components: ModelComponents,
+        model: gurobipy.Model,
+        start_time: float,
+        solution_summaries: list[dict[str, int | float | str]],
+        sol_reminder: SolutionReminderBase,
+    ):
         self.model_components = model_components
         self.model = model
+        self.start_time = start_time
+        self.solution_summaries = solution_summaries
+        self.current_solution = sol_reminder
+        self.best_found_solution = sol_reminder
 
     @property
     def status(self) -> int:
@@ -32,9 +47,25 @@ class ModelWrapper(abc.ABC):
     def eliminate_cutoff(self):
         self.model.Params.Cutoff = float("-inf")
 
-    @abc.abstractmethod
     def set_cutoff(self):
-        pass
+        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-6
+
+    def optimize(self, patience: int | float, shake: bool = False):
+        cb_class = PatienceShake if shake else PatienceVND
+        callback = cb_class(
+            patience=patience,
+            start_time=self.start_time,
+            best_obj=self.best_found_solution.objective_value,
+            solution_summaries=self.solution_summaries,
+        )
+        self.model.optimize(callback)
+        if self.solution_count > 0 and self.objective_value > callback.best_obj:
+            summary: dict[str, int | float | str] = {
+                "objective": self.objective_value,
+                "runtime": time.time() - self.start_time,
+                "station": Stations.SHAKE if shake else Stations.VND,
+            }
+            self.solution_summaries.append(summary)
 
     @abc.abstractmethod
     def store_solution(self):
