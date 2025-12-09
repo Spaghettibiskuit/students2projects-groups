@@ -7,7 +7,7 @@ from gurobipy import GRB
 
 from model_components import ModelComponents
 from model_wrapper import ModelWrapper
-from solution_reminder import SolutionReminderBranching
+from solution_reminders import SolutionReminderBranching
 from thin_wrappers import ConstrainedModelInitializer
 from utilities import var_values
 

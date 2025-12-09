@@ -12,10 +12,9 @@ ALL_INSTANCES = [
 if __name__ == "__main__":
     random.seed = 0
     benchmark.benchmark(
-        name="5_50_4_180s",
+        name="5_50_to_5_60s_2",
         run_gurobi=False,
-        run_local_branching=False,
-        run_variable_fixing=True,
-        instances=ALL_INSTANCES[84:85],
-        variable_fixing_paramters=benchmark.VariableFixingParamters(total_time_limit=180),
+        run_local_branching=True,
+        run_variable_fixing=False,
+        instances=ALL_INSTANCES[80:85],
     )

@@ -60,8 +60,8 @@ class VariableNeighborhoodSearch:
         l_step_perc: int | float = 10,
         initial_patience: float | int = 3,
         shake_patience: float | int = 2,
-        min_optimization_patience: int | float = 2,
-        step_optimization_patience: int | float = 0.5,
+        min_optimization_patience: int | float = 3,
+        step_optimization_patience: int | float = 1,
         drop_branching_constrs_before_shake: bool = False,
     ):
         k_min, l_min, k_step, l_step, k_max, l_max = self._absolute_branching_parameters(
@@ -114,7 +114,7 @@ class VariableNeighborhoodSearch:
                     rhs = l_min
                     patience = min_optimization_patience
 
-                elif status_code == GRB.TIME_LIMIT:
+                elif status_code in (GRB.INTERRUPTED, GRB.TIME_LIMIT):
                     if model.solution_count == 0:
                         break
 
@@ -344,5 +344,5 @@ class VariableNeighborhoodSearch:
 
 
 if __name__ == "__main__":
-    vns = VariableNeighborhoodSearch(5, 50, 4, 2, 3)
-    vns.run_vns_with_lb(total_time_limit=10_000)
+    vns = VariableNeighborhoodSearch(5, 50, 4)
+    vns.run_vns_with_lb(total_time_limit=10_000, initial_patience=0.5)

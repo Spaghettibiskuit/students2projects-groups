@@ -8,7 +8,7 @@ from model_components import Variables
 
 
 @dataclass(frozen=True)
-class FixingData:
+class FixingByRankingData:
 
     scores: dict[tuple[int, int, int], float]
     ranked_assignments: list[tuple[int, int, int]]

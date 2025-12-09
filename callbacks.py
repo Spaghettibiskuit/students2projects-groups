@@ -71,7 +71,7 @@ class GurobiAloneProgressTracker:
     def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
             current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
-            best_bound = int(model.cbGet(GRB.Callback.MIPSOL_OBJBND) + 1e-6)
+            best_bound = min(GRB.MAXINT, int(model.cbGet(GRB.Callback.MIPSOL_OBJBND) + 1e-6))
 
             if current_objective > self.best_obj or best_bound < self.best_bound:
                 self.best_obj = current_objective

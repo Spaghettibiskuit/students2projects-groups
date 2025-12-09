@@ -5,7 +5,7 @@ import gurobipy
 
 from callbacks import PatienceShake, PatienceVND
 from model_components import ModelComponents
-from solution_reminder import SolutionReminderBase
+from solution_reminders import SolutionReminderBase
 from utilities import Stations
 
 

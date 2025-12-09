@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 import load_instance
-from vns_with_lb import VariableNeighborhoodSearch
+from variable_neighborhood_search import VariableNeighborhoodSearch
 
 BENCHMARKS_FOLDER = Path(__file__).parent / "benchmarks"
 
@@ -24,8 +24,8 @@ class LocalBranchingParameters:
     l_step_perc: int | float = 10
     initial_patience: float | int = 3
     shake_patience: float | int = 2
-    min_optimization_patience: int | float = 2
-    step_optimization_patience: int | float = 0.5
+    min_optimization_patience: int | float = 3
+    step_optimization_patience: int | float = 1
     drop_branching_constrs_before_shake: bool = False
 
 

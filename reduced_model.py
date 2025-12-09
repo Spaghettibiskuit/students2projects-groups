@@ -8,10 +8,10 @@ import gurobipy
 
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
-from fixing_data import FixingData
+from fixing_data import FixingByRankingData
 from model_components import ModelComponents
 from model_wrapper import ModelWrapper
-from solution_reminder import SolutionReminderDiving
+from solution_reminders import SolutionReminderDiving
 from thin_wrappers import ReducedModelInitializer
 from utilities import var_values
 
@@ -28,7 +28,7 @@ class ReducedModel(ModelWrapper):
         config: Configuration,
         derived: DerivedModelingData,
         sol_reminder: SolutionReminderDiving,
-        fixing_data: FixingData,
+        fixing_data: FixingByRankingData,
     ):
         super().__init__(model_components, model, start_time, solution_summaries, sol_reminder)
         self.config = config
@@ -48,7 +48,9 @@ class ReducedModel(ModelWrapper):
             unassigned_students_var_values=var_values(variables.unassigned_students.values()),
         )
 
-        self.current_sol_fixing_data = FixingData.get(self.config, self.derived, variables)
+        self.current_sol_fixing_data = FixingByRankingData.get(
+            self.config, self.derived, variables
+        )
 
     def make_current_solution_best_solution(self):
         self.best_found_solution = self.current_solution
@@ -232,7 +234,7 @@ class ReducedModel(ModelWrapper):
             derived=initializer.derived,
             model_components=initializer.model_components,
             model=initializer.model,
-            sol_reminder=initializer.solution_data,
+            sol_reminder=initializer.current_solution,
             fixing_data=initializer.fixing_data,
             start_time=initializer.start_time,
             solution_summaries=initializer.solution_summaries,

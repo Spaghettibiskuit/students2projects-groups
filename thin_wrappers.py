@@ -1,17 +1,16 @@
-import abc
 import functools
 from time import time
 
-from base_model import BaseModelBuilder
+from base_model_builder import BaseModelBuilder
 from callbacks import GurobiAloneProgressTracker, InitialOptimizationTracker
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
-from fixing_data import FixingData
-from solution_reminder import SolutionReminderBranching, SolutionReminderDiving
-from utilities import var_values
+from fixing_data import FixingByRankingData
+from solution_reminders import SolutionReminderBranching, SolutionReminderDiving
+from utilities import Stations, var_values
 
 
-class ThinWrapper(abc.ABC):
+class ThinWrapper:
 
     def __init__(self, config: Configuration, derived: DerivedModelingData):
         self.config = config
@@ -25,13 +24,6 @@ class ThinWrapper(abc.ABC):
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
 
-    @abc.abstractmethod
-    def optimize(self, patience: int | float):
-        pass
-
-
-class ReducedModelInitializer(ThinWrapper):
-
     def optimize(self, patience: int | float):
         callback = InitialOptimizationTracker(patience, self.solution_summaries, self.start_time)
         self.model.optimize(callback)
@@ -39,12 +31,15 @@ class ReducedModelInitializer(ThinWrapper):
             summary: dict[str, int | float | str] = {
                 "objective": obj,
                 "runtime": time() - self.start_time,
-                "station": "initial optimization",
+                "station": Stations.INITIAL_OPTIMIZATION,
             }
             self.solution_summaries.append(summary)
 
+
+class ReducedModelInitializer(ThinWrapper):
+
     @functools.cached_property
-    def solution_data(self) -> SolutionReminderDiving:
+    def current_solution(self) -> SolutionReminderDiving:
         variables = self.model_components.variables
         return SolutionReminderDiving(
             variable_values=var_values(self.model.getVars()),
@@ -55,22 +50,11 @@ class ReducedModelInitializer(ThinWrapper):
         )
 
     @functools.cached_property
-    def fixing_data(self) -> FixingData:
-        return FixingData.get(self.config, self.derived, self.model_components.variables)
+    def fixing_data(self) -> FixingByRankingData:
+        return FixingByRankingData.get(self.config, self.derived, self.model_components.variables)
 
 
 class ConstrainedModelInitializer(ThinWrapper):
-
-    def optimize(self, patience: int | float):
-        callback = InitialOptimizationTracker(patience, self.solution_summaries, self.start_time)
-        self.model.optimize(callback)
-        if (obj := int(self.model.ObjVal + 1e-6)) > callback.best_obj:
-            summary: dict[str, int | float | str] = {
-                "objective": obj,
-                "runtime": time() - self.start_time,
-                "station": "initial optimization",
-            }
-            self.solution_summaries.append(summary)
 
     @functools.cached_property
     def current_solution(self):
