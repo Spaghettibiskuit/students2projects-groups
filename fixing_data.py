@@ -1,10 +1,12 @@
 import random
 from dataclasses import dataclass
 
+import gurobipy
+
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
 from individual_assignment_scorer import IndividualAssignmentScorer
-from model_components import Variables
+from model_components import LinExpressions, Variables
 
 
 @dataclass(frozen=True)
@@ -17,12 +19,25 @@ class FixingByRankingData:
     line_up_ids: list[int]
 
     @classmethod
-    def get(cls, config: Configuration, derived: DerivedModelingData, variables: Variables):
-        scores = IndividualAssignmentScorer(config, derived, variables).assignment_scores
+    def get(
+        cls,
+        config: Configuration,
+        derived: DerivedModelingData,
+        variables: Variables,
+        lin_expressions: LinExpressions,
+        model: gurobipy.Model,
+    ):
+        scores = IndividualAssignmentScorer(
+            config, derived, variables, lin_expressions
+        ).assignment_scores
         ranked_assignments = sorted(scores.keys(), key=lambda k: scores[k])
         assignments = set(ranked_assignments)
 
         num_unassigned = config.number_of_students - len(ranked_assignments)
+
+        derived_obj_val = sum(scores.values()) - num_unassigned * config.penalty_unassigned
+        if abs(derived_obj_val - model.ObjVal) > 1e-1:
+            raise ValueError(f"derived {derived_obj_val} is not real {model.ObjVal}")
         if num_unassigned > 0:
             assigned_ids = set(student_id for _, _, student_id in ranked_assignments)
             unassigned_ids = assigned_ids.difference(derived.student_ids)

@@ -12,7 +12,6 @@ class SolutionReminderBase:
 @dataclasses.dataclass(frozen=True)
 class SolutionReminderBranching(SolutionReminderBase):
     assign_students_var_values: tuple[int | float, ...]
-    establish_groups_var_values: tuple[int | float, ...]
 
 
 @dataclasses.dataclass(frozen=True)

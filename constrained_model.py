@@ -1,6 +1,6 @@
 """A class that contains a model further constrained for local branching."""
 
-import itertools as it
+import itertools
 
 import gurobipy
 from gurobipy import GRB
@@ -32,15 +32,8 @@ class ConstrainedModel(ModelWrapper):
         )
         variables = self.model_components.variables
         self.assign_students_vars = list(variables.assign_students.values())
-        self.assign_students_vars_values: tuple[int | float, ...] = (
-            sol_reminder.assign_students_var_values
-        )
-        self.establish_groups_vars = list(variables.establish_groups.values())
-        self.establish_groups_vars_values: tuple[int | float, ...] = (
-            sol_reminder.assign_students_var_values
-        )
         self.branching_constraints: list[gurobipy.Constr] = []
-        self.counter = it.count()
+        self.counter = itertools.count()
         self.shake_constraints: tuple[gurobipy.Constr, gurobipy.Constr] | None = None
         self.current_solution: SolutionReminderBranching
         self.best_found_solution: SolutionReminderBranching
@@ -50,29 +43,18 @@ class ConstrainedModel(ModelWrapper):
             variable_values=var_values(self.model.getVars()),
             objective_value=self.objective_value,
             assign_students_var_values=var_values(self.assign_students_vars),
-            establish_groups_var_values=var_values(self.establish_groups_vars),
         )
-
-    def new_best_found(self) -> bool:
-        return self.current_solution.objective_value > self.best_found_solution.objective_value
 
     def make_current_solution_best_solution(self):
         self.best_found_solution = self.current_solution
 
-    def set_branching_var_values_for_vnd(self):
-        self.assign_students_vars_values = self.current_solution.assign_students_var_values
-        self.establish_groups_vars_values = self.current_solution.establish_groups_var_values
-
-    def set_branching_var_values_for_shake(self):
-        self.assign_students_vars_values = self.best_found_solution.assign_students_var_values
-        self.establish_groups_vars_values = self.best_found_solution.establish_groups_var_values
-
-    def branching_lin_expression(self):
+    def branching_lin_expression(self, shake: bool = False):
+        relevant_solution = self.best_found_solution if shake else self.current_solution
         return gurobipy.quicksum(
             1 - var if var_value > 0.5 else var
             for var, var_value in zip(
-                it.chain(self.assign_students_vars, self.establish_groups_vars),
-                it.chain(self.assign_students_vars_values, self.establish_groups_vars_values),
+                self.assign_students_vars,
+                relevant_solution.assign_students_var_values,
             )
         )
 
@@ -101,13 +83,12 @@ class ConstrainedModel(ModelWrapper):
         self.branching_constraints.clear()
 
     def add_shaking_constraints(self, k_cur: int, k_step: int):
-
+        lin_expr = self.branching_lin_expression(shake=True)
         smaller_radius = self.model.addConstr(
-            self.branching_lin_expression() >= k_cur,
+            lin_expr >= k_cur,
         )
-
         bigger_radius = self.model.addConstr(
-            self.branching_lin_expression() <= k_cur + k_step,
+            lin_expr <= k_cur + k_step,
         )
 
         self.shake_constraints = smaller_radius, bigger_radius
@@ -125,7 +106,7 @@ class ConstrainedModel(ModelWrapper):
             var.Start = var_value_incumbent
 
         self.drop_all_branching_constraints()
-        self.model.Params.Cutoff = round(self.best_found_solution.objective_value) - 0.5
+        self.model.Params.Cutoff = round(self.best_found_solution.objective_value) - 1e-6
         self.model.Params.SolutionLimit = 1
         self.model.Params.TimeLimit = float("inf")
         self.model.optimize()

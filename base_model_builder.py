@@ -69,7 +69,6 @@ class BaseModelBuilder:
         )
 
     def _construct_linear_expressions(self, variables: Variables) -> LinExpressions:
-
         assign_students = variables.assign_students
         sum_realized_project_preferences = gp.quicksum(
             self.project_preferences[student_id, project_id]
@@ -189,9 +188,8 @@ class BaseModelBuilder:
                 >= ideal_group_size
                 - assign_students.sum(project_id, group_id, "*")
                 - max_group_size * (1 - establish_groups[project_id, group_id])
-                for project_id, ideal_group_size, max_group_size in zip(
-                    self.project_ids,
-                    self.projects_info["ideal_group_size"],
+                for (project_id, ideal_group_size), max_group_size in zip(
+                    enumerate(self.projects_info["ideal_group_size"]),
                     self.projects_info["max_group_size"],
                 )
                 for group_id in self.group_ids[project_id]

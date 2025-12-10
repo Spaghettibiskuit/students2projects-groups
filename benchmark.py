@@ -20,8 +20,10 @@ class LocalBranchingParameters:
     total_time_limit: int | float = 60
     k_min_perc: int | float = 20
     k_step_perc: int | float = 20
+    k_max_perc: int | float = 80
     l_min_perc: int | float = 10
     l_step_perc: int | float = 10
+    l_max_perc: int | float = 40
     initial_patience: float | int = 3
     shake_patience: float | int = 2
     min_optimization_patience: int | float = 3

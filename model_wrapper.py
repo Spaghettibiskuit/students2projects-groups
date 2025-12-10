@@ -6,7 +6,7 @@ import gurobipy
 from callbacks import PatienceShake, PatienceVND
 from model_components import ModelComponents
 from solution_reminders import SolutionReminderBase
-from utilities import Stations
+from utilities import Stations, gurobi_round
 
 
 class ModelWrapper(abc.ABC):
@@ -32,7 +32,7 @@ class ModelWrapper(abc.ABC):
 
     @property
     def objective_value(self) -> int:
-        return int(self.model.ObjVal + 1e-6)
+        return gurobi_round(self.model.ObjVal)
 
     @property
     def solution_count(self) -> int:
@@ -67,16 +67,15 @@ class ModelWrapper(abc.ABC):
             }
             self.solution_summaries.append(summary)
 
+    def new_best_found(self) -> bool:
+        return self.current_solution.objective_value > self.best_found_solution.objective_value
+
     @abc.abstractmethod
     def store_solution(self):
         pass
 
     @abc.abstractmethod
     def make_current_solution_best_solution(self):
-        pass
-
-    @abc.abstractmethod
-    def new_best_found(self) -> bool:
         pass
 
     @abc.abstractmethod

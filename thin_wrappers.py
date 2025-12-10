@@ -7,7 +7,7 @@ from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
 from fixing_data import FixingByRankingData
 from solution_reminders import SolutionReminderBranching, SolutionReminderDiving
-from utilities import Stations, var_values
+from utilities import Stations, gurobi_round, var_values
 
 
 class ThinWrapper:
@@ -27,7 +27,7 @@ class ThinWrapper:
     def optimize(self, patience: int | float):
         callback = InitialOptimizationTracker(patience, self.solution_summaries, self.start_time)
         self.model.optimize(callback)
-        if (obj := int(self.model.ObjVal + 1e-6)) > callback.best_obj:
+        if (obj := gurobi_round(self.model.ObjVal)) > callback.best_obj:
             summary: dict[str, int | float | str] = {
                 "objective": obj,
                 "runtime": time() - self.start_time,
@@ -43,7 +43,7 @@ class ReducedModelInitializer(ThinWrapper):
         variables = self.model_components.variables
         return SolutionReminderDiving(
             variable_values=var_values(self.model.getVars()),
-            objective_value=int(self.model.ObjVal + 1e-6),
+            objective_value=gurobi_round(self.model.ObjVal),
             assign_students_var_values=var_values(variables.assign_students.values()),
             mutual_unrealized_var_values=var_values(variables.mutual_unrealized.values()),
             unassigned_students_var_values=var_values(variables.unassigned_students.values()),
@@ -51,7 +51,13 @@ class ReducedModelInitializer(ThinWrapper):
 
     @functools.cached_property
     def fixing_data(self) -> FixingByRankingData:
-        return FixingByRankingData.get(self.config, self.derived, self.model_components.variables)
+        return FixingByRankingData.get(
+            config=self.config,
+            derived=self.derived,
+            variables=self.model_components.variables,
+            lin_expressions=self.model_components.lin_expressions,
+            model=self.model,
+        )
 
 
 class ConstrainedModelInitializer(ThinWrapper):
@@ -61,9 +67,8 @@ class ConstrainedModelInitializer(ThinWrapper):
         variables = self.model_components.variables
         return SolutionReminderBranching(
             variable_values=var_values(self.model.getVars()),
-            objective_value=int(self.model.ObjVal + 1e-6),
+            objective_value=gurobi_round(self.model.ObjVal),
             assign_students_var_values=var_values(list(variables.assign_students.values())),
-            establish_groups_var_values=var_values(list(variables.establish_groups.values())),
         )
 
 
@@ -77,14 +82,18 @@ class GurobiDuck:
         ).get_base_model()
         self.solution_summaries: list[dict[str, int | float]] = []
 
+    @property
+    def objective_value(self) -> int:
+        return int(self.model.ObjVal + 1e-6)
+
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit
 
     def optimize(self):
         self.model.optimize(GurobiAloneProgressTracker(self.solution_summaries))
         summary: dict[str, int | float] = {
-            "objective": int(self.model.ObjVal + 1e-6),
-            "bound": int(self.model.ObjBound + 1e-6),
+            "objective": gurobi_round(self.model.ObjVal),
+            "bound": gurobi_round(self.model.ObjBound),
             "runtime": self.model.Runtime,
         }
         self.solution_summaries.append(summary)

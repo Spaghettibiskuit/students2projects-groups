@@ -5,7 +5,7 @@ from time import time
 import gurobipy
 from gurobipy import GRB
 
-from utilities import Stations
+from utilities import Stations, gurobi_round
 
 
 class PatienceShake:
@@ -27,7 +27,7 @@ class PatienceShake:
     def __call__(self, model: gurobipy.Model, where: int):  # intenum oder typedef z.B gurobidef
         if where == GRB.Callback.MIPSOL:
             self.reference_time = time()
-            _save_time_and_solution_if_new_best(self, model, Stations.SHAKE)
+            _update_callback_class_state(self, model, Stations.SHAKE)
 
         elif self.reference_time is None:
             return
@@ -54,7 +54,7 @@ class PatienceVND:
 
     def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
-            _save_time_and_solution_if_new_best(self, model, Stations.VND)
+            _update_callback_class_state(self, model, Stations.VND)
 
         elif time() - self.reference_time > self.patience:
             model.terminate()
@@ -70,8 +70,8 @@ class GurobiAloneProgressTracker:
 
     def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
-            current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
-            best_bound = min(GRB.MAXINT, int(model.cbGet(GRB.Callback.MIPSOL_OBJBND) + 1e-6))
+            current_objective = gurobi_round(model.cbGet(GRB.Callback.MIPSOL_OBJ))
+            best_bound = min(GRB.MAXINT, gurobi_round(model.cbGet(GRB.Callback.MIPSOL_OBJBND)))
 
             if current_objective > self.best_obj or best_bound < self.best_bound:
                 self.best_obj = current_objective
@@ -101,7 +101,7 @@ class InitialOptimizationTracker:
 
     def __call__(self, model: gurobipy.Model, where: int):
         if where == GRB.Callback.MIPSOL:
-            _save_time_and_solution_if_new_best(self, model, Stations.INITIAL_OPTIMIZATION)
+            _update_callback_class_state(self, model, Stations.INITIAL_OPTIMIZATION)
 
         elif self.reference_time is None:
             return
@@ -110,13 +110,13 @@ class InitialOptimizationTracker:
             model.terminate()
 
 
-def _save_time_and_solution_if_new_best(
+def _update_callback_class_state(
     callback: PatienceShake | PatienceVND | InitialOptimizationTracker,
     model: gurobipy.Model,
     station: Stations,
 ):
     callback.reference_time = time()
-    current_objective = int(model.cbGet(GRB.Callback.MIPSOL_OBJ) + 1e-6)
+    current_objective = gurobi_round(model.cbGet(GRB.Callback.MIPSOL_OBJ))
 
     if current_objective > callback.best_obj:
         callback.best_obj = current_objective

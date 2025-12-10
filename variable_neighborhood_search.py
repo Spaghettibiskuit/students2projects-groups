@@ -54,21 +54,22 @@ class VariableNeighborhoodSearch:
     def run_vns_with_lb(
         self,
         total_time_limit: int | float = 60,
-        k_min_perc: int | float = 20,
-        k_step_perc: int | float = 20,
+        k_min_perc: int | float = 10,
+        k_step_perc: int | float = 10,
+        k_max_perc: int | float = 80,
         l_min_perc: int | float = 10,
         l_step_perc: int | float = 10,
+        l_max_perc: int | float = 40,
         initial_patience: float | int = 3,
         shake_patience: float | int = 2,
         min_optimization_patience: int | float = 3,
         step_optimization_patience: int | float = 1,
         drop_branching_constrs_before_shake: bool = False,
     ):
-        k_min, l_min, k_step, l_step, k_max, l_max = self._absolute_branching_parameters(
-            k_min_perc,
-            l_min_perc,
-            k_step_perc,
-            l_step_perc,
+        percentages = (k_min_perc, k_step_perc, k_max_perc, l_min_perc, l_step_perc, l_max_perc)
+        max_num_assignment_changes = self.config.number_of_students * 2
+        k_min, k_step, k_max, l_min, l_step, l_max = (
+            round(percentage / 100 * max_num_assignment_changes) for percentage in percentages
         )
 
         initial_model = ConstrainedModelInitializer(config=self.config, derived=self.derived)
@@ -76,12 +77,10 @@ class VariableNeighborhoodSearch:
 
         k_cur = k_min - k_step  # lets shake begin at k_min even if no better sol found during VND
 
-        time_limit = max(0, total_time_limit - (time() - start_time))
-        initial_model.set_time_limit(time_limit)
+        initial_model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
         initial_model.optimize(patience=initial_patience)
 
         model = ConstrainedModel.get(initial_model)
-        model.make_current_solution_best_solution()
 
         while not self._time_over(start_time, total_time_limit):
             rhs = l_min
@@ -90,10 +89,8 @@ class VariableNeighborhoodSearch:
             while not self._time_over(start_time, total_time_limit):
                 if rhs > l_max:
                     break
-                model.set_branching_var_values_for_vnd()
                 model.add_bounding_branching_constraint(rhs)
-                time_limit = max(0, total_time_limit - (time() - start_time))
-                model.set_time_limit(time_limit)
+                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
                 model.set_cutoff()
                 model.optimize(patience)
 
@@ -132,12 +129,10 @@ class VariableNeighborhoodSearch:
             if drop_branching_constrs_before_shake:
                 model.drop_all_branching_constraints()
 
-            model.set_branching_var_values_for_shake()
             while not self._time_over(start_time, total_time_limit):
                 model.add_shaking_constraints(k_cur, k_step)
                 model.eliminate_cutoff()
-                time_limit = max(0, total_time_limit - (time() - start_time))
-                model.set_time_limit(time_limit)
+                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
                 model.optimize(patience=shake_patience, shake=True)
 
                 model.remove_shaking_constraints()
@@ -163,14 +158,16 @@ class VariableNeighborhoodSearch:
         max_iterations_per_num_zones: int = 20,
         min_shake_perc: int = 10,
         step_shake_perc: int = 10,
-        max_shake_perc: int = 50,
+        max_shake_perc: int = 80,
         initial_patience: int | float = 3,
         shake_patience: int | float = 2,
         min_optimization_patience: int | float = 1,
         step_optimization_patience: int | float = 1,
     ):
-        min_shake, step_shake, max_shake = self._absolute_fixing_parameters(
-            (min_shake_perc, step_shake_perc, max_shake_perc)
+        shake_percentages = (min_shake_perc, step_shake_perc, max_shake_perc)
+        min_shake, step_shake, max_shake = (
+            round(percentage / 100 * self.config.number_of_students)
+            for percentage in shake_percentages
         )
 
         k = min_shake - step_shake
@@ -270,62 +267,19 @@ class VariableNeighborhoodSearch:
     def _time_over(self, start_time: float, total_time_limit: int | float):
         return time() - start_time > total_time_limit
 
-    def _absolute_fixing_parameters(self, shake_percentages: tuple[int, ...]) -> tuple[int, ...]:
-        if any(not 0 < param <= 100 for param in shake_percentages):
-            raise ValueError("Percentages must be greater than 0 not greater than 100.")
-        shake_params = tuple(
-            round(percentage / 100 * self.config.number_of_students)
-            for percentage in shake_percentages
-        )
-        if any(param == 0 for param in shake_params):
-            raise ValueError("An absolute branching parameter is zero due to rounding.")
-        return shake_params
-
-    def _absolute_branching_parameters(
-        self,
-        k_min_perc: int | float,
-        l_min_perc: int | float,
-        k_step_perc: int | float,
-        l_step_perc: int | float,
-    ) -> list[int]:
-        branching_params_percentages = [
-            k_min_perc,
-            l_min_perc,
-            k_step_perc,
-            l_step_perc,
-        ]
-        if any(not 0 < param <= 100 for param in branching_params_percentages):
-            raise ValueError("Percentages must be greater than 0 not greater than 100.")
-
-        # The following k_max and l_max are set as they are due to the following: If a student
-        # switches the group the variable for him/her in his current group changes its value by one
-        # and the value of the variable for him/her in his future group changes by one. The change
-        # in variables indicating whether groups are opened or closed is likely to be far smaller,
-        # since e.g. groups have to have consecutive IDs.
-
-        k_max = self.config.number_of_students * 2
-        l_max = k_max
-        branching_params = list(
-            round(percentage / 100 * k_max) for percentage in branching_params_percentages
-        )
-        if any(param == 0 for param in branching_params):
-            raise ValueError("An absolute branching parameter is zero due to rounding.")
-        branching_params += [k_max, l_max]
-        return branching_params
-
     def _post_processing(self):
         if self.best_model is None:
             raise TypeError("No postprocessing possible if best model is None.")
         retriever = SolutionInformationRetriever(
             config=self.config,
             derived=self.derived,
-            wrapped_model=self.best_model,
+            variables=self.best_model.model_components.variables,
         )
         viewer = SolutionViewer(derived=self.derived, retriever=retriever)
         checker = SolutionChecker(
             config=self.config,
             derived=self.derived,
-            wrapped_model=self.best_model,
+            lin_expressions=self.best_model.model_components.lin_expressions,
             retriever=retriever,
         )
         self.best_solution = Solution(
@@ -345,4 +299,4 @@ class VariableNeighborhoodSearch:
 
 if __name__ == "__main__":
     vns = VariableNeighborhoodSearch(5, 50, 4)
-    vns.run_vns_with_lb(total_time_limit=10_000, initial_patience=0.5)
+    vns.run_vns_with_lb(total_time_limit=10_000)

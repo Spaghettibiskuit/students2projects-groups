@@ -53,7 +53,7 @@ class SolutionViewer:
         student_quantities = [
             num_students
             for group_id in self.derived.group_ids[project_id]
-            if (num_students := self.retriever.num_students_in_group(project_id, group_id))
+            if (num_students := len(self.retriever.students_in_group(project_id, group_id)))
         ]
         group_ids = list(range(len(student_quantities)))
         pref_vals_in_groups = [
@@ -66,7 +66,7 @@ class SolutionViewer:
         result["min_pref"] = [min(pref_vals) for pref_vals in pref_vals_in_groups]
         result["mean_pref"] = [statistics.mean(pref_vals) for pref_vals in pref_vals_in_groups]
         result["#mutual_pairs"] = [
-            self.retriever.num_mutual_pairs_in_group(project_id, group_id)
+            len(self.retriever.mutual_pairs_in_group(project_id, group_id))
             for group_id in group_ids
         ]
         return pd.DataFrame(result)

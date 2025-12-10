@@ -30,6 +30,7 @@ class Solution:
     ):
         self.config = config
         self.derived = derived
+        self.objective_value = wrapped_model.objective_value
         self.variables = wrapped_model.model_components.variables
         self.lin_expressions = wrapped_model.model_components.lin_expressions
         self.retriever = retriever
@@ -56,7 +57,7 @@ class Solution:
         target_folder.mkdir(parents=True, exist_ok=True)
 
         top_comments = [
-            f"# Objective: {self.retriever.objective_value}",
+            f"# Objective: {self.objective_value}",
             f"# Penalty per unassigned student: {self.config.penalty_unassigned}",
             f"# Reward per materialized mutual pair: {self.config.reward_mutual_pair}",
         ]

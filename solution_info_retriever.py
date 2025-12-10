@@ -1,12 +1,11 @@
 """A class that retrieves information regarding the solution within a Gurobi model."""
 
-import itertools as it
+import itertools
 from functools import cached_property, lru_cache
 
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
-from model_wrapper import ModelWrapper
-from thin_wrappers import GurobiDuck
+from model_components import Variables
 
 
 class SolutionInformationRetriever:
@@ -16,61 +15,43 @@ class SolutionInformationRetriever:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        wrapped_model: ModelWrapper | GurobiDuck,
+        variables: Variables,
     ):
         self.config = config
         self.derived = derived
-        self.model = wrapped_model.model
-        self.variables = wrapped_model.model_components.variables
-        self.lin_expressions = wrapped_model.model_components.lin_expressions
+        self.variables = variables
 
     @cached_property
-    def objective_value(self):
-        return self.model.ObjVal
+    def assignments(self) -> list[tuple[int, int, int]]:
+        return sorted(k for k, v in self.variables.assign_students.items() if v.X > 0.5)
 
     @cached_property
-    def num_unassigned(self) -> int:
-        return round(
-            self.lin_expressions.sum_penalties_unassigned.getValue()
-            / self.config.penalty_unassigned
-        )
+    def established_groups(self) -> list[tuple[int, int]]:
+        return sorted(k for k, v in self.variables.establish_groups.items() if v.X > 0.5)
 
     @cached_property
     def unassigned_students(self) -> list[int]:
-        return [
-            student_id
-            for student_id, is_unassigned in self.variables.unassigned_students.items()
-            if round(is_unassigned.X)
-        ]
-
-    @cached_property
-    def unassigned_students_names(self) -> list[str]:
-        return [
-            self.config.students_info["name"][student_id]
-            for student_id in self.unassigned_students
-        ]
-
-    @lru_cache(maxsize=1_280)
-    def num_students_in_group(self, project_id: int, group_id: int) -> int:
-        return round(self.variables.assign_students.sum(project_id, group_id, "*").getValue())
+        return sorted(k for k, v in self.variables.unassigned_students.items() if v.X > 0.5)
 
     @lru_cache(maxsize=1_280)
     def students_in_group(self, project_id: int, group_id: int) -> list[int]:
-        assign_students = self.variables.assign_students
-        return [
+        return sorted(
             student_id
-            for student_id in self.derived.student_ids
-            if (project_id, group_id, student_id) in assign_students
-            and round(assign_students[project_id, group_id, student_id].X)
-        ]
+            for proj_id, gr_id, student_id in self.assignments
+            if proj_id == project_id and gr_id == group_id
+        )
 
-    @lru_cache(maxsize=1_280)
-    def students_in_group_names(self, project_id: int, group_id: int) -> list[str]:
-        students_info = self.config.students_info
-        return [
-            students_info["name"][student_id]
-            for student_id in self.students_in_group(project_id, group_id)
-        ]
+    @lru_cache(maxsize=128)
+    def groups_in_project(self, project_id: int) -> list[int]:
+        return sorted(
+            group_id for proj_id, group_id in self.established_groups if proj_id == project_id
+        )
+
+    @lru_cache(maxsize=128)
+    def students_in_project(self, project_id: int) -> list[int]:
+        return sorted(
+            student_id for proj_id, _, student_id in self.assignments if proj_id == project_id
+        )
 
     @lru_cache(maxsize=1_280)
     def pref_vals_students_in_group(self, project_id: int, group_id: int) -> dict[int, int]:
@@ -83,23 +64,13 @@ class SolutionInformationRetriever:
     @lru_cache(maxsize=1_280)
     def mutual_pairs_in_group(self, project_id: int, group_id: int) -> list[tuple[int, int]]:
         mutual_pairs = self.derived.mutual_pairs_items
-        return [
+        return sorted(
             pair
-            for pair in it.combinations(sorted(self.students_in_group(project_id, group_id)), 2)
+            for pair in itertools.combinations(
+                sorted(self.students_in_group(project_id, group_id)), 2
+            )
             if pair in mutual_pairs
-        ]
-
-    @lru_cache(maxsize=1_280)
-    def num_mutual_pairs_in_group(self, project_id: int, group_id: int) -> int:
-        return len(self.mutual_pairs_in_group(project_id, group_id))
-
-    @lru_cache(maxsize=1_280)
-    def mutual_pairs_in_group_names(self, project_id: int, group_id: int) -> set[tuple[str, str]]:
-        students_info = self.config.students_info
-        return {
-            (students_info["name"][first_id], students_info["name"][second_id])
-            for first_id, second_id in self.mutual_pairs_in_group(project_id, group_id)
-        }
+        )
 
     @cached_property
     def mutual_pairs(self) -> list[tuple[int, int]]:

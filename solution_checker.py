@@ -4,9 +4,8 @@ import functools
 
 from configuration import Configuration
 from derived_modeling_data import DerivedModelingData
-from model_wrapper import ModelWrapper
+from model_components import LinExpressions
 from solution_info_retriever import SolutionInformationRetriever
-from thin_wrappers import GurobiDuck
 
 
 class SolutionChecker:
@@ -16,44 +15,27 @@ class SolutionChecker:
         self,
         config: Configuration,
         derived: DerivedModelingData,
-        wrapped_model: ModelWrapper | GurobiDuck,
+        lin_expressions: LinExpressions,
         retriever: SolutionInformationRetriever,
     ):
         self.config = config
         self.derived = derived
-        self.variables = wrapped_model.model_components.variables
-        self.lin_expressions = wrapped_model.model_components.lin_expressions
+        self.lin_expressions = lin_expressions
         self.retriever = retriever
-
-    @functools.cached_property
-    def assigned_students_triples(self) -> list[tuple[int, int, int]]:
-        return [key for key, var in self.variables.assign_students.items() if var.X > 0.5]
-
-    @functools.cached_property
-    def established_groups_pairs(self) -> list[tuple[int, int]]:
-        return [key for key, var in self.variables.establish_groups.items() if var.X > 0.5]
-
-    @functools.lru_cache(maxsize=128)
-    def groups_in_project(self, project_id: int) -> list[int]:
-        return [
-            group_id
-            for proj_id, group_id in self.established_groups_pairs
-            if proj_id == project_id
-        ]
 
     @functools.cached_property
     def all_students_either_assigned_once_or_unassigned(self) -> bool:
         unassigned_students = self.retriever.unassigned_students
-        assigned_students = [student_id for _, _, student_id in self.assigned_students_triples]
+        assigned_students = [student_id for _, _, student_id in self.retriever.assignments]
         all_student_ids = list(self.derived.student_ids)
         return sorted(unassigned_students + assigned_students) == all_student_ids
 
     @functools.cached_property
     def groups_opened_if_and_only_if_students_inside(self) -> bool:
-        derived_pairs = set(
-            (project_id, group_id) for project_id, group_id, _ in self.assigned_students_triples
+        derived_open_groups = set(
+            (project_id, group_id) for project_id, group_id, _ in self.retriever.assignments
         )
-        return sorted(derived_pairs) == self.established_groups_pairs
+        return sorted(derived_open_groups) == self.retriever.established_groups
 
     @functools.cached_property
     def all_group_sizes_within_bounds(self) -> bool:
@@ -62,21 +44,23 @@ class SolutionChecker:
             projects_info["min_group_size"][project_id]
             <= len(self.retriever.students_in_group(project_id, group_id))
             <= projects_info["max_group_size"][project_id]
-            for project_id, group_id in self.established_groups_pairs
+            for project_id, group_id in self.retriever.established_groups
         )
 
     @functools.cached_property
     def no_project_too_many_established_groups(self) -> bool:
         projects_info = self.config.projects_info
         return all(
-            len(self.groups_in_project(project_id)) <= projects_info["max#groups"][project_id]
+            len(self.retriever.groups_in_project(project_id))
+            <= projects_info["max#groups"][project_id]
             for project_id in self.derived.project_ids
         )
 
     @functools.cached_property
     def all_projects_only_consecutive_group_ids(self) -> bool:
         return all(
-            sorted(groups := self.groups_in_project(project_id)) == list(range(len(groups)))
+            sorted(groups := self.retriever.groups_in_project(project_id))
+            == list(range(len(groups)))
             for project_id in self.derived.project_ids
         )
 
@@ -95,7 +79,7 @@ class SolutionChecker:
         project_preferences = self.derived.project_preferences
         return sum(
             project_preferences[student_id, project_id]
-            for project_id, _, student_id in self.assigned_students_triples
+            for project_id, _, student_id in self.retriever.assignments
         )
 
     @functools.cached_property
@@ -111,7 +95,11 @@ class SolutionChecker:
         desired_num_of_groups = self.config.projects_info["desired#groups"]
         penalty_per_excess_group = self.config.projects_info["pen_groups"]
         return sum(
-            max(0, len(self.groups_in_project(project_id)) - desired_num_of_groups[project_id])
+            max(
+                0,
+                len(self.retriever.groups_in_project(project_id))
+                - desired_num_of_groups[project_id],
+            )
             * penalty_per_excess_group[project_id]
             for project_id in self.derived.project_ids
         )
@@ -126,7 +114,7 @@ class SolutionChecker:
                 - ideal_group_size[project_id]
             )
             * penalty_deviation[project_id]
-            for project_id, group_id in self.established_groups_pairs
+            for project_id, group_id in self.retriever.established_groups
         )
 
     @functools.cached_property

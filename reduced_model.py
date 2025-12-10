@@ -47,9 +47,12 @@ class ReducedModel(ModelWrapper):
             mutual_unrealized_var_values=var_values(variables.mutual_unrealized.values()),
             unassigned_students_var_values=var_values(variables.unassigned_students.values()),
         )
-
         self.current_sol_fixing_data = FixingByRankingData.get(
-            self.config, self.derived, variables
+            config=self.config,
+            derived=self.derived,
+            variables=self.model_components.variables,
+            lin_expressions=self.model_components.lin_expressions,
+            model=self.model,
         )
 
     def make_current_solution_best_solution(self):
@@ -183,9 +186,6 @@ class ReducedModel(ModelWrapper):
             else:
                 var.LB = val
                 var.UB = val
-
-    def new_best_found(self):
-        return self.current_solution.objective_value > self.best_found_solution.objective_value
 
     def increment_random_seed(self):
         self.model.Params.Seed += 1

@@ -18,3 +18,10 @@ class Stations(enum.StrEnum):
 
 def var_values(variables: Iterable[gurobipy.Var]) -> tuple[float, ...]:
     return tuple(var.X for var in variables)
+
+
+def gurobi_round(value: float) -> int:
+    rounded = round(value)
+    if abs(value - rounded) > 1e-6:
+        raise ValueError("Unexpectedly large deviation from closest integer.")
+    return rounded

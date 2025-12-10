@@ -12,9 +12,9 @@ ALL_INSTANCES = [
 if __name__ == "__main__":
     random.seed = 0
     benchmark.benchmark(
-        name="5_50_to_5_60s_2",
-        run_gurobi=False,
+        name="all_60s",
+        run_gurobi=True,
         run_local_branching=True,
-        run_variable_fixing=False,
-        instances=ALL_INSTANCES[80:85],
+        run_variable_fixing=True,
+        instances=ALL_INSTANCES,
     )
