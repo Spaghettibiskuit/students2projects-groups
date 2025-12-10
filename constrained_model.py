@@ -106,7 +106,7 @@ class ConstrainedModel(ModelWrapper):
             var.Start = var_value_incumbent
 
         self.drop_all_branching_constraints()
-        self.model.Params.Cutoff = round(self.best_found_solution.objective_value) - 1e-6
+        self.model.Params.Cutoff = round(self.best_found_solution.objective_value) - 1e-4
         self.model.Params.SolutionLimit = 1
         self.model.Params.TimeLimit = float("inf")
         self.model.optimize()

@@ -48,7 +48,7 @@ class ModelWrapper(abc.ABC):
         self.model.Params.Cutoff = float("-inf")
 
     def set_cutoff(self):
-        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-6
+        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-4
 
     def optimize(self, patience: int | float, shake: bool = False):
         cb_class = PatienceShake if shake else PatienceVND

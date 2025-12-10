@@ -22,6 +22,6 @@ def var_values(variables: Iterable[gurobipy.Var]) -> tuple[float, ...]:
 
 def gurobi_round(value: float) -> int:
     rounded = round(value)
-    if abs(value - rounded) > 1e-6:
+    if abs(value - rounded) > 1e-4:  # 1e-4 is Gurobi's tolerance
         raise ValueError("Unexpectedly large deviation from closest integer.")
     return rounded

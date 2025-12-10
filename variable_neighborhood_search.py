@@ -298,5 +298,5 @@ class VariableNeighborhoodSearch:
 
 
 if __name__ == "__main__":
-    vns = VariableNeighborhoodSearch(5, 50, 4)
+    vns = VariableNeighborhoodSearch(4, 30, 0)
     vns.run_vns_with_lb(total_time_limit=10_000)

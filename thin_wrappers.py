@@ -84,7 +84,7 @@ class GurobiDuck:
 
     @property
     def objective_value(self) -> int:
-        return int(self.model.ObjVal + 1e-6)
+        return gurobi_round(self.model.ObjVal)
 
     def set_time_limit(self, time_limit: int | float):
         self.model.Params.TimeLimit = time_limit

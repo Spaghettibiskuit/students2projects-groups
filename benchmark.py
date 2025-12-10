@@ -18,8 +18,8 @@ class Subfolders(enum.StrEnum):
 @dataclasses.dataclass
 class LocalBranchingParameters:
     total_time_limit: int | float = 60
-    k_min_perc: int | float = 20
-    k_step_perc: int | float = 20
+    k_min_perc: int | float = 10
+    k_step_perc: int | float = 10
     k_max_perc: int | float = 80
     l_min_perc: int | float = 10
     l_step_perc: int | float = 10
@@ -40,7 +40,7 @@ class VariableFixingParamters:
     max_iterations_per_num_zones: int = 20
     min_shake_perc: int = 10
     step_shake_perc: int = 10
-    max_shake_perc: int = 50
+    max_shake_perc: int = 80
     initial_patience: int | float = 3
     shake_patience: int | float = 2
     min_optimization_patience: int | float = 1

@@ -56,7 +56,7 @@ class IndividualAssignmentScorer:
             for project_id, _, _ in self.retriever.assignments
         )
         actual = self.lin_expressions.sum_penalties_surplus_groups.getValue()
-        return abs(derived_sum - actual) < 1e-6
+        return abs(derived_sum - actual) < 1e-4
 
     def _sum_individual_penalty_group_size_matches(self) -> bool:
         derived_sum = sum(
@@ -64,7 +64,7 @@ class IndividualAssignmentScorer:
             for project_id, group_id, _ in self.retriever.assignments
         )
         actual = self.lin_expressions.sum_penalties_group_size.getValue()
-        return abs(derived_sum - actual) < 1e-6
+        return abs(derived_sum - actual) < 1e-4
 
     def _sum_individual_reward_mutual_matches(self) -> bool:
         derived_sum = sum(
@@ -72,7 +72,7 @@ class IndividualAssignmentScorer:
             for project_id, group_id, student_id in self.retriever.assignments
         )
         actual = self.lin_expressions.sum_reward_mutual.getValue()
-        return abs(derived_sum - actual) < 1e-6
+        return abs(derived_sum - actual) < 1e-4
 
     @functools.lru_cache(maxsize=128)
     def _individual_penalty_surplus_groups(self, project_id: int) -> float:

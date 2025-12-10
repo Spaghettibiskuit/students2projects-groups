@@ -12,7 +12,7 @@ ALL_INSTANCES = [
 if __name__ == "__main__":
     random.seed = 0
     benchmark.benchmark(
-        name="all_60s",
+        name="all_60s_1",
         run_gurobi=True,
         run_local_branching=True,
         run_variable_fixing=True,
