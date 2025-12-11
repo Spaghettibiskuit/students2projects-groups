@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-from load_instance import load_instance
+from utilities import load_instance
 
 
 @dataclass(frozen=True)

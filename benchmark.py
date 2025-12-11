@@ -3,7 +3,7 @@ import enum
 import json
 from pathlib import Path
 
-import load_instance
+import utilities
 from variable_neighborhood_search import VariableNeighborhoodSearch
 
 BENCHMARKS_FOLDER = Path(__file__).parent / "benchmarks"
@@ -54,7 +54,7 @@ class GurobiAloneParameters:
 
 def check_whether_instances_exist(instances: list[tuple[int, int, int]]):
     for instance in instances:
-        path_projects, path_students = load_instance.build_paths(*instance)
+        path_projects, path_students = utilities.build_paths(*instance)
         if not path_projects.exists():
             raise ValueError(f"{repr(path_projects)} does not exist")
         if not path_students.exists():

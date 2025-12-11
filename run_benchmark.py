@@ -9,12 +9,16 @@ ALL_INSTANCES = [
     for instance_index in range(10)
 ]
 
+
 if __name__ == "__main__":
     random.seed = 0
     benchmark.benchmark(
-        name="all_60s_1",
+        name="5_big_1h",
         run_gurobi=True,
-        run_local_branching=True,
-        run_variable_fixing=True,
-        instances=ALL_INSTANCES,
+        run_local_branching=False,
+        run_variable_fixing=False,
+        instances=[(10, 100, 0), (20, 200, 0), (30, 300, 0), (40, 400, 0), (50, 500, 0)],
+        gurobi_alone_parameters=benchmark.GurobiAloneParameters(time_limit=3_600),
+        # local_branching_parameters=benchmark.LocalBranchingParameters(total_time_limit=120),
+        # variable_fixing_paramters=benchmark.VariableFixingParamters(total_time_limit=120),
     )
