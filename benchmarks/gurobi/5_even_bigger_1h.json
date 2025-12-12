@@ -1,0 +1,1832 @@
+{
+    "60_600_0": [
+        {
+            "objective": -1800,
+            "bound": 2000000000,
+            "runtime": 0.042999982833862305
+        },
+        {
+            "objective": 1466,
+            "bound": 2603,
+            "runtime": 7.9079999923706055
+        },
+        {
+            "objective": 1469,
+            "bound": 2603,
+            "runtime": 7.9079999923706055
+        },
+        {
+            "objective": 1477,
+            "bound": 2603,
+            "runtime": 7.924000024795532
+        },
+        {
+            "objective": 1537,
+            "bound": 2603,
+            "runtime": 8.049999952316284
+        },
+        {
+            "objective": 1540,
+            "bound": 2603,
+            "runtime": 8.23200011253357
+        },
+        {
+            "objective": 1546,
+            "bound": 2603,
+            "runtime": 9.321000099182129
+        },
+        {
+            "objective": 1596,
+            "bound": 2603,
+            "runtime": 9.446000099182129
+        },
+        {
+            "objective": 1598,
+            "bound": 2603,
+            "runtime": 9.8510000705719
+        },
+        {
+            "objective": 1754,
+            "bound": 2603,
+            "runtime": 10.41700005531311
+        },
+        {
+            "objective": 1758,
+            "bound": 2603,
+            "runtime": 14.529000043869019
+        },
+        {
+            "objective": 1760,
+            "bound": 2603,
+            "runtime": 14.954999923706055
+        },
+        {
+            "objective": 1761,
+            "bound": 2603,
+            "runtime": 15.479000091552734
+        },
+        {
+            "objective": 1763,
+            "bound": 2603,
+            "runtime": 15.490999937057495
+        },
+        {
+            "objective": 1793,
+            "bound": 2598,
+            "runtime": 26.413000106811523
+        },
+        {
+            "objective": 1959,
+            "bound": 2598,
+            "runtime": 29.759000062942505
+        },
+        {
+            "objective": 2030,
+            "bound": 2598,
+            "runtime": 38.34299993515015
+        },
+        {
+            "objective": 2034,
+            "bound": 2598,
+            "runtime": 42.00099992752075
+        },
+        {
+            "objective": 2056,
+            "bound": 2598,
+            "runtime": 45.74500012397766
+        },
+        {
+            "objective": 2060,
+            "bound": 2550,
+            "runtime": 258.5659999847412
+        },
+        {
+            "objective": 2070,
+            "bound": 2550,
+            "runtime": 258.95099997520447
+        },
+        {
+            "objective": 2072,
+            "bound": 2550,
+            "runtime": 259.5260000228882
+        },
+        {
+            "objective": 2073,
+            "bound": 2550,
+            "runtime": 260.22900009155273
+        },
+        {
+            "objective": 2075,
+            "bound": 2550,
+            "runtime": 260.24699997901917
+        },
+        {
+            "objective": 2076,
+            "bound": 2550,
+            "runtime": 260.27500009536743
+        },
+        {
+            "objective": 2077,
+            "bound": 2550,
+            "runtime": 261.5130000114441
+        },
+        {
+            "objective": 2079,
+            "bound": 2550,
+            "runtime": 263.17199993133545
+        },
+        {
+            "objective": 2082,
+            "bound": 2550,
+            "runtime": 263.90899991989136
+        },
+        {
+            "objective": 2084,
+            "bound": 2550,
+            "runtime": 265.25300002098083
+        },
+        {
+            "objective": 2085,
+            "bound": 2550,
+            "runtime": 266.1670000553131
+        },
+        {
+            "objective": 2088,
+            "bound": 2537,
+            "runtime": 451.02999997138977
+        },
+        {
+            "objective": 2089,
+            "bound": 2537,
+            "runtime": 453.1619999408722
+        },
+        {
+            "objective": 2090,
+            "bound": 2523,
+            "runtime": 670.1760001182556
+        },
+        {
+            "objective": 2091,
+            "bound": 2523,
+            "runtime": 670.7309999465942
+        },
+        {
+            "objective": 2092,
+            "bound": 2523,
+            "runtime": 672.8410000801086
+        },
+        {
+            "objective": 2093,
+            "bound": 2523,
+            "runtime": 672.8410000801086
+        },
+        {
+            "objective": 2094,
+            "bound": 2523,
+            "runtime": 673.4879999160767
+        },
+        {
+            "objective": 2096,
+            "bound": 2523,
+            "runtime": 673.5
+        },
+        {
+            "objective": 2098,
+            "bound": 2523,
+            "runtime": 673.5090000629425
+        },
+        {
+            "objective": 2101,
+            "bound": 2523,
+            "runtime": 674.3259999752045
+        },
+        {
+            "objective": 2102,
+            "bound": 2523,
+            "runtime": 674.7249999046326
+        },
+        {
+            "objective": 2103,
+            "bound": 2523,
+            "runtime": 675.7460000514984
+        },
+        {
+            "objective": 2105,
+            "bound": 2523,
+            "runtime": 677.7090001106262
+        },
+        {
+            "objective": 2107,
+            "bound": 2523,
+            "runtime": 678.7220001220703
+        },
+        {
+            "objective": 2109,
+            "bound": 2523,
+            "runtime": 680.5120000839233
+        },
+        {
+            "objective": 2110,
+            "bound": 2523,
+            "runtime": 680.5260000228882
+        },
+        {
+            "objective": 2113,
+            "bound": 2523,
+            "runtime": 680.5460000038147
+        },
+        {
+            "objective": 2115,
+            "bound": 2523,
+            "runtime": 681.0629999637604
+        },
+        {
+            "objective": 2116,
+            "bound": 2523,
+            "runtime": 684.3150000572205
+        },
+        {
+            "objective": 2118,
+            "bound": 2523,
+            "runtime": 687.4739999771118
+        },
+        {
+            "objective": 2119,
+            "bound": 2523,
+            "runtime": 690.6530001163483
+        },
+        {
+            "objective": 2120,
+            "bound": 2523,
+            "runtime": 693.0940001010895
+        },
+        {
+            "objective": 2122,
+            "bound": 2523,
+            "runtime": 695.9720001220703
+        },
+        {
+            "objective": 2123,
+            "bound": 2512,
+            "runtime": 991.7860000133514
+        },
+        {
+            "objective": 2125,
+            "bound": 2512,
+            "runtime": 992.6570000648499
+        },
+        {
+            "objective": 2126,
+            "bound": 2512,
+            "runtime": 993.114000082016
+        },
+        {
+            "objective": 2127,
+            "bound": 2503,
+            "runtime": 1337.375
+        },
+        {
+            "objective": 2131,
+            "bound": 2503,
+            "runtime": 1338.0369999408722
+        },
+        {
+            "objective": 2134,
+            "bound": 2503,
+            "runtime": 1339.7039999961853
+        },
+        {
+            "objective": 2135,
+            "bound": 2503,
+            "runtime": 1341.3570001125336
+        },
+        {
+            "objective": 2136,
+            "bound": 2503,
+            "runtime": 1341.7160000801086
+        },
+        {
+            "objective": 2137,
+            "bound": 2503,
+            "runtime": 1341.7160000801086
+        },
+        {
+            "objective": 2139,
+            "bound": 2503,
+            "runtime": 1344.1770000457764
+        },
+        {
+            "objective": 2141,
+            "bound": 2503,
+            "runtime": 1344.1819999217987
+        },
+        {
+            "objective": 2142,
+            "bound": 2503,
+            "runtime": 1346.4639999866486
+        },
+        {
+            "objective": 2146,
+            "bound": 2503,
+            "runtime": 1349.9059998989105
+        },
+        {
+            "objective": 2147,
+            "bound": 2503,
+            "runtime": 1354.2019999027252
+        },
+        {
+            "objective": 2148,
+            "bound": 2503,
+            "runtime": 1357.2999999523163
+        },
+        {
+            "objective": 2149,
+            "bound": 2494,
+            "runtime": 1727.8670001029968
+        },
+        {
+            "objective": 2151,
+            "bound": 2494,
+            "runtime": 1728.154000043869
+        },
+        {
+            "objective": 2152,
+            "bound": 2494,
+            "runtime": 1728.9379999637604
+        },
+        {
+            "objective": 2154,
+            "bound": 2494,
+            "runtime": 1730.2309999465942
+        },
+        {
+            "objective": 2155,
+            "bound": 2486,
+            "runtime": 2171.582000017166
+        },
+        {
+            "objective": 2161,
+            "bound": 2486,
+            "runtime": 2207.9319999217987
+        },
+        {
+            "objective": 2162,
+            "bound": 2486,
+            "runtime": 2215.9990000724792
+        },
+        {
+            "objective": 2165,
+            "bound": 2486,
+            "runtime": 2224.265000104904
+        },
+        {
+            "objective": 2167,
+            "bound": 2486,
+            "runtime": 2239.8919999599457
+        },
+        {
+            "objective": 2171,
+            "bound": 2486,
+            "runtime": 2243.4639999866486
+        },
+        {
+            "objective": 2176,
+            "bound": 2486,
+            "runtime": 2253.8680000305176
+        },
+        {
+            "objective": 2179,
+            "bound": 2486,
+            "runtime": 2269.819000005722
+        },
+        {
+            "objective": 2180,
+            "bound": 2486,
+            "runtime": 2286.8280000686646
+        },
+        {
+            "objective": 2182,
+            "bound": 2486,
+            "runtime": 2300.938999891281
+        },
+        {
+            "objective": 2183,
+            "bound": 2486,
+            "runtime": 2309.720999956131
+        },
+        {
+            "objective": 2185,
+            "bound": 2486,
+            "runtime": 2309.7379999160767
+        },
+        {
+            "objective": 2186,
+            "bound": 2486,
+            "runtime": 2313.8250000476837
+        },
+        {
+            "objective": 2187,
+            "bound": 2486,
+            "runtime": 2313.8389999866486
+        },
+        {
+            "objective": 2188,
+            "bound": 2486,
+            "runtime": 2322.6640000343323
+        },
+        {
+            "objective": 2189,
+            "bound": 2486,
+            "runtime": 2322.690999984741
+        },
+        {
+            "objective": 2190,
+            "bound": 2486,
+            "runtime": 2335.449000120163
+        },
+        {
+            "objective": 2191,
+            "bound": 2486,
+            "runtime": 2349.694999933243
+        },
+        {
+            "objective": 2192,
+            "bound": 2486,
+            "runtime": 2368.4110000133514
+        },
+        {
+            "objective": 2193,
+            "bound": 2486,
+            "runtime": 2380.326999902725
+        },
+        {
+            "objective": 2194,
+            "bound": 2486,
+            "runtime": 2380.3420000076294
+        },
+        {
+            "objective": 2196,
+            "bound": 2486,
+            "runtime": 2398.7509999275208
+        },
+        {
+            "objective": 2197,
+            "bound": 2486,
+            "runtime": 2411.0460000038147
+        },
+        {
+            "objective": 2198,
+            "bound": 2480,
+            "runtime": 2916.9059998989105
+        },
+        {
+            "objective": 2199,
+            "bound": 2477,
+            "runtime": 3163.4100000858307
+        },
+        {
+            "objective": 2200,
+            "bound": 2477,
+            "runtime": 3173.2839999198914
+        },
+        {
+            "objective": 2201,
+            "bound": 2477,
+            "runtime": 3176.5209999084473
+        },
+        {
+            "objective": 2202,
+            "bound": 2476,
+            "runtime": 3491.5940001010895
+        },
+        {
+            "objective": 2202,
+            "bound": 2476,
+            "runtime": 3600.2279999256134
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "70_700_0": [
+        {
+            "objective": -2100,
+            "bound": 2000000000,
+            "runtime": 0.07899999618530273
+        },
+        {
+            "objective": 1717,
+            "bound": 3071,
+            "runtime": 22.08799982070923
+        },
+        {
+            "objective": 1727,
+            "bound": 3071,
+            "runtime": 22.13599991798401
+        },
+        {
+            "objective": 1781,
+            "bound": 3071,
+            "runtime": 22.27999997138977
+        },
+        {
+            "objective": 1783,
+            "bound": 3071,
+            "runtime": 22.501999855041504
+        },
+        {
+            "objective": 1918,
+            "bound": 3071,
+            "runtime": 25.45299983024597
+        },
+        {
+            "objective": 1979,
+            "bound": 3071,
+            "runtime": 26.10199999809265
+        },
+        {
+            "objective": 2027,
+            "bound": 3071,
+            "runtime": 27.579999923706055
+        },
+        {
+            "objective": 2030,
+            "bound": 3071,
+            "runtime": 33.079999923706055
+        },
+        {
+            "objective": 2031,
+            "bound": 3071,
+            "runtime": 34.787999868392944
+        },
+        {
+            "objective": 2035,
+            "bound": 3071,
+            "runtime": 36.990999937057495
+        },
+        {
+            "objective": 2039,
+            "bound": 3071,
+            "runtime": 37.00599980354309
+        },
+        {
+            "objective": 2040,
+            "bound": 3071,
+            "runtime": 37.46599984169006
+        },
+        {
+            "objective": 2052,
+            "bound": 3063,
+            "runtime": 66.82499980926514
+        },
+        {
+            "objective": 2080,
+            "bound": 3063,
+            "runtime": 67.37999987602234
+        },
+        {
+            "objective": 2082,
+            "bound": 3063,
+            "runtime": 67.41099977493286
+        },
+        {
+            "objective": 2275,
+            "bound": 3063,
+            "runtime": 73.98099994659424
+        },
+        {
+            "objective": 2281,
+            "bound": 3063,
+            "runtime": 89.16199994087219
+        },
+        {
+            "objective": 2351,
+            "bound": 3063,
+            "runtime": 110.41199994087219
+        },
+        {
+            "objective": 2352,
+            "bound": 3022,
+            "runtime": 581.6079998016357
+        },
+        {
+            "objective": 2399,
+            "bound": 3022,
+            "runtime": 582.6379997730255
+        },
+        {
+            "objective": 2418,
+            "bound": 3022,
+            "runtime": 583.3339998722076
+        },
+        {
+            "objective": 2422,
+            "bound": 3022,
+            "runtime": 585.9349999427795
+        },
+        {
+            "objective": 2423,
+            "bound": 3022,
+            "runtime": 585.9499998092651
+        },
+        {
+            "objective": 2424,
+            "bound": 3022,
+            "runtime": 585.9559998512268
+        },
+        {
+            "objective": 2425,
+            "bound": 3022,
+            "runtime": 585.9719998836517
+        },
+        {
+            "objective": 2431,
+            "bound": 3022,
+            "runtime": 587.5869998931885
+        },
+        {
+            "objective": 2433,
+            "bound": 3022,
+            "runtime": 587.6129999160767
+        },
+        {
+            "objective": 2435,
+            "bound": 3022,
+            "runtime": 589.5299999713898
+        },
+        {
+            "objective": 2441,
+            "bound": 3022,
+            "runtime": 593.8359999656677
+        },
+        {
+            "objective": 2443,
+            "bound": 3022,
+            "runtime": 599.6559998989105
+        },
+        {
+            "objective": 2447,
+            "bound": 3022,
+            "runtime": 600.9889998435974
+        },
+        {
+            "objective": 2451,
+            "bound": 3022,
+            "runtime": 604.1909999847412
+        },
+        {
+            "objective": 2453,
+            "bound": 3022,
+            "runtime": 609.7889997959137
+        },
+        {
+            "objective": 2455,
+            "bound": 3022,
+            "runtime": 612.686999797821
+        },
+        {
+            "objective": 2457,
+            "bound": 3022,
+            "runtime": 615.9559998512268
+        },
+        {
+            "objective": 2459,
+            "bound": 3022,
+            "runtime": 620.5119998455048
+        },
+        {
+            "objective": 2465,
+            "bound": 3008,
+            "runtime": 990.4979999065399
+        },
+        {
+            "objective": 2469,
+            "bound": 3008,
+            "runtime": 991.1409997940063
+        },
+        {
+            "objective": 2470,
+            "bound": 3008,
+            "runtime": 994.1619999408722
+        },
+        {
+            "objective": 2472,
+            "bound": 2995,
+            "runtime": 1587.329999923706
+        },
+        {
+            "objective": 2476,
+            "bound": 2995,
+            "runtime": 1588.5129997730255
+        },
+        {
+            "objective": 2477,
+            "bound": 2995,
+            "runtime": 1591.4169998168945
+        },
+        {
+            "objective": 2480,
+            "bound": 2995,
+            "runtime": 1591.430999994278
+        },
+        {
+            "objective": 2481,
+            "bound": 2995,
+            "runtime": 1593.4889998435974
+        },
+        {
+            "objective": 2482,
+            "bound": 2995,
+            "runtime": 1595.034999847412
+        },
+        {
+            "objective": 2483,
+            "bound": 2995,
+            "runtime": 1599.6029999256134
+        },
+        {
+            "objective": 2486,
+            "bound": 2995,
+            "runtime": 1604.1729998588562
+        },
+        {
+            "objective": 2487,
+            "bound": 2995,
+            "runtime": 1605.2529997825623
+        },
+        {
+            "objective": 2489,
+            "bound": 2995,
+            "runtime": 1608.1619999408722
+        },
+        {
+            "objective": 2491,
+            "bound": 2995,
+            "runtime": 1613.117999792099
+        },
+        {
+            "objective": 2492,
+            "bound": 2995,
+            "runtime": 1617.1979999542236
+        },
+        {
+            "objective": 2498,
+            "bound": 2984,
+            "runtime": 2109.255999803543
+        },
+        {
+            "objective": 2502,
+            "bound": 2984,
+            "runtime": 2110.3949999809265
+        },
+        {
+            "objective": 2504,
+            "bound": 2984,
+            "runtime": 2110.914999961853
+        },
+        {
+            "objective": 2511,
+            "bound": 2976,
+            "runtime": 2697.077999830246
+        },
+        {
+            "objective": 2512,
+            "bound": 2976,
+            "runtime": 2700.5279998779297
+        },
+        {
+            "objective": 2515,
+            "bound": 2976,
+            "runtime": 2700.553999900818
+        },
+        {
+            "objective": 2516,
+            "bound": 2976,
+            "runtime": 2701.8689999580383
+        },
+        {
+            "objective": 2517,
+            "bound": 2976,
+            "runtime": 2703.2789998054504
+        },
+        {
+            "objective": 2519,
+            "bound": 2976,
+            "runtime": 2704.4779999256134
+        },
+        {
+            "objective": 2521,
+            "bound": 2976,
+            "runtime": 2704.518999814987
+        },
+        {
+            "objective": 2522,
+            "bound": 2976,
+            "runtime": 2706.542999982834
+        },
+        {
+            "objective": 2523,
+            "bound": 2976,
+            "runtime": 2715.3669998645782
+        },
+        {
+            "objective": 2525,
+            "bound": 2976,
+            "runtime": 2721.191999912262
+        },
+        {
+            "objective": 2527,
+            "bound": 2976,
+            "runtime": 2725.8779997825623
+        },
+        {
+            "objective": 2535,
+            "bound": 2976,
+            "runtime": 2737.0419998168945
+        },
+        {
+            "objective": 2536,
+            "bound": 2976,
+            "runtime": 2740.6169998645782
+        },
+        {
+            "objective": 2537,
+            "bound": 2976,
+            "runtime": 2740.6419999599457
+        },
+        {
+            "objective": 2538,
+            "bound": 2976,
+            "runtime": 2744.6879999637604
+        },
+        {
+            "objective": 2539,
+            "bound": 2976,
+            "runtime": 2746.9599997997284
+        },
+        {
+            "objective": 2540,
+            "bound": 2976,
+            "runtime": 2746.979999780655
+        },
+        {
+            "objective": 2541,
+            "bound": 2966,
+            "runtime": 3410.1859998703003
+        },
+        {
+            "objective": 2542,
+            "bound": 2966,
+            "runtime": 3410.888999938965
+        },
+        {
+            "objective": 2543,
+            "bound": 2966,
+            "runtime": 3413.0309998989105
+        },
+        {
+            "objective": 2544,
+            "bound": 2966,
+            "runtime": 3414.3899998664856
+        },
+        {
+            "objective": 2544,
+            "bound": 2965,
+            "runtime": 3600.1929998397827
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "80_800_0": [
+        {
+            "objective": -2400,
+            "bound": 2000000000,
+            "runtime": 0.125
+        },
+        {
+            "objective": 2020,
+            "bound": 3489,
+            "runtime": 23.993000030517578
+        },
+        {
+            "objective": 2025,
+            "bound": 3489,
+            "runtime": 24.18400001525879
+        },
+        {
+            "objective": 2029,
+            "bound": 3489,
+            "runtime": 24.47000002861023
+        },
+        {
+            "objective": 2052,
+            "bound": 3489,
+            "runtime": 27.07100009918213
+        },
+        {
+            "objective": 2056,
+            "bound": 3489,
+            "runtime": 27.102999925613403
+        },
+        {
+            "objective": 2109,
+            "bound": 3489,
+            "runtime": 27.33999991416931
+        },
+        {
+            "objective": 2115,
+            "bound": 3489,
+            "runtime": 28.45900011062622
+        },
+        {
+            "objective": 2337,
+            "bound": 3489,
+            "runtime": 30.526999950408936
+        },
+        {
+            "objective": 2339,
+            "bound": 3489,
+            "runtime": 37.00200009346008
+        },
+        {
+            "objective": 2351,
+            "bound": 3489,
+            "runtime": 41.198999881744385
+        },
+        {
+            "objective": 2354,
+            "bound": 3489,
+            "runtime": 43.90599989891052
+        },
+        {
+            "objective": 2388,
+            "bound": 3482,
+            "runtime": 82.97699999809265
+        },
+        {
+            "objective": 2618,
+            "bound": 3482,
+            "runtime": 93.9210000038147
+        },
+        {
+            "objective": 2629,
+            "bound": 3482,
+            "runtime": 121.86500000953674
+        },
+        {
+            "objective": 2640,
+            "bound": 3431,
+            "runtime": 979.7200000286102
+        },
+        {
+            "objective": 2645,
+            "bound": 3431,
+            "runtime": 988.1600000858307
+        },
+        {
+            "objective": 2653,
+            "bound": 3431,
+            "runtime": 988.175999879837
+        },
+        {
+            "objective": 2710,
+            "bound": 3431,
+            "runtime": 989.6770000457764
+        },
+        {
+            "objective": 2716,
+            "bound": 3431,
+            "runtime": 994.5
+        },
+        {
+            "objective": 2732,
+            "bound": 3431,
+            "runtime": 994.5460000038147
+        },
+        {
+            "objective": 2737,
+            "bound": 3431,
+            "runtime": 994.5789999961853
+        },
+        {
+            "objective": 2740,
+            "bound": 3431,
+            "runtime": 998.5780000686646
+        },
+        {
+            "objective": 2745,
+            "bound": 3431,
+            "runtime": 1001.6489999294281
+        },
+        {
+            "objective": 2746,
+            "bound": 3431,
+            "runtime": 1001.6640000343323
+        },
+        {
+            "objective": 2748,
+            "bound": 3431,
+            "runtime": 1001.6800000667572
+        },
+        {
+            "objective": 2759,
+            "bound": 3431,
+            "runtime": 1007.1879999637604
+        },
+        {
+            "objective": 2762,
+            "bound": 3431,
+            "runtime": 1009.4370000362396
+        },
+        {
+            "objective": 2767,
+            "bound": 3431,
+            "runtime": 1009.4570000171661
+        },
+        {
+            "objective": 2773,
+            "bound": 3431,
+            "runtime": 1013.8710000514984
+        },
+        {
+            "objective": 2774,
+            "bound": 3431,
+            "runtime": 1013.904000043869
+        },
+        {
+            "objective": 2775,
+            "bound": 3431,
+            "runtime": 1013.9240000247955
+        },
+        {
+            "objective": 2779,
+            "bound": 3431,
+            "runtime": 1019.0880000591278
+        },
+        {
+            "objective": 2786,
+            "bound": 3431,
+            "runtime": 1021.0620000362396
+        },
+        {
+            "objective": 2788,
+            "bound": 3431,
+            "runtime": 1027.4470000267029
+        },
+        {
+            "objective": 2789,
+            "bound": 3431,
+            "runtime": 1035.7909998893738
+        },
+        {
+            "objective": 2790,
+            "bound": 3431,
+            "runtime": 1042.095999956131
+        },
+        {
+            "objective": 2791,
+            "bound": 3431,
+            "runtime": 1042.119999885559
+        },
+        {
+            "objective": 2793,
+            "bound": 3431,
+            "runtime": 1042.151999950409
+        },
+        {
+            "objective": 2795,
+            "bound": 3431,
+            "runtime": 1049.0899999141693
+        },
+        {
+            "objective": 2796,
+            "bound": 3431,
+            "runtime": 1049.1129999160767
+        },
+        {
+            "objective": 2803,
+            "bound": 3431,
+            "runtime": 1054.6510000228882
+        },
+        {
+            "objective": 2806,
+            "bound": 3431,
+            "runtime": 1054.6849999427795
+        },
+        {
+            "objective": 2808,
+            "bound": 3415,
+            "runtime": 1632.2439999580383
+        },
+        {
+            "objective": 2819,
+            "bound": 3415,
+            "runtime": 1634.4300000667572
+        },
+        {
+            "objective": 2820,
+            "bound": 3415,
+            "runtime": 1641.9719998836517
+        },
+        {
+            "objective": 2821,
+            "bound": 3415,
+            "runtime": 1642.0079998970032
+        },
+        {
+            "objective": 2822,
+            "bound": 3415,
+            "runtime": 1642.0250000953674
+        },
+        {
+            "objective": 2825,
+            "bound": 3401,
+            "runtime": 2682.076999902725
+        },
+        {
+            "objective": 2839,
+            "bound": 3401,
+            "runtime": 2682.7699999809265
+        },
+        {
+            "objective": 2840,
+            "bound": 3401,
+            "runtime": 2684.911999940872
+        },
+        {
+            "objective": 2842,
+            "bound": 3401,
+            "runtime": 2684.927999973297
+        },
+        {
+            "objective": 2847,
+            "bound": 3401,
+            "runtime": 2685.6719999313354
+        },
+        {
+            "objective": 2852,
+            "bound": 3401,
+            "runtime": 2687.611000061035
+        },
+        {
+            "objective": 2855,
+            "bound": 3401,
+            "runtime": 2688.3359999656677
+        },
+        {
+            "objective": 2856,
+            "bound": 3401,
+            "runtime": 2690.3099999427795
+        },
+        {
+            "objective": 2857,
+            "bound": 3401,
+            "runtime": 2690.358999967575
+        },
+        {
+            "objective": 2858,
+            "bound": 3401,
+            "runtime": 2690.3970000743866
+        },
+        {
+            "objective": 2859,
+            "bound": 3401,
+            "runtime": 2693.5810000896454
+        },
+        {
+            "objective": 2862,
+            "bound": 3401,
+            "runtime": 2697.8359999656677
+        },
+        {
+            "objective": 2863,
+            "bound": 3401,
+            "runtime": 2698.617000102997
+        },
+        {
+            "objective": 2864,
+            "bound": 3401,
+            "runtime": 2701.1989998817444
+        },
+        {
+            "objective": 2866,
+            "bound": 3401,
+            "runtime": 2701.246999979019
+        },
+        {
+            "objective": 2867,
+            "bound": 3401,
+            "runtime": 2703.180999994278
+        },
+        {
+            "objective": 2869,
+            "bound": 3401,
+            "runtime": 2705.351000070572
+        },
+        {
+            "objective": 2871,
+            "bound": 3401,
+            "runtime": 2708.039999961853
+        },
+        {
+            "objective": 2872,
+            "bound": 3401,
+            "runtime": 2708.109999895096
+        },
+        {
+            "objective": 2872,
+            "bound": 3394,
+            "runtime": 3600.190999984741
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "90_900_0": [
+        {
+            "objective": -2700,
+            "bound": 2000000000,
+            "runtime": 0.14999985694885254
+        },
+        {
+            "objective": 2208,
+            "bound": 3919,
+            "runtime": 38.782999992370605
+        },
+        {
+            "objective": 2306,
+            "bound": 3919,
+            "runtime": 38.819000005722046
+        },
+        {
+            "objective": 2329,
+            "bound": 3919,
+            "runtime": 39.103999853134155
+        },
+        {
+            "objective": 2331,
+            "bound": 3919,
+            "runtime": 39.41799998283386
+        },
+        {
+            "objective": 2517,
+            "bound": 3919,
+            "runtime": 43.33699989318848
+        },
+        {
+            "objective": 2572,
+            "bound": 3919,
+            "runtime": 44.45799994468689
+        },
+        {
+            "objective": 2683,
+            "bound": 3919,
+            "runtime": 50.2960000038147
+        },
+        {
+            "objective": 2727,
+            "bound": 3910,
+            "runtime": 122.6859998703003
+        },
+        {
+            "objective": 2968,
+            "bound": 3910,
+            "runtime": 136.06299996376038
+        },
+        {
+            "objective": 2976,
+            "bound": 3910,
+            "runtime": 178.21599984169006
+        },
+        {
+            "objective": 2996,
+            "bound": 3844,
+            "runtime": 1008.5739998817444
+        },
+        {
+            "objective": 3048,
+            "bound": 3844,
+            "runtime": 1010.4110000133514
+        },
+        {
+            "objective": 3062,
+            "bound": 3844,
+            "runtime": 1017.1970000267029
+        },
+        {
+            "objective": 3073,
+            "bound": 3844,
+            "runtime": 1020.5769999027252
+        },
+        {
+            "objective": 3077,
+            "bound": 3844,
+            "runtime": 1020.606999874115
+        },
+        {
+            "objective": 3086,
+            "bound": 3844,
+            "runtime": 1021.6789999008179
+        },
+        {
+            "objective": 3091,
+            "bound": 3844,
+            "runtime": 1021.702999830246
+        },
+        {
+            "objective": 3098,
+            "bound": 3844,
+            "runtime": 1021.7189998626709
+        },
+        {
+            "objective": 3103,
+            "bound": 3844,
+            "runtime": 1029.0369999408722
+        },
+        {
+            "objective": 3106,
+            "bound": 3844,
+            "runtime": 1029.0679998397827
+        },
+        {
+            "objective": 3110,
+            "bound": 3844,
+            "runtime": 1035.9829998016357
+        },
+        {
+            "objective": 3113,
+            "bound": 3844,
+            "runtime": 1036.0139999389648
+        },
+        {
+            "objective": 3115,
+            "bound": 3844,
+            "runtime": 1040.5999999046326
+        },
+        {
+            "objective": 3117,
+            "bound": 3844,
+            "runtime": 1040.6319999694824
+        },
+        {
+            "objective": 3118,
+            "bound": 3844,
+            "runtime": 1040.6480000019073
+        },
+        {
+            "objective": 3126,
+            "bound": 3844,
+            "runtime": 1045.6719999313354
+        },
+        {
+            "objective": 3130,
+            "bound": 3844,
+            "runtime": 1049.1299998760223
+        },
+        {
+            "objective": 3135,
+            "bound": 3844,
+            "runtime": 1049.1619999408722
+        },
+        {
+            "objective": 3146,
+            "bound": 3844,
+            "runtime": 1054.3780000209808
+        },
+        {
+            "objective": 3149,
+            "bound": 3844,
+            "runtime": 1057.1639997959137
+        },
+        {
+            "objective": 3150,
+            "bound": 3844,
+            "runtime": 1057.1959998607635
+        },
+        {
+            "objective": 3151,
+            "bound": 3844,
+            "runtime": 1057.2439999580383
+        },
+        {
+            "objective": 3152,
+            "bound": 3844,
+            "runtime": 1062.8049998283386
+        },
+        {
+            "objective": 3154,
+            "bound": 3844,
+            "runtime": 1062.8369998931885
+        },
+        {
+            "objective": 3157,
+            "bound": 3844,
+            "runtime": 1066.0279998779297
+        },
+        {
+            "objective": 3159,
+            "bound": 3844,
+            "runtime": 1077.2709999084473
+        },
+        {
+            "objective": 3161,
+            "bound": 3844,
+            "runtime": 1077.2999999523163
+        },
+        {
+            "objective": 3164,
+            "bound": 3844,
+            "runtime": 1083.936999797821
+        },
+        {
+            "objective": 3168,
+            "bound": 3844,
+            "runtime": 1083.9789998531342
+        },
+        {
+            "objective": 3170,
+            "bound": 3844,
+            "runtime": 1084.021999835968
+        },
+        {
+            "objective": 3172,
+            "bound": 3844,
+            "runtime": 1087.430999994278
+        },
+        {
+            "objective": 3174,
+            "bound": 3844,
+            "runtime": 1087.4749999046326
+        },
+        {
+            "objective": 3177,
+            "bound": 3844,
+            "runtime": 1095.5439999103546
+        },
+        {
+            "objective": 3179,
+            "bound": 3844,
+            "runtime": 1095.59099984169
+        },
+        {
+            "objective": 3181,
+            "bound": 3844,
+            "runtime": 1099.760999917984
+        },
+        {
+            "objective": 3186,
+            "bound": 3844,
+            "runtime": 1099.7929999828339
+        },
+        {
+            "objective": 3198,
+            "bound": 3824,
+            "runtime": 1910.316999912262
+        },
+        {
+            "objective": 3202,
+            "bound": 3824,
+            "runtime": 1925.954999923706
+        },
+        {
+            "objective": 3203,
+            "bound": 3824,
+            "runtime": 1939.7129998207092
+        },
+        {
+            "objective": 3206,
+            "bound": 3808,
+            "runtime": 3291.2229998111725
+        },
+        {
+            "objective": 3214,
+            "bound": 3808,
+            "runtime": 3292.9189999103546
+        },
+        {
+            "objective": 3217,
+            "bound": 3808,
+            "runtime": 3295.4800000190735
+        },
+        {
+            "objective": 3218,
+            "bound": 3808,
+            "runtime": 3295.5019998550415
+        },
+        {
+            "objective": 3219,
+            "bound": 3808,
+            "runtime": 3298.3689999580383
+        },
+        {
+            "objective": 3220,
+            "bound": 3808,
+            "runtime": 3298.4039998054504
+        },
+        {
+            "objective": 3221,
+            "bound": 3808,
+            "runtime": 3300.383999824524
+        },
+        {
+            "objective": 3223,
+            "bound": 3808,
+            "runtime": 3302.1159999370575
+        },
+        {
+            "objective": 3225,
+            "bound": 3808,
+            "runtime": 3303.6289999485016
+        },
+        {
+            "objective": 3229,
+            "bound": 3808,
+            "runtime": 3310.6610000133514
+        },
+        {
+            "objective": 3230,
+            "bound": 3808,
+            "runtime": 3314.705999851227
+        },
+        {
+            "objective": 3231,
+            "bound": 3808,
+            "runtime": 3322.513000011444
+        },
+        {
+            "objective": 3232,
+            "bound": 3808,
+            "runtime": 3322.5569999217987
+        },
+        {
+            "objective": 3233,
+            "bound": 3808,
+            "runtime": 3326.4809999465942
+        },
+        {
+            "objective": 3234,
+            "bound": 3808,
+            "runtime": 3331.184000015259
+        },
+        {
+            "objective": 3234,
+            "bound": 3805,
+            "runtime": 3600.194999933243
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "100_1000_0": [
+        {
+            "objective": -3000,
+            "bound": 2000000000,
+            "runtime": 0.17400002479553223
+        },
+        {
+            "objective": 2560,
+            "bound": 4314,
+            "runtime": 50.33800005912781
+        },
+        {
+            "objective": 2568,
+            "bound": 4314,
+            "runtime": 50.65299987792969
+        },
+        {
+            "objective": 2570,
+            "bound": 4314,
+            "runtime": 51.3289999961853
+        },
+        {
+            "objective": 2589,
+            "bound": 4314,
+            "runtime": 56.556999921798706
+        },
+        {
+            "objective": 2593,
+            "bound": 4314,
+            "runtime": 56.68400001525879
+        },
+        {
+            "objective": 2658,
+            "bound": 4314,
+            "runtime": 57.28600001335144
+        },
+        {
+            "objective": 2660,
+            "bound": 4314,
+            "runtime": 59.3439998626709
+        },
+        {
+            "objective": 2933,
+            "bound": 4314,
+            "runtime": 63.51600003242493
+        },
+        {
+            "objective": 2984,
+            "bound": 4301,
+            "runtime": 181.16999983787537
+        },
+        {
+            "objective": 2986,
+            "bound": 4301,
+            "runtime": 204.00600004196167
+        },
+        {
+            "objective": 3279,
+            "bound": 4301,
+            "runtime": 208.45000004768372
+        },
+        {
+            "objective": 3286,
+            "bound": 4261,
+            "runtime": 725.3799998760223
+        },
+        {
+            "objective": 3309,
+            "bound": 4261,
+            "runtime": 728.1789999008179
+        },
+        {
+            "objective": 3310,
+            "bound": 4261,
+            "runtime": 728.210000038147
+        },
+        {
+            "objective": 3312,
+            "bound": 4261,
+            "runtime": 730.1949999332428
+        },
+        {
+            "objective": 3313,
+            "bound": 4261,
+            "runtime": 731.7690000534058
+        },
+        {
+            "objective": 3319,
+            "bound": 4261,
+            "runtime": 731.800999879837
+        },
+        {
+            "objective": 3329,
+            "bound": 4234,
+            "runtime": 1665.758999824524
+        },
+        {
+            "objective": 3361,
+            "bound": 4234,
+            "runtime": 1668.2039999961853
+        },
+        {
+            "objective": 3367,
+            "bound": 4234,
+            "runtime": 1670.3229999542236
+        },
+        {
+            "objective": 3384,
+            "bound": 4234,
+            "runtime": 1671.7149999141693
+        },
+        {
+            "objective": 3386,
+            "bound": 4234,
+            "runtime": 1675.773999929428
+        },
+        {
+            "objective": 3391,
+            "bound": 4234,
+            "runtime": 1675.8099999427795
+        },
+        {
+            "objective": 3392,
+            "bound": 4234,
+            "runtime": 1682.5599999427795
+        },
+        {
+            "objective": 3400,
+            "bound": 4234,
+            "runtime": 1682.6139998435974
+        },
+        {
+            "objective": 3423,
+            "bound": 4234,
+            "runtime": 1682.6770000457764
+        },
+        {
+            "objective": 3425,
+            "bound": 4234,
+            "runtime": 1692.6019999980927
+        },
+        {
+            "objective": 3431,
+            "bound": 4234,
+            "runtime": 1692.6219999790192
+        },
+        {
+            "objective": 3432,
+            "bound": 4234,
+            "runtime": 1692.654000043869
+        },
+        {
+            "objective": 3433,
+            "bound": 4234,
+            "runtime": 1693.9989998340607
+        },
+        {
+            "objective": 3438,
+            "bound": 4234,
+            "runtime": 1694.0490000247955
+        },
+        {
+            "objective": 3440,
+            "bound": 4234,
+            "runtime": 1694.0950000286102
+        },
+        {
+            "objective": 3441,
+            "bound": 4234,
+            "runtime": 1698.3559999465942
+        },
+        {
+            "objective": 3442,
+            "bound": 4234,
+            "runtime": 1703.9370000362396
+        },
+        {
+            "objective": 3444,
+            "bound": 4234,
+            "runtime": 1707.593999862671
+        },
+        {
+            "objective": 3447,
+            "bound": 4234,
+            "runtime": 1714.039999961853
+        },
+        {
+            "objective": 3450,
+            "bound": 4234,
+            "runtime": 1720.0319998264313
+        },
+        {
+            "objective": 3451,
+            "bound": 4234,
+            "runtime": 1726.348000049591
+        },
+        {
+            "objective": 3455,
+            "bound": 4234,
+            "runtime": 1730.0709998607635
+        },
+        {
+            "objective": 3456,
+            "bound": 4234,
+            "runtime": 1734.441999912262
+        },
+        {
+            "objective": 3457,
+            "bound": 4234,
+            "runtime": 1734.4830000400543
+        },
+        {
+            "objective": 3462,
+            "bound": 4215,
+            "runtime": 3016.832000017166
+        },
+        {
+            "objective": 3477,
+            "bound": 4215,
+            "runtime": 3021.0190000534058
+        },
+        {
+            "objective": 3478,
+            "bound": 4215,
+            "runtime": 3024.6459999084473
+        },
+        {
+            "objective": 3484,
+            "bound": 4215,
+            "runtime": 3030.8659999370575
+        },
+        {
+            "objective": 3485,
+            "bound": 4215,
+            "runtime": 3049.5469999313354
+        },
+        {
+            "objective": 3486,
+            "bound": 4215,
+            "runtime": 3060.133999824524
+        },
+        {
+            "objective": 3486,
+            "bound": 4208,
+            "runtime": 3600.2439999580383
+        },
+        {
+            "is_correct": 1
+        }
+    ]
+}
