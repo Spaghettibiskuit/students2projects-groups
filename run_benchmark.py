@@ -11,14 +11,14 @@ ALL_INSTANCES = [
 
 
 if __name__ == "__main__":
-    random.seed = 0
+    random.seed(0)
     benchmark.benchmark(
-        name="5_even_bigger_1h",
-        run_gurobi=True,
+        name="seed_check_2",
+        run_gurobi=False,
         run_local_branching=False,
-        run_variable_fixing=False,
-        instances=[(60, 600, 0), (70, 700, 0), (80, 800, 0), (90, 900, 0), (100, 1_000, 0)],
-        gurobi_alone_parameters=benchmark.GurobiAloneParameters(time_limit=3_600),
+        run_variable_fixing=True,
+        instances=ALL_INSTANCES[80:85],
+        # gurobi_alone_parameters=benchmark.GurobiAloneParameters(time_limit=3_600),
         # local_branching_parameters=benchmark.LocalBranchingParameters(total_time_limit=120),
-        # variable_fixing_paramters=benchmark.VariableFixingParamters(total_time_limit=120),
+        variable_fixing_paramters=benchmark.VariableFixingParamters(total_time_limit=30),
     )
