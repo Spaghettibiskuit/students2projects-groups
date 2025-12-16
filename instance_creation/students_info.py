@@ -8,7 +8,8 @@ import pandas
 def random_partner_preferences(
     num_students: int,
     percentage_reciprocity: float,
-    num_partner_preferences: int,
+    min_num_partner_prefs: int,
+    max_num_partner_prefs: int,
 ) -> list[list[int]]:
     """Returns partner preferences for all students.
 
@@ -21,48 +22,46 @@ def random_partner_preferences(
             each student specifies with the ID of the students he/she
             wants to  work together with the most.
     """
-    students_partner_preferences: list[list[int]] = []
+    students_partner_prefs: list[list[int]] = []
     student_ids = list(range(num_students))
     chosen_by: dict[int, list[int]] = {student_id: [] for student_id in student_ids}
 
     for student_id in range(num_students):
-        all_other_student_ids = student_ids[:student_id] + student_ids[student_id + 1 :]
+        all_other_ids = student_ids[:student_id] + student_ids[student_id + 1 :]
+        num_partner_prefs = random.randint(min_num_partner_prefs, max_num_partner_prefs)
 
-        if ids_that_chose_student := chosen_by[student_id]:
+        if not (ids_that_chose_student := chosen_by[student_id]):
+            student_partner_prefs = random.sample(all_other_ids, num_partner_prefs)
+        else:
             applicable_for_reciprocity = random.sample(
                 ids_that_chose_student,
-                min(len(ids_that_chose_student), num_partner_preferences),
+                min(len(ids_that_chose_student), num_partner_prefs),
             )
-            reciprocal_preferences = [
+            reciprocal_prefs = [
                 other_students_id
                 for other_students_id in applicable_for_reciprocity
                 if random.random() <= percentage_reciprocity
             ]
-            num_missing_preferences = num_partner_preferences - len(reciprocal_preferences)
+            num_missing_prefs = num_partner_prefs - len(reciprocal_prefs)
 
-            if num_missing_preferences > 0:
+            if not num_missing_prefs:
+                student_partner_prefs = reciprocal_prefs
+            else:
                 left_options = [
                     student_id
-                    for student_id in all_other_student_ids
-                    if student_id not in reciprocal_preferences
+                    for student_id in all_other_ids
+                    if student_id not in reciprocal_prefs
                 ]
-                student_partner_preferences = reciprocal_preferences + random.sample(
-                    left_options, num_missing_preferences
+                student_partner_prefs = reciprocal_prefs + random.sample(
+                    left_options, num_missing_prefs
                 )
-            else:
-                student_partner_preferences = reciprocal_preferences
 
-        else:
-            student_partner_preferences = random.sample(
-                all_other_student_ids, num_partner_preferences
-            )
+        students_partner_prefs.append(student_partner_prefs)
 
-        students_partner_preferences.append(student_partner_preferences)
-
-        for partner_preference in student_partner_preferences:
+        for partner_preference in student_partner_prefs:
             chosen_by[partner_preference].append(student_id)
 
-    return students_partner_preferences
+    return students_partner_prefs
 
 
 def average_project_preferences(
@@ -125,7 +124,7 @@ def random_project_preferences(
         )
         if average_preferences is None:
             student_project_preferences = tuple(
-                round(random.uniform(min_pref - 0.5, max_pref + 0.5)) for _ in range(num_projects)
+                random.randint(min_pref, max_pref) for _ in range(num_projects)
             )
         else:
             student_project_preferences = tuple(
@@ -144,7 +143,8 @@ def random_project_preferences(
 def random_students_df(
     num_projects: int,
     num_students: int,
-    num_partner_preferences: int,
+    min_num_partner_preferences: int,
+    max_num_partner_preferences: int,
     percentage_reciprocity: float,
     percentage_project_preference_overlap: float,
     min_project_preference: int,
@@ -178,7 +178,10 @@ def random_students_df(
         DATAFRAME LATER BECOMES THE STUDENT'S ID.
     """
     partner_preferences = random_partner_preferences(
-        num_students, percentage_reciprocity, num_partner_preferences
+        num_students,
+        percentage_reciprocity,
+        min_num_partner_preferences,
+        max_num_partner_preferences,
     )
     project_preferences = random_project_preferences(
         num_projects,

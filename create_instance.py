@@ -26,7 +26,8 @@ class ProjectsParams:
 
 @dataclasses.dataclass
 class StudentsParams:
-    num_partner_preferences: int = 3
+    min_num_partner_preferences: int = 1
+    max_num_partner_preferences: int = 5
     percentage_reciprocity: float = 0.7
     percentage_project_preference_overlap: float = 0.7
     min_project_preference: int = 0
