@@ -1,12 +1,18 @@
 import functools
 from time import time
 
-from base_model_builder import BaseModelBuilder
-from callbacks import GurobiAloneProgressTracker, InitialOptimizationTracker
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from fixing_data import FixingByRankingData
-from solution_reminders import SolutionReminderBranching, SolutionReminderDiving
+from modeling.base_model_builder import BaseModelBuilder
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from solving_utilities.callbacks import (
+    GurobiAloneProgressTracker,
+    InitialOptimizationTracker,
+)
+from solving_utilities.fixing_data import FixingByRankingData
+from solving_utilities.solution_reminders import (
+    SolutionReminderBranching,
+    SolutionReminderDiving,
+)
 from utilities import Stations, gurobi_round, var_values
 
 

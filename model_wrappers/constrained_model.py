@@ -5,10 +5,10 @@ import itertools
 import gurobipy
 from gurobipy import GRB
 
-from model_components import ModelComponents
-from model_wrapper import ModelWrapper
-from solution_reminders import SolutionReminderBranching
-from thin_wrappers import ConstrainedModelInitializer
+from model_wrappers.model_wrapper import ModelWrapper
+from model_wrappers.thin_wrappers import ConstrainedModelInitializer
+from modeling.model_components import ModelComponents
+from solving_utilities.solution_reminders import SolutionReminderBranching
 from utilities import var_values
 
 

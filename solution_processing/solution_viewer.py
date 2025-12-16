@@ -5,8 +5,8 @@ from functools import cached_property, lru_cache
 
 import pandas as pd
 
-from derived_modeling_data import DerivedModelingData
-from solution_info_retriever import SolutionInformationRetriever
+from modeling.derived_modeling_data import DerivedModelingData
+from solution_processing.solution_info_retriever import SolutionInformationRetriever
 
 
 class SolutionViewer:

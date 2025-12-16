@@ -3,9 +3,9 @@
 import itertools
 from functools import cached_property, lru_cache
 
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from model_components import Variables
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from modeling.model_components import Variables
 
 
 class SolutionInformationRetriever:

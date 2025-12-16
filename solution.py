@@ -6,13 +6,13 @@ from pathlib import Path
 
 import pandas
 
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from model_wrapper import ModelWrapper
-from solution_checker import SolutionChecker
-from solution_info_retriever import SolutionInformationRetriever
-from solution_viewer import SolutionViewer
-from thin_wrappers import GurobiDuck
+from model_wrappers.model_wrapper import ModelWrapper
+from model_wrappers.thin_wrappers import GurobiDuck
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from solution_processing.solution_checker import SolutionChecker
+from solution_processing.solution_info_retriever import SolutionInformationRetriever
+from solution_processing.solution_viewer import SolutionViewer
 
 SOLUTIONS_FOLDER_NAME = "solutions"
 

@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-from configuration import Configuration
+from modeling.configuration import Configuration
 
 
 @dataclass(frozen=True)

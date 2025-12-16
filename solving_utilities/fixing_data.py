@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 import gurobipy
 
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from individual_assignment_scorer import IndividualAssignmentScorer
-from model_components import LinExpressions, Variables
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from modeling.model_components import LinExpressions, Variables
+from solution_processing.individual_assignment_scorer import IndividualAssignmentScorer
 
 
 @dataclass(frozen=True)

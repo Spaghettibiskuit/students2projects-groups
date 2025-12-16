@@ -2,10 +2,10 @@
 
 import functools
 
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from model_components import LinExpressions, Variables
-from solution_info_retriever import SolutionInformationRetriever
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from modeling.model_components import LinExpressions, Variables
+from solution_processing.solution_info_retriever import SolutionInformationRetriever
 
 
 class IndividualAssignmentScorer:

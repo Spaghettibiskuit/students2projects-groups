@@ -1,6 +1,7 @@
 import dataclasses
 import enum
 import json
+import random
 from pathlib import Path
 
 import utilities
@@ -138,3 +139,23 @@ def benchmark(
             variable_fixing_path.write_text(
                 json.dumps(variable_fixing_solutions, indent=4), encoding="utf-8"
             )
+
+
+if __name__ == "__main__":
+    random.seed(0)
+    all_small_instances = [
+        (num_projects, num_students, instance_index)
+        for num_projects in [3, 4, 5]
+        for num_students in [30, 40, 50]
+        for instance_index in range(10)
+    ]
+    benchmark(
+        name="moving_check",
+        run_gurobi=True,
+        run_local_branching=True,
+        run_variable_fixing=True,
+        instances=all_small_instances[84:85],
+        # gurobi_alone_parameters=GurobiAloneParameters(time_limit=3_600),
+        # local_branching_parameters=LocalBranchingParameters(total_time_limit=120),
+        # variable_fixing_paramters=VariableFixingParamters(total_time_limit=30),
+    )

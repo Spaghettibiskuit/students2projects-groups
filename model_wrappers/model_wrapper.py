@@ -3,9 +3,9 @@ import time
 
 import gurobipy
 
-from callbacks import PatienceShake, PatienceVND
-from model_components import ModelComponents
-from solution_reminders import SolutionReminderBase
+from modeling.model_components import ModelComponents
+from solving_utilities.callbacks import PatienceShake, PatienceVND
+from solving_utilities.solution_reminders import SolutionReminderBase
 from utilities import Stations, gurobi_round
 
 

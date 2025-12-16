@@ -5,9 +5,9 @@ from typing import cast
 import gurobipy as gp
 from gurobipy import GRB
 
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from model_components import (
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from modeling.model_components import (
     InitialConstraints,
     LinExpressions,
     ModelComponents,

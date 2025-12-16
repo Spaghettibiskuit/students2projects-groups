@@ -3,19 +3,19 @@ from time import time
 
 from gurobipy import GRB
 
-from configuration import Configuration
-from constrained_model import ConstrainedModel
-from derived_modeling_data import DerivedModelingData
-from reduced_model import ReducedModel
-from solution import Solution
-from solution_checker import SolutionChecker
-from solution_info_retriever import SolutionInformationRetriever
-from solution_viewer import SolutionViewer
-from thin_wrappers import (
+from model_wrappers.constrained_model import ConstrainedModel
+from model_wrappers.reduced_model import ReducedModel
+from model_wrappers.thin_wrappers import (
     ConstrainedModelInitializer,
     GurobiDuck,
     ReducedModelInitializer,
 )
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from solution import Solution
+from solution_processing.solution_checker import SolutionChecker
+from solution_processing.solution_info_retriever import SolutionInformationRetriever
+from solution_processing.solution_viewer import SolutionViewer
 
 
 class VariableNeighborhoodSearch:

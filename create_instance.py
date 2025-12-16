@@ -2,8 +2,8 @@ import dataclasses
 
 import pandas
 
-from projects_info import random_projects_df
-from students_info import random_students_df
+from instance_creation.projects_info import random_projects_df
+from instance_creation.students_info import random_students_df
 
 
 @dataclasses.dataclass

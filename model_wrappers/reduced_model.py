@@ -6,13 +6,13 @@ import random
 
 import gurobipy
 
-from configuration import Configuration
-from derived_modeling_data import DerivedModelingData
-from fixing_data import FixingByRankingData
-from model_components import ModelComponents
-from model_wrapper import ModelWrapper
-from solution_reminders import SolutionReminderDiving
-from thin_wrappers import ReducedModelInitializer
+from model_wrappers.model_wrapper import ModelWrapper
+from model_wrappers.thin_wrappers import ReducedModelInitializer
+from modeling.configuration import Configuration
+from modeling.derived_modeling_data import DerivedModelingData
+from modeling.model_components import ModelComponents
+from solving_utilities.fixing_data import FixingByRankingData
+from solving_utilities.solution_reminders import SolutionReminderDiving
 from utilities import var_values
 
 
