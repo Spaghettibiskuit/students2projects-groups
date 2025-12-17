@@ -70,14 +70,19 @@ class ModelWrapper(abc.ABC):
     def new_best_found(self) -> bool:
         return self.current_solution.objective_value > self.best_found_solution.objective_value
 
+    def recover_to_best_found(self):
+        variables = self.model.getVars()
+        variable_values = self.best_found_solution.variable_values
+        self.model.setAttr("LB", variables, variable_values)
+        self.model.setAttr("UB", variables, variable_values)
+        self.eliminate_time_limit()
+        self.eliminate_cutoff()
+        self.model.optimize()
+
     @abc.abstractmethod
     def store_solution(self):
         pass
 
     @abc.abstractmethod
     def make_current_solution_best_solution(self):
-        pass
-
-    @abc.abstractmethod
-    def recover_to_best_found(self):
         pass

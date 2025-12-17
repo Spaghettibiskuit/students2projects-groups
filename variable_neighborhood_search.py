@@ -144,6 +144,7 @@ class VariableNeighborhoodSearch:
                     model.store_solution()
                     break
 
+        model.drop_all_branching_constraints()
         model.recover_to_best_found()
         self.best_model = model
         self._post_processing()

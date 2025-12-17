@@ -3,7 +3,6 @@
 import itertools
 
 import gurobipy
-from gurobipy import GRB
 
 from model_wrappers.model_wrapper import ModelWrapper
 from model_wrappers.thin_wrappers import ConstrainedModelInitializer
@@ -98,19 +97,6 @@ class ConstrainedModel(ModelWrapper):
             raise TypeError("Cannot remove shake constraints if None.")
         self.model.remove(self.shake_constraints)
         self.shake_constraints = None
-
-    def recover_to_best_found(self):
-        for var, var_value_incumbent in zip(
-            self.model.getVars(), self.best_found_solution.variable_values
-        ):
-            var.Start = var_value_incumbent
-
-        self.drop_all_branching_constraints()
-        self.model.Params.Cutoff = round(self.best_found_solution.objective_value) - 1e-4
-        self.model.Params.SolutionLimit = 1
-        self.model.Params.TimeLimit = float("inf")
-        self.model.optimize()
-        self.model.Params.SolutionLimit = GRB.MAXINT
 
     @classmethod
     def get(
