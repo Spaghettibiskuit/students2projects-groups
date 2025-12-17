@@ -91,30 +91,6 @@ def instance_summary_gurobi(
     return InstanceSummaryGurobi(best_objective, best_bound, runtime_best_objective)
 
 
-def instance_summaries_heuristic(
-    results: dict[str, list[dict[str, int | float | str]]],
-    num_projects: int,
-    num_students: int,
-    instance_indexes: range,
-) -> list[InstanceSummaryHeuristic]:
-    return [
-        instance_summary_heuristic(results, num_projects, num_students, instance_index)
-        for instance_index in instance_indexes
-    ]
-
-
-def instance_summaries_gurobi(
-    results: dict[str, list[dict[str, int | float | str]]],
-    num_projects: int,
-    num_students: int,
-    instance_indexes: range,
-) -> list[InstanceSummaryGurobi]:
-    return [
-        instance_summary_gurobi(results, num_projects, num_students, instance_index)
-        for instance_index in instance_indexes
-    ]
-
-
 def granular_all_methods(
     num_projects: int,
     num_students: int,
@@ -127,15 +103,18 @@ def granular_all_methods(
     lb_res = json.loads(lb_path.read_text("utf-8"))
     vf_res = json.loads(vf_path.read_text("utf-8"))
 
-    gurobi_summaries = instance_summaries_gurobi(
-        gurobi_res, num_projects, num_students, instance_indexes
-    )
-    lb_summaries = instance_summaries_heuristic(
-        lb_res, num_projects, num_students, instance_indexes
-    )
-    vf_summaries = instance_summaries_heuristic(
-        vf_res, num_projects, num_students, instance_indexes
-    )
+    gurobi_summaries = [
+        instance_summary_gurobi(gurobi_res, num_projects, num_students, instance_index)
+        for instance_index in instance_indexes
+    ]
+    lb_summaries = [
+        instance_summary_heuristic(lb_res, num_projects, num_students, instance_index)
+        for instance_index in instance_indexes
+    ]
+    vf_summaries = [
+        instance_summary_heuristic(vf_res, num_projects, num_students, instance_index)
+        for instance_index in instance_indexes
+    ]
     bests_grb = [summary.best_objective for summary in gurobi_summaries]
     bests_lb = [summary.best_objective for summary in lb_summaries]
     bests_vf = [summary.best_objective for summary in vf_summaries]

@@ -5,28 +5,17 @@ import random
 import pandas
 
 
-def random_partner_preferences(
+def _random_partner_preferences(
     num_students: int,
     percentage_reciprocity: float,
     min_num_partner_prefs: int,
     max_num_partner_prefs: int,
 ) -> list[list[int]]:
-    """Returns partner preferences for all students.
-
-    Args:
-        num_students: The number of students in the problem.
-        percentage_reciprocity: Roughly the probability that a student
-            specifies another student as a partner preference if that
-            student specified him/her as a partner preference before.
-        num_partner_preferences: The number of partner preferences
-            each student specifies with the ID of the students he/she
-            wants to  work together with the most.
-    """
     students_partner_prefs: list[list[int]] = []
     student_ids = list(range(num_students))
     chosen_by: dict[int, list[int]] = {student_id: [] for student_id in student_ids}
 
-    for student_id in range(num_students):
+    for student_id in student_ids:
         all_other_ids = student_ids[:student_id] + student_ids[student_id + 1 :]
         num_partner_prefs = random.randint(min_num_partner_prefs, max_num_partner_prefs)
 
@@ -38,8 +27,8 @@ def random_partner_preferences(
                 min(len(ids_that_chose_student), num_partner_prefs),
             )
             reciprocal_prefs = [
-                other_students_id
-                for other_students_id in applicable_for_reciprocity
+                other_student_id
+                for other_student_id in applicable_for_reciprocity
                 if random.random() <= percentage_reciprocity
             ]
             num_missing_prefs = num_partner_prefs - len(reciprocal_prefs)
@@ -52,9 +41,8 @@ def random_partner_preferences(
                     for student_id in all_other_ids
                     if student_id not in reciprocal_prefs
                 ]
-                student_partner_prefs = reciprocal_prefs + random.sample(
-                    left_options, num_missing_prefs
-                )
+                random_prefs = random.sample(left_options, num_missing_prefs)
+                student_partner_prefs = reciprocal_prefs + random_prefs
 
         students_partner_prefs.append(student_partner_prefs)
 
@@ -64,20 +52,9 @@ def random_partner_preferences(
     return students_partner_prefs
 
 
-def average_project_preferences(
+def _peer_project_preferences(
     desired_partners: list[int], project_preferences_so_far: list[tuple[int, ...]]
-) -> tuple[float, ...] | None:
-    """Returns the average available project preferences among a student's partner preferences.
-
-    Available means that the partner preference i.e., one of the students the student in
-    question wants to work with the most has specified his/her project preferences before.
-
-    Args:
-        desired_partners: The students the student in question wants to work with the most.
-        project_preferences_so_far: The project preferences made so far. The index position is
-            the ID of the student who specified the project preferences.
-    """
-
+) -> tuple[list[int], ...] | None:
     desired_partners_with_prefs = [
         desired_partner
         for desired_partner in desired_partners
@@ -90,54 +67,42 @@ def average_project_preferences(
         project_preferences_so_far[desired_partner]
         for desired_partner in desired_partners_with_prefs
     ]
-    return tuple(
-        sum(prefs_for_project) / len(prefs_for_project)
-        for prefs_for_project in zip(*relevant_prefs)
-    )
+    return tuple(list(preferences_for_project) for preferences_for_project in zip(*relevant_prefs))
 
 
-def random_project_preferences(
+def peer_influenced_project_preference(preferences_for_project: list[int]) -> int:
+    return max(preferences_for_project) if random.random() <= 0.5 else min(preferences_for_project)
+
+
+def _random_project_preferences(
     num_projects: int,
     everyones_partner_preferences: list[list[int]],
-    overlap: float,
+    percentage_peer_influenced: float,
     min_pref: int,
     max_pref: int,
 ) -> list[tuple[int, ...]]:
-    """Returns project preference values for all students in the problem.
-
-    Args:
-        num_projects: The number of projects in the problem.
-        everyones_partner_preferences: The IDs of the students a student wants
-            to work with the most for every student in the problem
-        overlap: To what degree the
-            student's preference value for a specific project is the
-            average preference for that project among those that are
-            partner preferences and already have specified their
-            project preferences.
-        min_pref: The lowest possible project preference.
-        max_pref: The highest possible project preference.
-    """
-    project_preferences_so_far: list[tuple[int, ...]] = []
+    project_preferences_per_student: list[tuple[int, ...]] = []
     for partner_preferences in everyones_partner_preferences:
-        average_preferences = average_project_preferences(
-            partner_preferences, project_preferences_so_far
+        peer_preferences_per_project = _peer_project_preferences(
+            partner_preferences, project_preferences_per_student
         )
-        if average_preferences is None:
+        if peer_preferences_per_project is None:
             student_project_preferences = tuple(
                 random.randint(min_pref, max_pref) for _ in range(num_projects)
             )
         else:
             student_project_preferences = tuple(
-                round(
-                    overlap * average_preference
-                    + ((1 - overlap) * random.uniform(min_pref - 0.5, max_pref + 0.5))
+                (
+                    peer_influenced_project_preference(preferences_for_project)
+                    if random.random() <= percentage_peer_influenced
+                    else random.randint(min_pref, max_pref)
                 )
-                for average_preference in average_preferences
+                for preferences_for_project in peer_preferences_per_project
             )
 
-        project_preferences_so_far.append(student_project_preferences)
+        project_preferences_per_student.append(student_project_preferences)
 
-    return project_preferences_so_far
+    return project_preferences_per_student
 
 
 def random_students_df(
@@ -146,7 +111,7 @@ def random_students_df(
     min_num_partner_preferences: int,
     max_num_partner_preferences: int,
     percentage_reciprocity: float,
-    percentage_project_preference_overlap: float,
+    percentage_peer_influenced_project_preferences: float,
     min_project_preference: int,
     max_project_preference: int,
 ) -> pandas.DataFrame:
@@ -177,16 +142,16 @@ def random_students_df(
         are random within bounds set by the arguments. THE INDEX POSITION IN THE
         DATAFRAME LATER BECOMES THE STUDENT'S ID.
     """
-    partner_preferences = random_partner_preferences(
+    partner_preferences = _random_partner_preferences(
         num_students,
         percentage_reciprocity,
         min_num_partner_preferences,
         max_num_partner_preferences,
     )
-    project_preferences = random_project_preferences(
+    project_preferences = _random_project_preferences(
         num_projects,
         partner_preferences,
-        percentage_project_preference_overlap,
+        percentage_peer_influenced_project_preferences,
         min_project_preference,
         max_project_preference,
     )

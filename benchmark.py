@@ -96,6 +96,7 @@ def benchmark(
     gurobi_alone_parameters: GurobiAloneParameters = GurobiAloneParameters(),
     local_branching_parameters: LocalBranchingParameters = LocalBranchingParameters(),
     variable_fixing_paramters: VariableFixingParamters = VariableFixingParamters(),
+    seed: int = 0,
 ):
     check_whether_instances_exist(instances)
 
@@ -116,15 +117,18 @@ def benchmark(
     variable_fixing_solutions: dict[str, list[dict[str, int | float | str]]] = {}
 
     for instance in instances:
+
         key = "_".join(str(elem) for elem in instance)
 
         if run_gurobi:
+            random.seed(seed)
             gurobi_solutions[key] = benchmark_instance_gurobi_alone(
                 instance, gurobi_alone_parameters
             )
             gurobi_path.write_text(json.dumps(gurobi_solutions, indent=4), encoding="utf-8")
 
         if run_local_branching:
+            random.seed(seed)
             local_branching_solutions[key] = benchmark_instance_local_branching(
                 instance, local_branching_parameters
             )
@@ -133,6 +137,7 @@ def benchmark(
             )
 
         if run_variable_fixing:
+            random.seed(seed)
             variable_fixing_solutions[key] = benchmark_instance_variable_fixing(
                 instance, variable_fixing_paramters
             )
@@ -143,18 +148,18 @@ def benchmark(
 
 if __name__ == "__main__":
     random.seed(0)
-    all_small_instances = [
-        (num_projects, num_students, instance_index)
-        for num_projects in [3, 4, 5]
-        for num_students in [30, 40, 50]
-        for instance_index in range(10)
-    ]
+    # all_small_instances = [
+    #     (num_projects, num_students, instance_index)
+    #     for num_projects in [3, 4, 5]
+    #     for num_students in [30, 40, 50]
+    #     for instance_index in range(10)
+    # ]
     benchmark(
-        name="moving_check",
+        name="6_60_60s",
         run_gurobi=True,
         run_local_branching=True,
         run_variable_fixing=True,
-        instances=all_small_instances[84:85],
+        instances=[(6, 60, i) for i in range(10)],
         # gurobi_alone_parameters=GurobiAloneParameters(time_limit=3_600),
         # local_branching_parameters=LocalBranchingParameters(total_time_limit=120),
         # variable_fixing_paramters=VariableFixingParamters(total_time_limit=30),

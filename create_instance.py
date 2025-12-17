@@ -29,7 +29,7 @@ class StudentsParams:
     min_num_partner_preferences: int = 1
     max_num_partner_preferences: int = 5
     percentage_reciprocity: float = 0.7
-    percentage_project_preference_overlap: float = 0.7
+    percentage_peer_influenced_project_preferences: float = 0.7
     min_project_preference: int = 0
     max_project_preference: int = 3
 
