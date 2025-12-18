@@ -6,6 +6,7 @@ from modeling.configuration import Configuration
 from modeling.derived_modeling_data import DerivedModelingData
 from modeling.model_components import LinExpressions
 from solution_processing.solution_info_retriever import SolutionInformationRetriever
+from utilities import gurobi_round
 
 
 class SolutionChecker:
@@ -119,34 +120,32 @@ class SolutionChecker:
 
     @functools.cached_property
     def sum_realized_project_preferences_correct(self) -> bool:
-        return (
-            self.sum_realized_project_preferences
-            == self.lin_expressions.sum_realized_project_preferences.getValue()
+        return self.sum_realized_project_preferences == gurobi_round(
+            self.lin_expressions.sum_realized_project_preferences.getValue()
         )
 
     @functools.cached_property
     def sum_reward_mutual_correct(self) -> bool:
-        return self.sum_reward_mutual == self.lin_expressions.sum_reward_mutual.getValue()
+        return self.sum_reward_mutual == gurobi_round(
+            self.lin_expressions.sum_reward_mutual.getValue()
+        )
 
     @functools.cached_property
     def sum_penalties_unassigned_correct(self) -> bool:
-        return (
-            self.sum_penalties_unassigned
-            == self.lin_expressions.sum_penalties_unassigned.getValue()
+        return self.sum_penalties_unassigned == gurobi_round(
+            self.lin_expressions.sum_penalties_unassigned.getValue()
         )
 
     @functools.cached_property
     def sum_penalties_surplus_groups_correct(self) -> bool:
-        return (
-            self.sum_penalties_surplus_groups
-            == self.lin_expressions.sum_penalties_surplus_groups.getValue()
+        return self.sum_penalties_surplus_groups == gurobi_round(
+            self.lin_expressions.sum_penalties_surplus_groups.getValue()
         )
 
     @functools.cached_property
     def sum_penalties_group_size_correct(self) -> bool:
-        return (
-            self.sum_penalties_group_size
-            == self.lin_expressions.sum_penalties_group_size.getValue()
+        return self.sum_penalties_group_size == gurobi_round(
+            self.lin_expressions.sum_penalties_group_size.getValue()
         )
 
     @functools.cached_property

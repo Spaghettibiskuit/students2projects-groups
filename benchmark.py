@@ -147,7 +147,6 @@ def benchmark(
 
 
 if __name__ == "__main__":
-    random.seed(0)
     # all_small_instances = [
     #     (num_projects, num_students, instance_index)
     #     for num_projects in [3, 4, 5]
@@ -155,12 +154,12 @@ if __name__ == "__main__":
     #     for instance_index in range(10)
     # ]
     benchmark(
-        name="6_60_60s",
+        name="20_200_180s",
         run_gurobi=True,
         run_local_branching=True,
         run_variable_fixing=True,
-        instances=[(6, 60, i) for i in range(10)],
-        # gurobi_alone_parameters=GurobiAloneParameters(time_limit=3_600),
-        # local_branching_parameters=LocalBranchingParameters(total_time_limit=120),
-        # variable_fixing_paramters=VariableFixingParamters(total_time_limit=30),
+        instances=[(20, 200, i) for i in range(10)],
+        gurobi_alone_parameters=GurobiAloneParameters(time_limit=180),
+        local_branching_parameters=LocalBranchingParameters(total_time_limit=180),
+        variable_fixing_paramters=VariableFixingParamters(total_time_limit=180),
     )

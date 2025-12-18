@@ -97,7 +97,7 @@ class VariableNeighborhoodSearch:
                 model.pop_branching_constraints_stack()
                 status_code = model.status
                 if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
-                    if rhs > l_min:  # Kommentieren
+                    if rhs > l_min:
                         model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs += l_step
@@ -299,5 +299,5 @@ class VariableNeighborhoodSearch:
 
 
 if __name__ == "__main__":
-    vns = VariableNeighborhoodSearch(4, 30, 0)
-    vns.run_vns_with_lb(total_time_limit=10_000)
+    vns = VariableNeighborhoodSearch(20, 200, 4)
+    vns.gurobi_alone(time_limit=170)
