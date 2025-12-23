@@ -31,6 +31,11 @@ class ModelWrapper(abc.ABC):
         return self.model.Status
 
     @property
+    def bound(self) -> int:
+        bound = self.model.ObjBound
+        return int(min(bound, gurobipy.GRB.MAXINT) + 1e-4)
+
+    @property
     def objective_value(self) -> int:
         return gurobi_round(self.model.ObjVal)
 
@@ -48,7 +53,7 @@ class ModelWrapper(abc.ABC):
         self.model.Params.Cutoff = float("-inf")
 
     def set_cutoff(self):
-        self.model.Params.Cutoff = round(self.current_solution.objective_value) + 1 - 1e-4
+        self.model.Params.Cutoff = self.current_solution.objective_value + 1 - 1e-4
 
     def optimize(self, patience: int | float, shake: bool = False):
         cb_class = PatienceShake if shake else PatienceVND
@@ -69,6 +74,12 @@ class ModelWrapper(abc.ABC):
 
     def new_best_found(self) -> bool:
         return self.current_solution.objective_value > self.best_found_solution.objective_value
+
+    def improvement_infeasible(self) -> bool:
+        return self.bound <= self.current_solution.objective_value
+
+    def improvement_found(self) -> bool:
+        return self.objective_value > self.current_solution.objective_value
 
     def recover_to_best_found(self):
         variables = self.model.getVars()

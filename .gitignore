@@ -2,16 +2,5 @@
 __pycache__/
 modeling_sandbox.ipynb
 solutions/
-gurobi_benchmarks_1h_verbose.json
 notes/
-10_projects_100_students/
-20_projects_200_students/
-30_projects_300_students/
-40_projects_400_students/
-50_projects_500_students/
-60_projects_600_students/
-70_projects_700_students/
-80_projects_800_students/
-90_projects_900_students/
-100_projects_1000_students/
 benchmark_analysis.ipynb

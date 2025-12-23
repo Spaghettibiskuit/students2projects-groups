@@ -1,0 +1,2892 @@
+{
+    "20_200_0": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.01100015640258789
+        },
+        {
+            "objective": 404,
+            "bound": 908,
+            "runtime": 0.5740001201629639
+        },
+        {
+            "objective": 576,
+            "bound": 908,
+            "runtime": 0.5990002155303955
+        },
+        {
+            "objective": 577,
+            "bound": 908,
+            "runtime": 0.6119999885559082
+        },
+        {
+            "objective": 578,
+            "bound": 908,
+            "runtime": 0.6180000305175781
+        },
+        {
+            "objective": 581,
+            "bound": 908,
+            "runtime": 0.6909999847412109
+        },
+        {
+            "objective": 615,
+            "bound": 908,
+            "runtime": 0.695000171661377
+        },
+        {
+            "objective": 628,
+            "bound": 908,
+            "runtime": 0.7360000610351562
+        },
+        {
+            "objective": 640,
+            "bound": 908,
+            "runtime": 0.8849999904632568
+        },
+        {
+            "objective": 644,
+            "bound": 908,
+            "runtime": 1.2980000972747803
+        },
+        {
+            "objective": 645,
+            "bound": 908,
+            "runtime": 1.3010001182556152
+        },
+        {
+            "objective": 646,
+            "bound": 908,
+            "runtime": 1.5160000324249268
+        },
+        {
+            "objective": 655,
+            "bound": 908,
+            "runtime": 1.5160000324249268
+        },
+        {
+            "objective": 665,
+            "bound": 908,
+            "runtime": 1.5160000324249268
+        },
+        {
+            "objective": 666,
+            "bound": 908,
+            "runtime": 1.5160000324249268
+        },
+        {
+            "objective": 672,
+            "bound": 908,
+            "runtime": 1.5199999809265137
+        },
+        {
+            "objective": 677,
+            "bound": 906,
+            "runtime": 2.062000036239624
+        },
+        {
+            "objective": 690,
+            "bound": 906,
+            "runtime": 2.2340002059936523
+        },
+        {
+            "objective": 696,
+            "bound": 906,
+            "runtime": 2.4880001544952393
+        },
+        {
+            "objective": 702,
+            "bound": 906,
+            "runtime": 2.642000198364258
+        },
+        {
+            "objective": 708,
+            "bound": 906,
+            "runtime": 2.753000020980835
+        },
+        {
+            "objective": 718,
+            "bound": 906,
+            "runtime": 2.948000192642212
+        },
+        {
+            "objective": 723,
+            "bound": 906,
+            "runtime": 3.008000135421753
+        },
+        {
+            "objective": 725,
+            "bound": 906,
+            "runtime": 3.259999990463257
+        },
+        {
+            "objective": 727,
+            "bound": 906,
+            "runtime": 3.388000011444092
+        },
+        {
+            "objective": 733,
+            "bound": 906,
+            "runtime": 3.390000104904175
+        },
+        {
+            "objective": 736,
+            "bound": 906,
+            "runtime": 3.4800000190734863
+        },
+        {
+            "objective": 739,
+            "bound": 906,
+            "runtime": 3.4820001125335693
+        },
+        {
+            "objective": 743,
+            "bound": 906,
+            "runtime": 3.55400013923645
+        },
+        {
+            "objective": 744,
+            "bound": 906,
+            "runtime": 3.6080000400543213
+        },
+        {
+            "objective": 749,
+            "bound": 906,
+            "runtime": 3.6100001335144043
+        },
+        {
+            "objective": 753,
+            "bound": 896,
+            "runtime": 8.559000015258789
+        },
+        {
+            "objective": 763,
+            "bound": 896,
+            "runtime": 8.943000078201294
+        },
+        {
+            "objective": 765,
+            "bound": 896,
+            "runtime": 8.943000078201294
+        },
+        {
+            "objective": 766,
+            "bound": 896,
+            "runtime": 9.207000017166138
+        },
+        {
+            "objective": 767,
+            "bound": 893,
+            "runtime": 12.28000020980835
+        },
+        {
+            "objective": 769,
+            "bound": 893,
+            "runtime": 12.28000020980835
+        },
+        {
+            "objective": 771,
+            "bound": 889,
+            "runtime": 21.60800004005432
+        },
+        {
+            "objective": 773,
+            "bound": 889,
+            "runtime": 21.60800004005432
+        },
+        {
+            "objective": 775,
+            "bound": 889,
+            "runtime": 21.617000102996826
+        },
+        {
+            "objective": 777,
+            "bound": 887,
+            "runtime": 25.7810001373291
+        },
+        {
+            "objective": 779,
+            "bound": 887,
+            "runtime": 25.7810001373291
+        },
+        {
+            "objective": 780,
+            "bound": 882,
+            "runtime": 38.91799998283386
+        },
+        {
+            "objective": 781,
+            "bound": 882,
+            "runtime": 38.91799998283386
+        },
+        {
+            "objective": 783,
+            "bound": 880,
+            "runtime": 43.44200015068054
+        },
+        {
+            "objective": 783,
+            "bound": 875,
+            "runtime": 60.13300013542175
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_1": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.016000032424926758
+        },
+        {
+            "objective": 549,
+            "bound": 870,
+            "runtime": 0.6170001029968262
+        },
+        {
+            "objective": 550,
+            "bound": 870,
+            "runtime": 0.7170000076293945
+        },
+        {
+            "objective": 554,
+            "bound": 870,
+            "runtime": 0.7250001430511475
+        },
+        {
+            "objective": 561,
+            "bound": 870,
+            "runtime": 0.7250001430511475
+        },
+        {
+            "objective": 566,
+            "bound": 870,
+            "runtime": 0.8010001182556152
+        },
+        {
+            "objective": 610,
+            "bound": 870,
+            "runtime": 0.9509999752044678
+        },
+        {
+            "objective": 631,
+            "bound": 870,
+            "runtime": 1.001000165939331
+        },
+        {
+            "objective": 632,
+            "bound": 870,
+            "runtime": 1.434000015258789
+        },
+        {
+            "objective": 636,
+            "bound": 870,
+            "runtime": 1.436000108718872
+        },
+        {
+            "objective": 638,
+            "bound": 870,
+            "runtime": 1.439000129699707
+        },
+        {
+            "objective": 639,
+            "bound": 870,
+            "runtime": 1.934999942779541
+        },
+        {
+            "objective": 641,
+            "bound": 870,
+            "runtime": 2.1530001163482666
+        },
+        {
+            "objective": 650,
+            "bound": 870,
+            "runtime": 2.1530001163482666
+        },
+        {
+            "objective": 651,
+            "bound": 870,
+            "runtime": 2.1530001163482666
+        },
+        {
+            "objective": 663,
+            "bound": 870,
+            "runtime": 2.1530001163482666
+        },
+        {
+            "objective": 664,
+            "bound": 869,
+            "runtime": 2.75600004196167
+        },
+        {
+            "objective": 666,
+            "bound": 869,
+            "runtime": 2.756999969482422
+        },
+        {
+            "objective": 673,
+            "bound": 869,
+            "runtime": 3.0870001316070557
+        },
+        {
+            "objective": 677,
+            "bound": 869,
+            "runtime": 3.2009999752044678
+        },
+        {
+            "objective": 681,
+            "bound": 869,
+            "runtime": 3.245000123977661
+        },
+        {
+            "objective": 683,
+            "bound": 869,
+            "runtime": 3.245000123977661
+        },
+        {
+            "objective": 685,
+            "bound": 869,
+            "runtime": 3.259000062942505
+        },
+        {
+            "objective": 693,
+            "bound": 869,
+            "runtime": 3.3580000400543213
+        },
+        {
+            "objective": 696,
+            "bound": 869,
+            "runtime": 3.3580000400543213
+        },
+        {
+            "objective": 698,
+            "bound": 869,
+            "runtime": 3.3580000400543213
+        },
+        {
+            "objective": 700,
+            "bound": 869,
+            "runtime": 3.4670000076293945
+        },
+        {
+            "objective": 704,
+            "bound": 869,
+            "runtime": 3.4830000400543213
+        },
+        {
+            "objective": 706,
+            "bound": 869,
+            "runtime": 3.634000062942505
+        },
+        {
+            "objective": 708,
+            "bound": 869,
+            "runtime": 3.636000156402588
+        },
+        {
+            "objective": 710,
+            "bound": 869,
+            "runtime": 3.690999984741211
+        },
+        {
+            "objective": 712,
+            "bound": 869,
+            "runtime": 3.695000171661377
+        },
+        {
+            "objective": 714,
+            "bound": 869,
+            "runtime": 3.697000026702881
+        },
+        {
+            "objective": 716,
+            "bound": 869,
+            "runtime": 3.76200008392334
+        },
+        {
+            "objective": 720,
+            "bound": 869,
+            "runtime": 3.8930001258850098
+        },
+        {
+            "objective": 722,
+            "bound": 869,
+            "runtime": 3.8930001258850098
+        },
+        {
+            "objective": 724,
+            "bound": 869,
+            "runtime": 4.03600001335144
+        },
+        {
+            "objective": 726,
+            "bound": 869,
+            "runtime": 4.207000017166138
+        },
+        {
+            "objective": 730,
+            "bound": 869,
+            "runtime": 4.41700005531311
+        },
+        {
+            "objective": 732,
+            "bound": 869,
+            "runtime": 4.6590001583099365
+        },
+        {
+            "objective": 734,
+            "bound": 869,
+            "runtime": 4.718000173568726
+        },
+        {
+            "objective": 736,
+            "bound": 869,
+            "runtime": 4.854000091552734
+        },
+        {
+            "objective": 737,
+            "bound": 869,
+            "runtime": 6.1590001583099365
+        },
+        {
+            "objective": 739,
+            "bound": 869,
+            "runtime": 6.613000154495239
+        },
+        {
+            "objective": 741,
+            "bound": 868,
+            "runtime": 7.742000102996826
+        },
+        {
+            "objective": 742,
+            "bound": 867,
+            "runtime": 9.27999997138977
+        },
+        {
+            "objective": 748,
+            "bound": 857,
+            "runtime": 14.092000007629395
+        },
+        {
+            "objective": 750,
+            "bound": 856,
+            "runtime": 14.828999996185303
+        },
+        {
+            "objective": 752,
+            "bound": 856,
+            "runtime": 14.831000089645386
+        },
+        {
+            "objective": 754,
+            "bound": 856,
+            "runtime": 14.83299994468689
+        },
+        {
+            "objective": 756,
+            "bound": 852,
+            "runtime": 19.311000108718872
+        },
+        {
+            "objective": 758,
+            "bound": 849,
+            "runtime": 23.60800004005432
+        },
+        {
+            "objective": 760,
+            "bound": 849,
+            "runtime": 25.32100009918213
+        },
+        {
+            "objective": 765,
+            "bound": 849,
+            "runtime": 25.480000019073486
+        },
+        {
+            "objective": 766,
+            "bound": 846,
+            "runtime": 27.383000135421753
+        },
+        {
+            "objective": 767,
+            "bound": 846,
+            "runtime": 27.383000135421753
+        },
+        {
+            "objective": 769,
+            "bound": 846,
+            "runtime": 27.383000135421753
+        },
+        {
+            "objective": 771,
+            "bound": 846,
+            "runtime": 29.644999980926514
+        },
+        {
+            "objective": 773,
+            "bound": 844,
+            "runtime": 32.587000131607056
+        },
+        {
+            "objective": 775,
+            "bound": 843,
+            "runtime": 35.125
+        },
+        {
+            "objective": 776,
+            "bound": 843,
+            "runtime": 38.43499994277954
+        },
+        {
+            "objective": 777,
+            "bound": 842,
+            "runtime": 39.73900008201599
+        },
+        {
+            "objective": 778,
+            "bound": 842,
+            "runtime": 40.22000002861023
+        },
+        {
+            "objective": 779,
+            "bound": 842,
+            "runtime": 40.22200012207031
+        },
+        {
+            "objective": 779,
+            "bound": 837,
+            "runtime": 60.121999979019165
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_2": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.004999876022338867
+        },
+        {
+            "objective": 545,
+            "bound": 876,
+            "runtime": 0.6639997959136963
+        },
+        {
+            "objective": 546,
+            "bound": 876,
+            "runtime": 0.687999963760376
+        },
+        {
+            "objective": 547,
+            "bound": 876,
+            "runtime": 0.6899998188018799
+        },
+        {
+            "objective": 549,
+            "bound": 876,
+            "runtime": 0.8159999847412109
+        },
+        {
+            "objective": 557,
+            "bound": 876,
+            "runtime": 0.8399999141693115
+        },
+        {
+            "objective": 559,
+            "bound": 876,
+            "runtime": 1.0109999179840088
+        },
+        {
+            "objective": 603,
+            "bound": 876,
+            "runtime": 1.0230000019073486
+        },
+        {
+            "objective": 611,
+            "bound": 876,
+            "runtime": 1.1669998168945312
+        },
+        {
+            "objective": 612,
+            "bound": 876,
+            "runtime": 1.4079999923706055
+        },
+        {
+            "objective": 613,
+            "bound": 876,
+            "runtime": 1.4099998474121094
+        },
+        {
+            "objective": 614,
+            "bound": 876,
+            "runtime": 1.565999984741211
+        },
+        {
+            "objective": 619,
+            "bound": 876,
+            "runtime": 1.9449999332427979
+        },
+        {
+            "objective": 625,
+            "bound": 876,
+            "runtime": 1.9449999332427979
+        },
+        {
+            "objective": 642,
+            "bound": 876,
+            "runtime": 1.9449999332427979
+        },
+        {
+            "objective": 650,
+            "bound": 872,
+            "runtime": 3.135999917984009
+        },
+        {
+            "objective": 657,
+            "bound": 872,
+            "runtime": 3.3980000019073486
+        },
+        {
+            "objective": 662,
+            "bound": 872,
+            "runtime": 3.7789998054504395
+        },
+        {
+            "objective": 670,
+            "bound": 872,
+            "runtime": 4.24399995803833
+        },
+        {
+            "objective": 674,
+            "bound": 872,
+            "runtime": 4.253999948501587
+        },
+        {
+            "objective": 678,
+            "bound": 872,
+            "runtime": 4.56499981880188
+        },
+        {
+            "objective": 686,
+            "bound": 872,
+            "runtime": 4.807999849319458
+        },
+        {
+            "objective": 696,
+            "bound": 872,
+            "runtime": 5.018999814987183
+        },
+        {
+            "objective": 697,
+            "bound": 872,
+            "runtime": 5.991999864578247
+        },
+        {
+            "objective": 699,
+            "bound": 872,
+            "runtime": 5.991999864578247
+        },
+        {
+            "objective": 705,
+            "bound": 872,
+            "runtime": 5.99399995803833
+        },
+        {
+            "objective": 709,
+            "bound": 872,
+            "runtime": 5.995999813079834
+        },
+        {
+            "objective": 710,
+            "bound": 866,
+            "runtime": 9.092000007629395
+        },
+        {
+            "objective": 712,
+            "bound": 866,
+            "runtime": 9.092000007629395
+        },
+        {
+            "objective": 715,
+            "bound": 866,
+            "runtime": 10.25599980354309
+        },
+        {
+            "objective": 716,
+            "bound": 858,
+            "runtime": 13.673999786376953
+        },
+        {
+            "objective": 720,
+            "bound": 858,
+            "runtime": 13.673999786376953
+        },
+        {
+            "objective": 722,
+            "bound": 858,
+            "runtime": 13.673999786376953
+        },
+        {
+            "objective": 723,
+            "bound": 855,
+            "runtime": 16.18399977684021
+        },
+        {
+            "objective": 725,
+            "bound": 852,
+            "runtime": 17.592999935150146
+        },
+        {
+            "objective": 726,
+            "bound": 852,
+            "runtime": 17.592999935150146
+        },
+        {
+            "objective": 728,
+            "bound": 852,
+            "runtime": 18.643999814987183
+        },
+        {
+            "objective": 730,
+            "bound": 848,
+            "runtime": 21.6969997882843
+        },
+        {
+            "objective": 732,
+            "bound": 848,
+            "runtime": 21.6969997882843
+        },
+        {
+            "objective": 734,
+            "bound": 848,
+            "runtime": 21.6969997882843
+        },
+        {
+            "objective": 736,
+            "bound": 848,
+            "runtime": 21.6969997882843
+        },
+        {
+            "objective": 738,
+            "bound": 847,
+            "runtime": 24.353999853134155
+        },
+        {
+            "objective": 740,
+            "bound": 847,
+            "runtime": 24.35599994659424
+        },
+        {
+            "objective": 741,
+            "bound": 844,
+            "runtime": 28.810999870300293
+        },
+        {
+            "objective": 742,
+            "bound": 844,
+            "runtime": 28.812999963760376
+        },
+        {
+            "objective": 744,
+            "bound": 844,
+            "runtime": 29.62999987602234
+        },
+        {
+            "objective": 746,
+            "bound": 842,
+            "runtime": 34.82499980926514
+        },
+        {
+            "objective": 747,
+            "bound": 840,
+            "runtime": 37.76899981498718
+        },
+        {
+            "objective": 748,
+            "bound": 840,
+            "runtime": 37.90899991989136
+        },
+        {
+            "objective": 749,
+            "bound": 840,
+            "runtime": 38.49799990653992
+        },
+        {
+            "objective": 750,
+            "bound": 838,
+            "runtime": 44.74799990653992
+        },
+        {
+            "objective": 751,
+            "bound": 836,
+            "runtime": 53.42399978637695
+        },
+        {
+            "objective": 751,
+            "bound": 835,
+            "runtime": 60.1729998588562
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_3": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.0
+        },
+        {
+            "objective": 482,
+            "bound": 873,
+            "runtime": 0.6700000762939453
+        },
+        {
+            "objective": 498,
+            "bound": 873,
+            "runtime": 0.7380001544952393
+        },
+        {
+            "objective": 520,
+            "bound": 873,
+            "runtime": 0.814000129699707
+        },
+        {
+            "objective": 522,
+            "bound": 873,
+            "runtime": 0.8289999961853027
+        },
+        {
+            "objective": 523,
+            "bound": 873,
+            "runtime": 0.8310000896453857
+        },
+        {
+            "objective": 528,
+            "bound": 873,
+            "runtime": 0.8310000896453857
+        },
+        {
+            "objective": 544,
+            "bound": 873,
+            "runtime": 0.9140000343322754
+        },
+        {
+            "objective": 597,
+            "bound": 873,
+            "runtime": 1.008000135421753
+        },
+        {
+            "objective": 599,
+            "bound": 873,
+            "runtime": 1.5930001735687256
+        },
+        {
+            "objective": 600,
+            "bound": 873,
+            "runtime": 1.5930001735687256
+        },
+        {
+            "objective": 601,
+            "bound": 873,
+            "runtime": 1.6000001430511475
+        },
+        {
+            "objective": 602,
+            "bound": 873,
+            "runtime": 1.6460001468658447
+        },
+        {
+            "objective": 603,
+            "bound": 873,
+            "runtime": 1.6480000019073486
+        },
+        {
+            "objective": 610,
+            "bound": 873,
+            "runtime": 2.0470001697540283
+        },
+        {
+            "objective": 612,
+            "bound": 873,
+            "runtime": 2.0470001697540283
+        },
+        {
+            "objective": 616,
+            "bound": 871,
+            "runtime": 3.621000051498413
+        },
+        {
+            "objective": 655,
+            "bound": 871,
+            "runtime": 3.8540000915527344
+        },
+        {
+            "objective": 661,
+            "bound": 871,
+            "runtime": 3.9220001697540283
+        },
+        {
+            "objective": 663,
+            "bound": 871,
+            "runtime": 4.005000114440918
+        },
+        {
+            "objective": 669,
+            "bound": 871,
+            "runtime": 4.007000207901001
+        },
+        {
+            "objective": 671,
+            "bound": 871,
+            "runtime": 4.009000062942505
+        },
+        {
+            "objective": 673,
+            "bound": 871,
+            "runtime": 4.061000108718872
+        },
+        {
+            "objective": 675,
+            "bound": 871,
+            "runtime": 4.061000108718872
+        },
+        {
+            "objective": 679,
+            "bound": 871,
+            "runtime": 4.108000040054321
+        },
+        {
+            "objective": 681,
+            "bound": 871,
+            "runtime": 4.246000051498413
+        },
+        {
+            "objective": 683,
+            "bound": 871,
+            "runtime": 4.317000150680542
+        },
+        {
+            "objective": 685,
+            "bound": 871,
+            "runtime": 4.317000150680542
+        },
+        {
+            "objective": 689,
+            "bound": 871,
+            "runtime": 4.549000024795532
+        },
+        {
+            "objective": 691,
+            "bound": 871,
+            "runtime": 4.75
+        },
+        {
+            "objective": 699,
+            "bound": 871,
+            "runtime": 5.105000019073486
+        },
+        {
+            "objective": 701,
+            "bound": 871,
+            "runtime": 5.183000087738037
+        },
+        {
+            "objective": 705,
+            "bound": 871,
+            "runtime": 5.328000068664551
+        },
+        {
+            "objective": 707,
+            "bound": 869,
+            "runtime": 7.930999994277954
+        },
+        {
+            "objective": 716,
+            "bound": 869,
+            "runtime": 7.930999994277954
+        },
+        {
+            "objective": 718,
+            "bound": 869,
+            "runtime": 7.930999994277954
+        },
+        {
+            "objective": 719,
+            "bound": 869,
+            "runtime": 7.930999994277954
+        },
+        {
+            "objective": 721,
+            "bound": 868,
+            "runtime": 8.42300009727478
+        },
+        {
+            "objective": 730,
+            "bound": 868,
+            "runtime": 8.42300009727478
+        },
+        {
+            "objective": 732,
+            "bound": 852,
+            "runtime": 22.480000019073486
+        },
+        {
+            "objective": 734,
+            "bound": 852,
+            "runtime": 22.480000019073486
+        },
+        {
+            "objective": 736,
+            "bound": 852,
+            "runtime": 22.485000133514404
+        },
+        {
+            "objective": 737,
+            "bound": 852,
+            "runtime": 23.278000116348267
+        },
+        {
+            "objective": 739,
+            "bound": 852,
+            "runtime": 23.278000116348267
+        },
+        {
+            "objective": 741,
+            "bound": 852,
+            "runtime": 23.278000116348267
+        },
+        {
+            "objective": 743,
+            "bound": 852,
+            "runtime": 23.282999992370605
+        },
+        {
+            "objective": 745,
+            "bound": 852,
+            "runtime": 23.282999992370605
+        },
+        {
+            "objective": 749,
+            "bound": 852,
+            "runtime": 23.282999992370605
+        },
+        {
+            "objective": 753,
+            "bound": 852,
+            "runtime": 23.282999992370605
+        },
+        {
+            "objective": 754,
+            "bound": 852,
+            "runtime": 23.621000051498413
+        },
+        {
+            "objective": 756,
+            "bound": 850,
+            "runtime": 28.378000020980835
+        },
+        {
+            "objective": 758,
+            "bound": 850,
+            "runtime": 28.378000020980835
+        },
+        {
+            "objective": 760,
+            "bound": 850,
+            "runtime": 28.378000020980835
+        },
+        {
+            "objective": 761,
+            "bound": 850,
+            "runtime": 29.950000047683716
+        },
+        {
+            "objective": 762,
+            "bound": 850,
+            "runtime": 30.007000207901
+        },
+        {
+            "objective": 764,
+            "bound": 849,
+            "runtime": 31.569000005722046
+        },
+        {
+            "objective": 766,
+            "bound": 847,
+            "runtime": 34.998000144958496
+        },
+        {
+            "objective": 767,
+            "bound": 847,
+            "runtime": 35.962000131607056
+        },
+        {
+            "objective": 769,
+            "bound": 846,
+            "runtime": 38.0770001411438
+        },
+        {
+            "objective": 771,
+            "bound": 844,
+            "runtime": 42.805999994277954
+        },
+        {
+            "objective": 773,
+            "bound": 844,
+            "runtime": 42.805999994277954
+        },
+        {
+            "objective": 774,
+            "bound": 844,
+            "runtime": 44.15700006484985
+        },
+        {
+            "objective": 776,
+            "bound": 844,
+            "runtime": 45.12700009346008
+        },
+        {
+            "objective": 778,
+            "bound": 844,
+            "runtime": 45.652000188827515
+        },
+        {
+            "objective": 778,
+            "bound": 840,
+            "runtime": 60.026000022888184
+        },
+        {
+            "objective": 778,
+            "bound": 840,
+            "runtime": 60.15300011634827
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_4": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.0
+        },
+        {
+            "objective": 337,
+            "bound": 909,
+            "runtime": 0.8220000267028809
+        },
+        {
+            "objective": 551,
+            "bound": 909,
+            "runtime": 0.869999885559082
+        },
+        {
+            "objective": 552,
+            "bound": 909,
+            "runtime": 0.8849999904632568
+        },
+        {
+            "objective": 556,
+            "bound": 909,
+            "runtime": 0.9960000514984131
+        },
+        {
+            "objective": 560,
+            "bound": 909,
+            "runtime": 0.9960000514984131
+        },
+        {
+            "objective": 574,
+            "bound": 909,
+            "runtime": 1.0120000839233398
+        },
+        {
+            "objective": 580,
+            "bound": 909,
+            "runtime": 1.0910000801086426
+        },
+        {
+            "objective": 617,
+            "bound": 909,
+            "runtime": 1.1070001125335693
+        },
+        {
+            "objective": 628,
+            "bound": 909,
+            "runtime": 1.2860000133514404
+        },
+        {
+            "objective": 630,
+            "bound": 909,
+            "runtime": 1.7130000591278076
+        },
+        {
+            "objective": 638,
+            "bound": 909,
+            "runtime": 1.9179999828338623
+        },
+        {
+            "objective": 644,
+            "bound": 909,
+            "runtime": 1.9179999828338623
+        },
+        {
+            "objective": 648,
+            "bound": 908,
+            "runtime": 3.2960000038146973
+        },
+        {
+            "objective": 654,
+            "bound": 908,
+            "runtime": 3.375
+        },
+        {
+            "objective": 656,
+            "bound": 908,
+            "runtime": 3.614000082015991
+        },
+        {
+            "objective": 658,
+            "bound": 908,
+            "runtime": 3.614000082015991
+        },
+        {
+            "objective": 664,
+            "bound": 908,
+            "runtime": 3.6540000438690186
+        },
+        {
+            "objective": 670,
+            "bound": 908,
+            "runtime": 3.740999937057495
+        },
+        {
+            "objective": 676,
+            "bound": 908,
+            "runtime": 3.743000030517578
+        },
+        {
+            "objective": 682,
+            "bound": 908,
+            "runtime": 3.881999969482422
+        },
+        {
+            "objective": 684,
+            "bound": 908,
+            "runtime": 3.881999969482422
+        },
+        {
+            "objective": 686,
+            "bound": 908,
+            "runtime": 3.881999969482422
+        },
+        {
+            "objective": 688,
+            "bound": 908,
+            "runtime": 3.881999969482422
+        },
+        {
+            "objective": 693,
+            "bound": 908,
+            "runtime": 4.069999933242798
+        },
+        {
+            "objective": 697,
+            "bound": 908,
+            "runtime": 4.073999881744385
+        },
+        {
+            "objective": 700,
+            "bound": 908,
+            "runtime": 4.075999975204468
+        },
+        {
+            "objective": 704,
+            "bound": 908,
+            "runtime": 5.150000095367432
+        },
+        {
+            "objective": 710,
+            "bound": 908,
+            "runtime": 5.1519999504089355
+        },
+        {
+            "objective": 712,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 714,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 716,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 718,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 720,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 724,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 728,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 730,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 735,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 737,
+            "bound": 908,
+            "runtime": 7.003999948501587
+        },
+        {
+            "objective": 739,
+            "bound": 908,
+            "runtime": 7.733000040054321
+        },
+        {
+            "objective": 741,
+            "bound": 908,
+            "runtime": 7.733000040054321
+        },
+        {
+            "objective": 745,
+            "bound": 908,
+            "runtime": 7.733000040054321
+        },
+        {
+            "objective": 746,
+            "bound": 903,
+            "runtime": 10.378000020980835
+        },
+        {
+            "objective": 747,
+            "bound": 903,
+            "runtime": 10.380000114440918
+        },
+        {
+            "objective": 749,
+            "bound": 903,
+            "runtime": 11.15499997138977
+        },
+        {
+            "objective": 753,
+            "bound": 899,
+            "runtime": 16.20799994468689
+        },
+        {
+            "objective": 754,
+            "bound": 899,
+            "runtime": 16.20799994468689
+        },
+        {
+            "objective": 756,
+            "bound": 899,
+            "runtime": 16.20799994468689
+        },
+        {
+            "objective": 758,
+            "bound": 899,
+            "runtime": 16.20799994468689
+        },
+        {
+            "objective": 760,
+            "bound": 899,
+            "runtime": 16.20799994468689
+        },
+        {
+            "objective": 762,
+            "bound": 899,
+            "runtime": 16.829999923706055
+        },
+        {
+            "objective": 764,
+            "bound": 895,
+            "runtime": 21.183000087738037
+        },
+        {
+            "objective": 765,
+            "bound": 895,
+            "runtime": 21.486000061035156
+        },
+        {
+            "objective": 768,
+            "bound": 893,
+            "runtime": 24.075999975204468
+        },
+        {
+            "objective": 769,
+            "bound": 893,
+            "runtime": 24.075999975204468
+        },
+        {
+            "objective": 773,
+            "bound": 892,
+            "runtime": 27.41700005531311
+        },
+        {
+            "objective": 775,
+            "bound": 892,
+            "runtime": 27.41700005531311
+        },
+        {
+            "objective": 779,
+            "bound": 892,
+            "runtime": 27.41700005531311
+        },
+        {
+            "objective": 781,
+            "bound": 892,
+            "runtime": 27.41700005531311
+        },
+        {
+            "objective": 782,
+            "bound": 889,
+            "runtime": 34.592000007629395
+        },
+        {
+            "objective": 784,
+            "bound": 889,
+            "runtime": 34.89100003242493
+        },
+        {
+            "objective": 785,
+            "bound": 888,
+            "runtime": 38.96600008010864
+        },
+        {
+            "objective": 786,
+            "bound": 888,
+            "runtime": 38.96600008010864
+        },
+        {
+            "objective": 788,
+            "bound": 885,
+            "runtime": 55.41300010681152
+        },
+        {
+            "objective": 788,
+            "bound": 884,
+            "runtime": 60.17400002479553
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_5": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.016000032424926758
+        },
+        {
+            "objective": 342,
+            "bound": 914,
+            "runtime": 1.2030000686645508
+        },
+        {
+            "objective": 530,
+            "bound": 914,
+            "runtime": 1.252000093460083
+        },
+        {
+            "objective": 536,
+            "bound": 914,
+            "runtime": 1.4200000762939453
+        },
+        {
+            "objective": 538,
+            "bound": 914,
+            "runtime": 1.4270000457763672
+        },
+        {
+            "objective": 553,
+            "bound": 914,
+            "runtime": 1.444000005722046
+        },
+        {
+            "objective": 576,
+            "bound": 914,
+            "runtime": 1.6459999084472656
+        },
+        {
+            "objective": 591,
+            "bound": 914,
+            "runtime": 1.6740000247955322
+        },
+        {
+            "objective": 598,
+            "bound": 914,
+            "runtime": 1.8350000381469727
+        },
+        {
+            "objective": 608,
+            "bound": 914,
+            "runtime": 2.611999988555908
+        },
+        {
+            "objective": 631,
+            "bound": 914,
+            "runtime": 2.614000082015991
+        },
+        {
+            "objective": 637,
+            "bound": 914,
+            "runtime": 2.615999937057495
+        },
+        {
+            "objective": 641,
+            "bound": 914,
+            "runtime": 2.618000030517578
+        },
+        {
+            "objective": 642,
+            "bound": 911,
+            "runtime": 5.36899995803833
+        },
+        {
+            "objective": 646,
+            "bound": 911,
+            "runtime": 5.377000093460083
+        },
+        {
+            "objective": 648,
+            "bound": 911,
+            "runtime": 5.377000093460083
+        },
+        {
+            "objective": 664,
+            "bound": 911,
+            "runtime": 5.377000093460083
+        },
+        {
+            "objective": 666,
+            "bound": 911,
+            "runtime": 5.377000093460083
+        },
+        {
+            "objective": 670,
+            "bound": 911,
+            "runtime": 6.26200008392334
+        },
+        {
+            "objective": 674,
+            "bound": 911,
+            "runtime": 6.786999940872192
+        },
+        {
+            "objective": 688,
+            "bound": 911,
+            "runtime": 6.980999946594238
+        },
+        {
+            "objective": 690,
+            "bound": 911,
+            "runtime": 7.170000076293945
+        },
+        {
+            "objective": 705,
+            "bound": 911,
+            "runtime": 7.33299994468689
+        },
+        {
+            "objective": 707,
+            "bound": 911,
+            "runtime": 7.831000089645386
+        },
+        {
+            "objective": 711,
+            "bound": 911,
+            "runtime": 7.83299994468689
+        },
+        {
+            "objective": 715,
+            "bound": 911,
+            "runtime": 7.835999965667725
+        },
+        {
+            "objective": 717,
+            "bound": 911,
+            "runtime": 7.9059998989105225
+        },
+        {
+            "objective": 721,
+            "bound": 911,
+            "runtime": 8.243000030517578
+        },
+        {
+            "objective": 725,
+            "bound": 911,
+            "runtime": 8.385999917984009
+        },
+        {
+            "objective": 731,
+            "bound": 911,
+            "runtime": 8.390000104904175
+        },
+        {
+            "objective": 733,
+            "bound": 911,
+            "runtime": 9.805000066757202
+        },
+        {
+            "objective": 736,
+            "bound": 911,
+            "runtime": 10.157000064849854
+        },
+        {
+            "objective": 737,
+            "bound": 897,
+            "runtime": 26.967999935150146
+        },
+        {
+            "objective": 738,
+            "bound": 897,
+            "runtime": 26.97099995613098
+        },
+        {
+            "objective": 740,
+            "bound": 897,
+            "runtime": 27.50499987602234
+        },
+        {
+            "objective": 741,
+            "bound": 893,
+            "runtime": 31.914000034332275
+        },
+        {
+            "objective": 743,
+            "bound": 893,
+            "runtime": 32.319000005722046
+        },
+        {
+            "objective": 745,
+            "bound": 890,
+            "runtime": 37.58299994468689
+        },
+        {
+            "objective": 747,
+            "bound": 890,
+            "runtime": 37.58299994468689
+        },
+        {
+            "objective": 748,
+            "bound": 890,
+            "runtime": 37.58299994468689
+        },
+        {
+            "objective": 750,
+            "bound": 886,
+            "runtime": 42.88700008392334
+        },
+        {
+            "objective": 752,
+            "bound": 886,
+            "runtime": 43.02900004386902
+        },
+        {
+            "objective": 754,
+            "bound": 886,
+            "runtime": 43.15700006484985
+        },
+        {
+            "objective": 755,
+            "bound": 886,
+            "runtime": 43.30999994277954
+        },
+        {
+            "objective": 758,
+            "bound": 886,
+            "runtime": 44.37899994850159
+        },
+        {
+            "objective": 759,
+            "bound": 884,
+            "runtime": 48.270999908447266
+        },
+        {
+            "objective": 760,
+            "bound": 884,
+            "runtime": 48.270999908447266
+        },
+        {
+            "objective": 761,
+            "bound": 884,
+            "runtime": 50.109999895095825
+        },
+        {
+            "objective": 762,
+            "bound": 881,
+            "runtime": 57.443000078201294
+        },
+        {
+            "objective": 764,
+            "bound": 881,
+            "runtime": 57.443000078201294
+        },
+        {
+            "objective": 765,
+            "bound": 881,
+            "runtime": 57.46000003814697
+        },
+        {
+            "objective": 765,
+            "bound": 881,
+            "runtime": 60.10199999809265
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_6": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.009999990463256836
+        },
+        {
+            "objective": 509,
+            "bound": 897,
+            "runtime": 1.0869998931884766
+        },
+        {
+            "objective": 514,
+            "bound": 897,
+            "runtime": 1.0899999141693115
+        },
+        {
+            "objective": 516,
+            "bound": 897,
+            "runtime": 1.0959999561309814
+        },
+        {
+            "objective": 517,
+            "bound": 897,
+            "runtime": 1.113999843597412
+        },
+        {
+            "objective": 518,
+            "bound": 897,
+            "runtime": 1.119999885559082
+        },
+        {
+            "objective": 547,
+            "bound": 897,
+            "runtime": 1.239999771118164
+        },
+        {
+            "objective": 568,
+            "bound": 897,
+            "runtime": 1.3469998836517334
+        },
+        {
+            "objective": 587,
+            "bound": 897,
+            "runtime": 1.5269999504089355
+        },
+        {
+            "objective": 593,
+            "bound": 897,
+            "runtime": 1.7319998741149902
+        },
+        {
+            "objective": 597,
+            "bound": 897,
+            "runtime": 2.2079999446868896
+        },
+        {
+            "objective": 598,
+            "bound": 897,
+            "runtime": 2.384999990463257
+        },
+        {
+            "objective": 599,
+            "bound": 897,
+            "runtime": 2.3889999389648438
+        },
+        {
+            "objective": 601,
+            "bound": 897,
+            "runtime": 2.7059998512268066
+        },
+        {
+            "objective": 603,
+            "bound": 897,
+            "runtime": 2.8379998207092285
+        },
+        {
+            "objective": 612,
+            "bound": 890,
+            "runtime": 8.170999765396118
+        },
+        {
+            "objective": 614,
+            "bound": 890,
+            "runtime": 8.172999858856201
+        },
+        {
+            "objective": 616,
+            "bound": 890,
+            "runtime": 8.174999952316284
+        },
+        {
+            "objective": 617,
+            "bound": 890,
+            "runtime": 9.158999919891357
+        },
+        {
+            "objective": 631,
+            "bound": 890,
+            "runtime": 9.158999919891357
+        },
+        {
+            "objective": 639,
+            "bound": 890,
+            "runtime": 9.158999919891357
+        },
+        {
+            "objective": 641,
+            "bound": 890,
+            "runtime": 9.158999919891357
+        },
+        {
+            "objective": 661,
+            "bound": 890,
+            "runtime": 9.163999795913696
+        },
+        {
+            "objective": 667,
+            "bound": 890,
+            "runtime": 9.163999795913696
+        },
+        {
+            "objective": 675,
+            "bound": 890,
+            "runtime": 9.16599988937378
+        },
+        {
+            "objective": 677,
+            "bound": 890,
+            "runtime": 9.16599988937378
+        },
+        {
+            "objective": 681,
+            "bound": 890,
+            "runtime": 9.167999982833862
+        },
+        {
+            "objective": 685,
+            "bound": 890,
+            "runtime": 9.167999982833862
+        },
+        {
+            "objective": 687,
+            "bound": 890,
+            "runtime": 9.169999837875366
+        },
+        {
+            "objective": 691,
+            "bound": 890,
+            "runtime": 9.170999765396118
+        },
+        {
+            "objective": 695,
+            "bound": 890,
+            "runtime": 9.170999765396118
+        },
+        {
+            "objective": 697,
+            "bound": 890,
+            "runtime": 9.170999765396118
+        },
+        {
+            "objective": 701,
+            "bound": 890,
+            "runtime": 9.170999765396118
+        },
+        {
+            "objective": 703,
+            "bound": 888,
+            "runtime": 9.578999996185303
+        },
+        {
+            "objective": 707,
+            "bound": 888,
+            "runtime": 9.648000001907349
+        },
+        {
+            "objective": 709,
+            "bound": 888,
+            "runtime": 9.711999893188477
+        },
+        {
+            "objective": 711,
+            "bound": 888,
+            "runtime": 9.71399998664856
+        },
+        {
+            "objective": 715,
+            "bound": 888,
+            "runtime": 9.93999981880188
+        },
+        {
+            "objective": 717,
+            "bound": 888,
+            "runtime": 10.025999784469604
+        },
+        {
+            "objective": 719,
+            "bound": 888,
+            "runtime": 10.104999780654907
+        },
+        {
+            "objective": 721,
+            "bound": 888,
+            "runtime": 10.675999879837036
+        },
+        {
+            "objective": 723,
+            "bound": 888,
+            "runtime": 14.013999938964844
+        },
+        {
+            "objective": 725,
+            "bound": 881,
+            "runtime": 24.138999938964844
+        },
+        {
+            "objective": 726,
+            "bound": 881,
+            "runtime": 24.14299988746643
+        },
+        {
+            "objective": 729,
+            "bound": 881,
+            "runtime": 24.264999866485596
+        },
+        {
+            "objective": 731,
+            "bound": 881,
+            "runtime": 24.496999979019165
+        },
+        {
+            "objective": 732,
+            "bound": 869,
+            "runtime": 41.55499982833862
+        },
+        {
+            "objective": 733,
+            "bound": 869,
+            "runtime": 41.83299994468689
+        },
+        {
+            "objective": 735,
+            "bound": 869,
+            "runtime": 42.133999824523926
+        },
+        {
+            "objective": 736,
+            "bound": 869,
+            "runtime": 42.43599987030029
+        },
+        {
+            "objective": 737,
+            "bound": 867,
+            "runtime": 47.115999937057495
+        },
+        {
+            "objective": 739,
+            "bound": 867,
+            "runtime": 47.115999937057495
+        },
+        {
+            "objective": 740,
+            "bound": 867,
+            "runtime": 50.21299982070923
+        },
+        {
+            "objective": 741,
+            "bound": 865,
+            "runtime": 55.995999813079834
+        },
+        {
+            "objective": 741,
+            "bound": 865,
+            "runtime": 60.19099998474121
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_7": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.008999824523925781
+        },
+        {
+            "objective": 533,
+            "bound": 876,
+            "runtime": 0.8499999046325684
+        },
+        {
+            "objective": 540,
+            "bound": 876,
+            "runtime": 0.8499999046325684
+        },
+        {
+            "objective": 542,
+            "bound": 876,
+            "runtime": 0.8579998016357422
+        },
+        {
+            "objective": 546,
+            "bound": 876,
+            "runtime": 1.0479998588562012
+        },
+        {
+            "objective": 549,
+            "bound": 876,
+            "runtime": 1.0490000247955322
+        },
+        {
+            "objective": 556,
+            "bound": 876,
+            "runtime": 1.0490000247955322
+        },
+        {
+            "objective": 563,
+            "bound": 876,
+            "runtime": 1.0649998188018799
+        },
+        {
+            "objective": 585,
+            "bound": 876,
+            "runtime": 1.2229998111724854
+        },
+        {
+            "objective": 606,
+            "bound": 876,
+            "runtime": 1.238999843597412
+        },
+        {
+            "objective": 617,
+            "bound": 876,
+            "runtime": 1.4279999732971191
+        },
+        {
+            "objective": 618,
+            "bound": 876,
+            "runtime": 1.7829999923706055
+        },
+        {
+            "objective": 620,
+            "bound": 876,
+            "runtime": 1.7829999923706055
+        },
+        {
+            "objective": 621,
+            "bound": 876,
+            "runtime": 1.7909998893737793
+        },
+        {
+            "objective": 629,
+            "bound": 876,
+            "runtime": 2.9169998168945312
+        },
+        {
+            "objective": 640,
+            "bound": 876,
+            "runtime": 2.9189999103546143
+        },
+        {
+            "objective": 642,
+            "bound": 876,
+            "runtime": 2.9189999103546143
+        },
+        {
+            "objective": 651,
+            "bound": 876,
+            "runtime": 2.924999952316284
+        },
+        {
+            "objective": 657,
+            "bound": 876,
+            "runtime": 2.925999879837036
+        },
+        {
+            "objective": 665,
+            "bound": 875,
+            "runtime": 4.799999952316284
+        },
+        {
+            "objective": 669,
+            "bound": 875,
+            "runtime": 5.302999973297119
+        },
+        {
+            "objective": 679,
+            "bound": 875,
+            "runtime": 5.509999990463257
+        },
+        {
+            "objective": 698,
+            "bound": 875,
+            "runtime": 5.83299994468689
+        },
+        {
+            "objective": 706,
+            "bound": 875,
+            "runtime": 6.049000024795532
+        },
+        {
+            "objective": 712,
+            "bound": 875,
+            "runtime": 6.491999864578247
+        },
+        {
+            "objective": 716,
+            "bound": 875,
+            "runtime": 6.7170000076293945
+        },
+        {
+            "objective": 724,
+            "bound": 875,
+            "runtime": 6.790999889373779
+        },
+        {
+            "objective": 728,
+            "bound": 875,
+            "runtime": 6.918999910354614
+        },
+        {
+            "objective": 732,
+            "bound": 875,
+            "runtime": 6.922999858856201
+        },
+        {
+            "objective": 736,
+            "bound": 875,
+            "runtime": 7.253000020980835
+        },
+        {
+            "objective": 738,
+            "bound": 875,
+            "runtime": 7.255999803543091
+        },
+        {
+            "objective": 740,
+            "bound": 875,
+            "runtime": 7.442999839782715
+        },
+        {
+            "objective": 741,
+            "bound": 875,
+            "runtime": 7.690999984741211
+        },
+        {
+            "objective": 743,
+            "bound": 862,
+            "runtime": 19.91599988937378
+        },
+        {
+            "objective": 745,
+            "bound": 862,
+            "runtime": 20.365999937057495
+        },
+        {
+            "objective": 747,
+            "bound": 850,
+            "runtime": 31.769999980926514
+        },
+        {
+            "objective": 748,
+            "bound": 850,
+            "runtime": 31.769999980926514
+        },
+        {
+            "objective": 750,
+            "bound": 850,
+            "runtime": 32.69199991226196
+        },
+        {
+            "objective": 752,
+            "bound": 850,
+            "runtime": 32.69199991226196
+        },
+        {
+            "objective": 753,
+            "bound": 846,
+            "runtime": 37.90599989891052
+        },
+        {
+            "objective": 754,
+            "bound": 842,
+            "runtime": 54.394999980926514
+        },
+        {
+            "objective": 755,
+            "bound": 842,
+            "runtime": 54.70799994468689
+        },
+        {
+            "objective": 756,
+            "bound": 842,
+            "runtime": 56.0460000038147
+        },
+        {
+            "objective": 757,
+            "bound": 842,
+            "runtime": 56.43400001525879
+        },
+        {
+            "objective": 758,
+            "bound": 842,
+            "runtime": 56.76600003242493
+        },
+        {
+            "objective": 759,
+            "bound": 842,
+            "runtime": 56.76799988746643
+        },
+        {
+            "objective": 760,
+            "bound": 842,
+            "runtime": 58.29900002479553
+        },
+        {
+            "objective": 760,
+            "bound": 842,
+            "runtime": 60.12599992752075
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_8": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.0
+        },
+        {
+            "objective": 388,
+            "bound": 901,
+            "runtime": 0.9709999561309814
+        },
+        {
+            "objective": 504,
+            "bound": 901,
+            "runtime": 1.0350000858306885
+        },
+        {
+            "objective": 513,
+            "bound": 901,
+            "runtime": 1.0410001277923584
+        },
+        {
+            "objective": 534,
+            "bound": 901,
+            "runtime": 1.0450000762939453
+        },
+        {
+            "objective": 535,
+            "bound": 901,
+            "runtime": 1.0800001621246338
+        },
+        {
+            "objective": 540,
+            "bound": 901,
+            "runtime": 1.2230000495910645
+        },
+        {
+            "objective": 580,
+            "bound": 901,
+            "runtime": 1.2339999675750732
+        },
+        {
+            "objective": 598,
+            "bound": 901,
+            "runtime": 1.253999948501587
+        },
+        {
+            "objective": 614,
+            "bound": 901,
+            "runtime": 1.4220001697540283
+        },
+        {
+            "objective": 616,
+            "bound": 901,
+            "runtime": 2.1670000553131104
+        },
+        {
+            "objective": 617,
+            "bound": 901,
+            "runtime": 2.1730000972747803
+        },
+        {
+            "objective": 618,
+            "bound": 899,
+            "runtime": 6.2200000286102295
+        },
+        {
+            "objective": 624,
+            "bound": 899,
+            "runtime": 6.799000024795532
+        },
+        {
+            "objective": 628,
+            "bound": 899,
+            "runtime": 6.808000087738037
+        },
+        {
+            "objective": 632,
+            "bound": 899,
+            "runtime": 6.886000156402588
+        },
+        {
+            "objective": 644,
+            "bound": 899,
+            "runtime": 7.17300009727478
+        },
+        {
+            "objective": 651,
+            "bound": 899,
+            "runtime": 7.440999984741211
+        },
+        {
+            "objective": 668,
+            "bound": 899,
+            "runtime": 7.449000120162964
+        },
+        {
+            "objective": 673,
+            "bound": 899,
+            "runtime": 7.459000110626221
+        },
+        {
+            "objective": 675,
+            "bound": 899,
+            "runtime": 7.460999965667725
+        },
+        {
+            "objective": 686,
+            "bound": 899,
+            "runtime": 7.7200000286102295
+        },
+        {
+            "objective": 687,
+            "bound": 899,
+            "runtime": 7.723999977111816
+        },
+        {
+            "objective": 688,
+            "bound": 899,
+            "runtime": 7.723999977111816
+        },
+        {
+            "objective": 689,
+            "bound": 899,
+            "runtime": 7.730999946594238
+        },
+        {
+            "objective": 691,
+            "bound": 899,
+            "runtime": 7.736999988555908
+        },
+        {
+            "objective": 693,
+            "bound": 899,
+            "runtime": 7.854000091552734
+        },
+        {
+            "objective": 695,
+            "bound": 899,
+            "runtime": 7.854000091552734
+        },
+        {
+            "objective": 697,
+            "bound": 899,
+            "runtime": 7.858000040054321
+        },
+        {
+            "objective": 698,
+            "bound": 899,
+            "runtime": 7.860000133514404
+        },
+        {
+            "objective": 699,
+            "bound": 899,
+            "runtime": 8.085999965667725
+        },
+        {
+            "objective": 700,
+            "bound": 899,
+            "runtime": 8.09000015258789
+        },
+        {
+            "objective": 701,
+            "bound": 899,
+            "runtime": 8.370000123977661
+        },
+        {
+            "objective": 702,
+            "bound": 899,
+            "runtime": 8.374000072479248
+        },
+        {
+            "objective": 703,
+            "bound": 899,
+            "runtime": 8.894000053405762
+        },
+        {
+            "objective": 704,
+            "bound": 899,
+            "runtime": 8.900000095367432
+        },
+        {
+            "objective": 705,
+            "bound": 899,
+            "runtime": 9.184000015258789
+        },
+        {
+            "objective": 708,
+            "bound": 899,
+            "runtime": 9.190000057220459
+        },
+        {
+            "objective": 710,
+            "bound": 899,
+            "runtime": 9.580000162124634
+        },
+        {
+            "objective": 711,
+            "bound": 899,
+            "runtime": 10.33899998664856
+        },
+        {
+            "objective": 712,
+            "bound": 899,
+            "runtime": 10.706000089645386
+        },
+        {
+            "objective": 714,
+            "bound": 899,
+            "runtime": 11.930000066757202
+        },
+        {
+            "objective": 715,
+            "bound": 898,
+            "runtime": 15.062000036239624
+        },
+        {
+            "objective": 717,
+            "bound": 898,
+            "runtime": 15.062000036239624
+        },
+        {
+            "objective": 719,
+            "bound": 898,
+            "runtime": 15.062000036239624
+        },
+        {
+            "objective": 726,
+            "bound": 898,
+            "runtime": 15.062000036239624
+        },
+        {
+            "objective": 728,
+            "bound": 898,
+            "runtime": 15.062000036239624
+        },
+        {
+            "objective": 731,
+            "bound": 897,
+            "runtime": 15.180000066757202
+        },
+        {
+            "objective": 733,
+            "bound": 897,
+            "runtime": 15.266999959945679
+        },
+        {
+            "objective": 735,
+            "bound": 897,
+            "runtime": 15.496999979019165
+        },
+        {
+            "objective": 739,
+            "bound": 897,
+            "runtime": 15.496999979019165
+        },
+        {
+            "objective": 740,
+            "bound": 894,
+            "runtime": 19.403000116348267
+        },
+        {
+            "objective": 743,
+            "bound": 894,
+            "runtime": 19.403000116348267
+        },
+        {
+            "objective": 744,
+            "bound": 894,
+            "runtime": 19.4060001373291
+        },
+        {
+            "objective": 746,
+            "bound": 894,
+            "runtime": 19.407000064849854
+        },
+        {
+            "objective": 748,
+            "bound": 894,
+            "runtime": 19.409000158309937
+        },
+        {
+            "objective": 749,
+            "bound": 881,
+            "runtime": 33.16499996185303
+        },
+        {
+            "objective": 750,
+            "bound": 881,
+            "runtime": 33.22200012207031
+        },
+        {
+            "objective": 752,
+            "bound": 872,
+            "runtime": 55.40499997138977
+        },
+        {
+            "objective": 752,
+            "bound": 872,
+            "runtime": 60.20300006866455
+        },
+        {
+            "is_correct": 1
+        }
+    ],
+    "20_200_9": [
+        {
+            "objective": -600,
+            "bound": 2000000000,
+            "runtime": 0.006000041961669922
+        },
+        {
+            "objective": 501,
+            "bound": 872,
+            "runtime": 0.8370001316070557
+        },
+        {
+            "objective": 510,
+            "bound": 872,
+            "runtime": 0.8370001316070557
+        },
+        {
+            "objective": 513,
+            "bound": 872,
+            "runtime": 0.8450000286102295
+        },
+        {
+            "objective": 514,
+            "bound": 872,
+            "runtime": 0.874000072479248
+        },
+        {
+            "objective": 515,
+            "bound": 872,
+            "runtime": 0.8840000629425049
+        },
+        {
+            "objective": 563,
+            "bound": 872,
+            "runtime": 1.0390000343322754
+        },
+        {
+            "objective": 573,
+            "bound": 872,
+            "runtime": 1.0390000343322754
+        },
+        {
+            "objective": 578,
+            "bound": 872,
+            "runtime": 1.2009999752044678
+        },
+        {
+            "objective": 600,
+            "bound": 872,
+            "runtime": 1.2170000076293945
+        },
+        {
+            "objective": 603,
+            "bound": 872,
+            "runtime": 1.312000036239624
+        },
+        {
+            "objective": 609,
+            "bound": 872,
+            "runtime": 2.243000030517578
+        },
+        {
+            "objective": 617,
+            "bound": 872,
+            "runtime": 2.243000030517578
+        },
+        {
+            "objective": 632,
+            "bound": 872,
+            "runtime": 2.246999979019165
+        },
+        {
+            "objective": 635,
+            "bound": 864,
+            "runtime": 3.384999990463257
+        },
+        {
+            "objective": 637,
+            "bound": 864,
+            "runtime": 3.9049999713897705
+        },
+        {
+            "objective": 656,
+            "bound": 864,
+            "runtime": 4.198000192642212
+        },
+        {
+            "objective": 660,
+            "bound": 864,
+            "runtime": 4.481000185012817
+        },
+        {
+            "objective": 664,
+            "bound": 864,
+            "runtime": 4.812000036239624
+        },
+        {
+            "objective": 666,
+            "bound": 864,
+            "runtime": 4.956000089645386
+        },
+        {
+            "objective": 668,
+            "bound": 864,
+            "runtime": 5.084000110626221
+        },
+        {
+            "objective": 669,
+            "bound": 864,
+            "runtime": 5.175000190734863
+        },
+        {
+            "objective": 671,
+            "bound": 864,
+            "runtime": 5.175000190734863
+        },
+        {
+            "objective": 682,
+            "bound": 864,
+            "runtime": 5.256999969482422
+        },
+        {
+            "objective": 692,
+            "bound": 864,
+            "runtime": 5.348999977111816
+        },
+        {
+            "objective": 694,
+            "bound": 864,
+            "runtime": 5.777000188827515
+        },
+        {
+            "objective": 695,
+            "bound": 864,
+            "runtime": 6.119000196456909
+        },
+        {
+            "objective": 696,
+            "bound": 864,
+            "runtime": 6.121000051498413
+        },
+        {
+            "objective": 698,
+            "bound": 864,
+            "runtime": 6.121000051498413
+        },
+        {
+            "objective": 700,
+            "bound": 864,
+            "runtime": 6.276000022888184
+        },
+        {
+            "objective": 704,
+            "bound": 864,
+            "runtime": 6.276000022888184
+        },
+        {
+            "objective": 706,
+            "bound": 864,
+            "runtime": 6.571000099182129
+        },
+        {
+            "objective": 708,
+            "bound": 864,
+            "runtime": 7.5940001010894775
+        },
+        {
+            "objective": 710,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 712,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 714,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 716,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 717,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 718,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 720,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 721,
+            "bound": 853,
+            "runtime": 19.207000017166138
+        },
+        {
+            "objective": 732,
+            "bound": 853,
+            "runtime": 21.08300018310547
+        },
+        {
+            "objective": 734,
+            "bound": 853,
+            "runtime": 21.08300018310547
+        },
+        {
+            "objective": 735,
+            "bound": 849,
+            "runtime": 23.909000158309937
+        },
+        {
+            "objective": 736,
+            "bound": 849,
+            "runtime": 23.909000158309937
+        },
+        {
+            "objective": 737,
+            "bound": 849,
+            "runtime": 23.909000158309937
+        },
+        {
+            "objective": 738,
+            "bound": 849,
+            "runtime": 23.909000158309937
+        },
+        {
+            "objective": 739,
+            "bound": 849,
+            "runtime": 23.909000158309937
+        },
+        {
+            "objective": 740,
+            "bound": 849,
+            "runtime": 23.909000158309937
+        },
+        {
+            "objective": 741,
+            "bound": 847,
+            "runtime": 26.884000062942505
+        },
+        {
+            "objective": 742,
+            "bound": 844,
+            "runtime": 34.26100015640259
+        },
+        {
+            "objective": 744,
+            "bound": 842,
+            "runtime": 39.581000089645386
+        },
+        {
+            "objective": 745,
+            "bound": 842,
+            "runtime": 40.39800000190735
+        },
+        {
+            "objective": 746,
+            "bound": 838,
+            "runtime": 50.85000014305115
+        },
+        {
+            "objective": 747,
+            "bound": 838,
+            "runtime": 50.85000014305115
+        },
+        {
+            "objective": 748,
+            "bound": 838,
+            "runtime": 52.23200011253357
+        },
+        {
+            "objective": 748,
+            "bound": 837,
+            "runtime": 60.05000019073486
+        },
+        {
+            "objective": 748,
+            "bound": 837,
+            "runtime": 60.16100001335144
+        },
+        {
+            "is_correct": 1
+        }
+    ]
+}

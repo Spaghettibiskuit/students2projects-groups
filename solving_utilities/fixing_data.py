@@ -31,31 +31,25 @@ class FixingByRankingData:
             config, derived, variables, lin_expressions
         ).assignment_scores
         ranked_assignments = sorted(scores.keys(), key=lambda k: scores[k])
-        assignments = set(ranked_assignments)
+        unassigned_ids = [k for k, v in variables.unassigned_students.items() if v.X > 0.5]
+        derived_obj_val = sum(scores.values()) - len(unassigned_ids) * config.penalty_unassigned
 
-        num_unassigned = config.number_of_students - len(ranked_assignments)
-
-        derived_obj_val = sum(scores.values()) - num_unassigned * config.penalty_unassigned
         if abs(derived_obj_val - model.ObjVal) > 1e-1:
             raise ValueError(f"derived {derived_obj_val} is not real {model.ObjVal}")
-        if num_unassigned > 0:
-            assigned_ids = set(student_id for _, _, student_id in ranked_assignments)
-            unassigned_ids = assigned_ids.difference(derived.student_ids)
 
+        if unassigned_ids:
             line_up_assignments = fixing_line_up_assignments(
                 config, derived, ranked_assignments, unassigned_ids
             )
         else:
             line_up_assignments = ranked_assignments
 
-        line_up_ids = [student_id for _, _, student_id in line_up_assignments]
-
         return cls(
             scores=scores,
             ranked_assignments=ranked_assignments,
-            assignments=assignments,
+            assignments=set(ranked_assignments),
             line_up_assignments=line_up_assignments,
-            line_up_ids=line_up_ids,
+            line_up_ids=[student_id for _, _, student_id in line_up_assignments],
         )
 
 
@@ -63,7 +57,7 @@ def fixing_line_up_assignments(
     config: Configuration,
     derived: DerivedModelingData,
     ranked_assignments: list[tuple[int, int, int]],
-    unassigned_ids: set[int],
+    unassigned_ids: list[int],
 ):
 
     pseudo_assignments = ((-1, -1, student_id) for student_id in unassigned_ids)
@@ -78,8 +72,5 @@ def fixing_line_up_assignments(
             line_up.append(next(pseudo_assignments))
         else:
             line_up.append(next(actual_assignments))
-
-    if len(line_up) != config.number_of_students:
-        raise ValueError("Length does not match.")
 
     return line_up

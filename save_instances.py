@@ -5,7 +5,7 @@ import utilities
 from create_instance import create_instance
 
 if __name__ == "__main__":
-    for num_projects, num_students in [(6, 60)]:
+    for num_projects, num_students in [(i * 10, i * 100) for i in range(1, 11)]:
         random.seed(0)
         for i in range(10):
             projects_path, students_path = utilities.build_paths(

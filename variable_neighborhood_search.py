@@ -1,4 +1,5 @@
 import itertools
+import random
 from time import time
 
 from gurobipy import GRB
@@ -89,35 +90,34 @@ class VariableNeighborhoodSearch:
             while not self._time_over(start_time, total_time_limit):
                 if rhs > l_max:
                     break
-                model.add_bounding_branching_constraint(rhs)
-                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
-                model.set_cutoff()
-                model.optimize(patience)
 
+                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
+
+                model.add_bounding_branching_constraint(rhs)
+                model.optimize(patience)
                 model.pop_branching_constraints_stack()
-                status_code = model.status
-                if status_code in (GRB.INFEASIBLE, GRB.CUTOFF):
+
+                if model.solution_count == 0:
+                    break
+
+                if model.improvement_infeasible():
                     if rhs > l_min:
                         model.pop_branching_constraints_stack()
                     model.add_excluding_branching_constraint(rhs)
                     rhs += l_step
                     patience += step_optimization_patience
 
-                elif status_code == GRB.OPTIMAL:
+                elif model.improvement_found():
                     model.store_solution()
-                    if rhs > l_min:
-                        model.pop_branching_constraints_stack()
-                    model.add_excluding_branching_constraint(rhs)
+                    if model.status == GRB.OPTIMAL:
+                        if rhs > l_min:
+                            model.pop_branching_constraints_stack()
+                        model.add_excluding_branching_constraint(rhs)
                     rhs = l_min
                     patience = min_optimization_patience
 
-                elif status_code in (GRB.INTERRUPTED, GRB.TIME_LIMIT):
-                    if model.solution_count == 0:
-                        break
-
-                    model.store_solution()
-                    rhs = l_min
-                    patience = min_optimization_patience
+                else:
+                    break
 
             if model.new_best_found():
                 model.make_current_solution_best_solution()
@@ -131,7 +131,6 @@ class VariableNeighborhoodSearch:
 
             while not self._time_over(start_time, total_time_limit):
                 model.add_shaking_constraints(k_cur, k_step)
-                model.eliminate_cutoff()
                 model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
                 model.optimize(patience=shake_patience, shake=True)
 
@@ -165,10 +164,9 @@ class VariableNeighborhoodSearch:
         min_optimization_patience: int | float = 1,
         step_optimization_patience: int | float = 1,
     ):
-        shake_percentages = (min_shake_perc, step_shake_perc, max_shake_perc)
         min_shake, step_shake, max_shake = (
             round(percentage / 100 * self.config.number_of_students)
-            for percentage in shake_percentages
+            for percentage in (min_shake_perc, step_shake_perc, max_shake_perc)
         )
 
         k = min_shake - step_shake
@@ -198,18 +196,12 @@ class VariableNeighborhoodSearch:
                     new_pairs = False
                     iterations_current_num_zones = 0
 
-                if iterations_current_num_zones > max_iterations_per_num_zones:
+                if (
+                    iterations_current_num_zones > max_iterations_per_num_zones
+                    or (free_zones_pair := next(free_zones_pairs, None)) is None
+                ):
                     if current_num_zones == min_num_zones:
                         break
-                    new_pairs = True
-                    current_num_zones = max(current_num_zones - step_num_zones, min_num_zones)
-                    patience += step_optimization_patience
-                    continue
-
-                if (free_zones_pair := next(free_zones_pairs, None)) is None:
-                    if current_num_zones == min_num_zones:
-                        break
-
                     new_pairs = True
                     current_num_zones = max(current_num_zones - step_num_zones, min_num_zones)
                     patience += step_optimization_patience
@@ -299,5 +291,6 @@ class VariableNeighborhoodSearch:
 
 
 if __name__ == "__main__":
-    vns = VariableNeighborhoodSearch(20, 200, 4)
-    vns.gurobi_alone(time_limit=170)
+    random.seed(0)
+    vns = VariableNeighborhoodSearch(20, 200, 3)
+    vns.run_vns_with_var_fixing(total_time_limit=10_000)

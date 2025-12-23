@@ -33,7 +33,7 @@ def gurobi_round(value: float) -> int:
 def build_paths(num_projects: int, num_students: int, instance_index: int) -> tuple[Path, Path]:
     folder = Path(__file__).parent / "instances"
     subfolder = f"{num_projects}_projects_{num_students}_students"
-    shared_prefix = f"generic_{num_projects}_{num_students}"
+    shared_prefix = f"{num_projects}_{num_students}"
     shared_suffix = f"{instance_index}.csv"
     path_projects = folder / subfolder / f"{shared_prefix}_projects_{shared_suffix}"
     path_students = folder / subfolder / f"{shared_prefix}_students_{shared_suffix}"
