@@ -41,6 +41,7 @@ class VariableNeighborhoodSearch:
         self.best_solution = None
 
     def gurobi_alone(self, time_limit: int | float = float("inf")) -> list[dict[str, int | float]]:
+        start_time = time()
         model = GurobiDuck(
             config=self.config,
             derived=self.derived,
@@ -49,7 +50,7 @@ class VariableNeighborhoodSearch:
         model.optimize()
 
         self.best_model = model
-        self._post_processing()
+        self._post_processing(start_time)
         return model.solution_summaries
 
     def run_vns_with_lb(
@@ -67,8 +68,8 @@ class VariableNeighborhoodSearch:
         step_optimization_patience: int | float = 1,
         drop_branching_constrs_before_shake: bool = False,
     ):
-        percentages = (k_min_perc, k_step_perc, k_max_perc, l_min_perc, l_step_perc, l_max_perc)
         max_num_assignment_changes = self.config.number_of_students * 2
+        percentages = (k_min_perc, k_step_perc, k_max_perc, l_min_perc, l_step_perc, l_max_perc)
         k_min, k_step, k_max, l_min, l_step, l_max = (
             round(percentage / 100 * max_num_assignment_changes) for percentage in percentages
         )
@@ -146,7 +147,7 @@ class VariableNeighborhoodSearch:
         model.drop_all_branching_constraints()
         model.recover_to_best_found()
         self.best_model = model
-        self._post_processing()
+        self._post_processing(start_time)
         return model.solution_summaries
 
     def run_vns_with_var_fixing(
@@ -161,8 +162,8 @@ class VariableNeighborhoodSearch:
         max_shake_perc: int = 80,
         initial_patience: int | float = 3,
         shake_patience: int | float = 2,
-        min_optimization_patience: int | float = 1,
-        step_optimization_patience: int | float = 1,
+        min_optimization_patience: int | float = 2,
+        step_optimization_patience: int | float = 2,
     ):
         min_shake, step_shake, max_shake = (
             round(percentage / 100 * self.config.number_of_students)
@@ -174,12 +175,10 @@ class VariableNeighborhoodSearch:
         initial_model = ReducedModelInitializer(self.config, self.derived)
         start_time = initial_model.start_time
 
-        time_limit = max(0, total_time_limit - (time() - start_time))
-        initial_model.set_time_limit(time_limit)
+        initial_model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
         initial_model.optimize(initial_patience)
 
         model = ReducedModel.get(initial_model)
-        model.set_cutoff()
 
         while not self._time_over(start_time, total_time_limit):
             current_num_zones = max_num_zones
@@ -210,19 +209,17 @@ class VariableNeighborhoodSearch:
                 iterations_current_num_zones += 1
                 model.fix_rest(*free_zones_pair, current_num_zones)
 
-                time_limit = max(0, total_time_limit - (time() - start_time))
-                model.set_time_limit(time_limit)
+                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
                 model.optimize(patience)
 
                 if model.solution_count == 0:
-                    continue
+                    break
 
-                model.store_solution()
-                model.set_cutoff()
-
-                new_pairs = True
-                current_num_zones = max_num_zones
-                patience = min_optimization_patience
+                if model.improvement_found():
+                    model.store_solution()
+                    new_pairs = True
+                    current_num_zones = max_num_zones
+                    patience = min_optimization_patience
 
             if model.new_best_found():
                 model.make_current_solution_best_solution()
@@ -254,13 +251,13 @@ class VariableNeighborhoodSearch:
 
         model.recover_to_best_found()
         self.best_model = model
-        self._post_processing()
+        self._post_processing(start_time)
         return model.solution_summaries
 
     def _time_over(self, start_time: float, total_time_limit: int | float):
         return time() - start_time > total_time_limit
 
-    def _post_processing(self):
+    def _post_processing(self, start_time: float):
         if self.best_model is None:
             raise TypeError("No postprocessing possible if best model is None.")
         retriever = SolutionInformationRetriever(
@@ -287,10 +284,12 @@ class VariableNeighborhoodSearch:
             print("IS CORRECT")
         else:
             print("IS INCORRECT")
-        self.best_model.solution_summaries.append({"is_correct": int(checker.is_correct)})
+        self.best_model.solution_summaries.append(
+            {"is_correct": int(checker.is_correct), "runtime": time() - start_time}
+        )
 
 
 if __name__ == "__main__":
     random.seed(0)
-    vns = VariableNeighborhoodSearch(20, 200, 3)
+    vns = VariableNeighborhoodSearch(20, 200, 4)
     vns.run_vns_with_var_fixing(total_time_limit=10_000)

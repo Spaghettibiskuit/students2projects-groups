@@ -60,7 +60,9 @@ class ModelWrapper(abc.ABC):
         callback = cb_class(
             patience=patience,
             start_time=self.start_time,
-            best_obj=self.best_found_solution.objective_value,
+            best_obj=max(
+                self.best_found_solution.objective_value, self.current_solution.objective_value
+            ),
             solution_summaries=self.solution_summaries,
         )
         self.model.optimize(callback)

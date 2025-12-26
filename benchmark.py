@@ -154,12 +154,12 @@ if __name__ == "__main__":
     #     for instance_index in range(10)
     # ]
     benchmark(
-        name="20_200_60s",
-        run_gurobi=True,
-        run_local_branching=True,
+        name="20_60s_2",
+        run_gurobi=False,
+        run_local_branching=False,
         run_variable_fixing=True,
-        instances=[(20, 200, i) for i in range(10)],
-        # gurobi_alone_parameters=GurobiAloneParameters(time_limit=180),
-        # local_branching_parameters=LocalBranchingParameters(total_time_limit=180),
-        # variable_fixing_paramters=VariableFixingParamters(total_time_limit=180),
+        instances=[(i * 10, i * 100, j) for i in range(2, 3) for j in range(10)],
+        # gurobi_alone_parameters=GurobiAloneParameters(time_limit=300),
+        # local_branching_parameters=LocalBranchingParameters(total_time_limit=300),
+        variable_fixing_paramters=VariableFixingParamters(total_time_limit=60),
     )
