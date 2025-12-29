@@ -1,0 +1,3157 @@
+{
+    "20_200_0": [
+        {
+            "objective": -600,
+            "runtime": 0.01527094841003418,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 404,
+            "runtime": 0.5819509029388428,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 576,
+            "runtime": 0.6080284118652344,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 577,
+            "runtime": 0.6197762489318848,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 578,
+            "runtime": 0.6247410774230957,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 581,
+            "runtime": 0.6972517967224121,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 615,
+            "runtime": 0.7004737854003906,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 628,
+            "runtime": 0.7429473400115967,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 640,
+            "runtime": 0.8761327266693115,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 644,
+            "runtime": 1.266031265258789,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 645,
+            "runtime": 1.267519235610962,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 646,
+            "runtime": 1.4791171550750732,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 655,
+            "runtime": 1.479994535446167,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 665,
+            "runtime": 1.4810142517089844,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 666,
+            "runtime": 1.4821348190307617,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 672,
+            "runtime": 1.4856667518615723,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 677,
+            "runtime": 2.0129802227020264,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 690,
+            "runtime": 2.1884872913360596,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 696,
+            "runtime": 2.439565658569336,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 702,
+            "runtime": 2.5834150314331055,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 708,
+            "runtime": 2.7022476196289062,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 718,
+            "runtime": 2.888688564300537,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 723,
+            "runtime": 2.9609594345092773,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 725,
+            "runtime": 3.2244884967803955,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 727,
+            "runtime": 3.33585524559021,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 733,
+            "runtime": 3.3381574153900146,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 736,
+            "runtime": 3.4244425296783447,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 739,
+            "runtime": 3.425746440887451,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 743,
+            "runtime": 3.4920337200164795,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 744,
+            "runtime": 3.543696165084839,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 749,
+            "runtime": 3.5478103160858154,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 754,
+            "runtime": 6.854489803314209,
+            "station": "vnd"
+        },
+        {
+            "objective": 760,
+            "runtime": 6.897751808166504,
+            "station": "vnd"
+        },
+        {
+            "objective": 761,
+            "runtime": 6.986942291259766,
+            "station": "vnd"
+        },
+        {
+            "objective": 762,
+            "runtime": 7.157405376434326,
+            "station": "vnd"
+        },
+        {
+            "objective": 768,
+            "runtime": 7.181905031204224,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 7.182554006576538,
+            "station": "vnd"
+        },
+        {
+            "objective": 772,
+            "runtime": 7.183405637741089,
+            "station": "vnd"
+        },
+        {
+            "objective": 775,
+            "runtime": 7.26888370513916,
+            "station": "vnd"
+        },
+        {
+            "objective": 776,
+            "runtime": 7.281909227371216,
+            "station": "vnd"
+        },
+        {
+            "objective": 778,
+            "runtime": 8.81779146194458,
+            "station": "vnd"
+        },
+        {
+            "objective": 780,
+            "runtime": 9.124943494796753,
+            "station": "vnd"
+        },
+        {
+            "objective": 782,
+            "runtime": 9.210694551467896,
+            "station": "vnd"
+        },
+        {
+            "objective": 784,
+            "runtime": 10.552575826644897,
+            "station": "vnd"
+        },
+        {
+            "objective": 785,
+            "runtime": 14.810534000396729,
+            "station": "vnd"
+        },
+        {
+            "objective": 787,
+            "runtime": 14.810998916625977,
+            "station": "vnd"
+        },
+        {
+            "objective": 788,
+            "runtime": 14.948145151138306,
+            "station": "vnd"
+        },
+        {
+            "objective": 790,
+            "runtime": 22.32168698310852,
+            "station": "vnd"
+        },
+        {
+            "objective": 791,
+            "runtime": 36.718342542648315,
+            "station": "vnd"
+        },
+        {
+            "objective": 792,
+            "runtime": 38.986061811447144,
+            "station": "vnd"
+        },
+        {
+            "objective": 793,
+            "runtime": 49.04736685752869,
+            "station": "vnd"
+        },
+        {
+            "objective": 794,
+            "runtime": 50.24830985069275,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.15075397491455
+        }
+    ],
+    "20_200_1": [
+        {
+            "objective": -600,
+            "runtime": 0.01415395736694336,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 549,
+            "runtime": 0.6334187984466553,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 550,
+            "runtime": 0.7336230278015137,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 554,
+            "runtime": 0.7374668121337891,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 561,
+            "runtime": 0.740485429763794,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 566,
+            "runtime": 0.8137683868408203,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 610,
+            "runtime": 0.9637672901153564,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 631,
+            "runtime": 1.0065784454345703,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 632,
+            "runtime": 1.4358124732971191,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 636,
+            "runtime": 1.438629388809204,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 638,
+            "runtime": 1.441929817199707,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 639,
+            "runtime": 1.958421230316162,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 641,
+            "runtime": 2.193791627883911,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 650,
+            "runtime": 2.1953282356262207,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 651,
+            "runtime": 2.1975340843200684,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 663,
+            "runtime": 2.199453353881836,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 664,
+            "runtime": 2.746816396713257,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 666,
+            "runtime": 2.7484846115112305,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 673,
+            "runtime": 3.108973741531372,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 677,
+            "runtime": 3.2256555557250977,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 681,
+            "runtime": 3.2796194553375244,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 683,
+            "runtime": 3.282485008239746,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 685,
+            "runtime": 3.2851057052612305,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 693,
+            "runtime": 3.375277280807495,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 696,
+            "runtime": 3.377492904663086,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 698,
+            "runtime": 3.3793394565582275,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 700,
+            "runtime": 3.4805312156677246,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 704,
+            "runtime": 3.483600378036499,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 706,
+            "runtime": 3.642794370651245,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 708,
+            "runtime": 3.645746946334839,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 710,
+            "runtime": 3.705150842666626,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 712,
+            "runtime": 3.708146333694458,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 714,
+            "runtime": 3.711217164993286,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 716,
+            "runtime": 3.7740159034729004,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 720,
+            "runtime": 3.9152469635009766,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 722,
+            "runtime": 3.9176526069641113,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 724,
+            "runtime": 4.056480884552002,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 726,
+            "runtime": 4.22092080116272,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 730,
+            "runtime": 4.443668842315674,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 732,
+            "runtime": 4.695520639419556,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 734,
+            "runtime": 4.7582385540008545,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 736,
+            "runtime": 4.892705917358398,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 737,
+            "runtime": 6.986709117889404,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 739,
+            "runtime": 7.700939178466797,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 741,
+            "runtime": 9.700414896011353,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 742,
+            "runtime": 11.874626398086548,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 745,
+            "runtime": 15.227021932601929,
+            "station": "vnd"
+        },
+        {
+            "objective": 746,
+            "runtime": 15.257689952850342,
+            "station": "vnd"
+        },
+        {
+            "objective": 747,
+            "runtime": 15.311330556869507,
+            "station": "vnd"
+        },
+        {
+            "objective": 749,
+            "runtime": 15.655858993530273,
+            "station": "vnd"
+        },
+        {
+            "objective": 750,
+            "runtime": 15.67509388923645,
+            "station": "vnd"
+        },
+        {
+            "objective": 751,
+            "runtime": 15.734684944152832,
+            "station": "vnd"
+        },
+        {
+            "objective": 752,
+            "runtime": 15.735718011856079,
+            "station": "vnd"
+        },
+        {
+            "objective": 754,
+            "runtime": 15.972448825836182,
+            "station": "vnd"
+        },
+        {
+            "objective": 755,
+            "runtime": 16.095963954925537,
+            "station": "vnd"
+        },
+        {
+            "objective": 756,
+            "runtime": 16.90951919555664,
+            "station": "vnd"
+        },
+        {
+            "objective": 757,
+            "runtime": 17.39721393585205,
+            "station": "vnd"
+        },
+        {
+            "objective": 758,
+            "runtime": 17.88599157333374,
+            "station": "vnd"
+        },
+        {
+            "objective": 760,
+            "runtime": 17.97635507583618,
+            "station": "vnd"
+        },
+        {
+            "objective": 761,
+            "runtime": 19.34918737411499,
+            "station": "vnd"
+        },
+        {
+            "objective": 762,
+            "runtime": 19.63249635696411,
+            "station": "vnd"
+        },
+        {
+            "objective": 763,
+            "runtime": 20.135711431503296,
+            "station": "vnd"
+        },
+        {
+            "objective": 764,
+            "runtime": 20.14865756034851,
+            "station": "vnd"
+        },
+        {
+            "objective": 765,
+            "runtime": 20.30012083053589,
+            "station": "vnd"
+        },
+        {
+            "objective": 766,
+            "runtime": 22.37479281425476,
+            "station": "vnd"
+        },
+        {
+            "objective": 767,
+            "runtime": 32.31541109085083,
+            "station": "vnd"
+        },
+        {
+            "objective": 768,
+            "runtime": 35.328099489212036,
+            "station": "vnd"
+        },
+        {
+            "objective": 769,
+            "runtime": 36.757004261016846,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 40.301286935806274,
+            "station": "vnd"
+        },
+        {
+            "objective": 771,
+            "runtime": 40.60859441757202,
+            "station": "vnd"
+        },
+        {
+            "objective": 772,
+            "runtime": 49.3338987827301,
+            "station": "vnd"
+        },
+        {
+            "objective": 773,
+            "runtime": 50.56829619407654,
+            "station": "vnd"
+        },
+        {
+            "objective": 774,
+            "runtime": 53.08215570449829,
+            "station": "vnd"
+        },
+        {
+            "objective": 775,
+            "runtime": 59.51883292198181,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.13055348396301
+        }
+    ],
+    "20_200_2": [
+        {
+            "objective": -600,
+            "runtime": 0.01821160316467285,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 545,
+            "runtime": 0.761847734451294,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 546,
+            "runtime": 0.7855403423309326,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 547,
+            "runtime": 0.7948975563049316,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 549,
+            "runtime": 0.9229028224945068,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 557,
+            "runtime": 0.9415876865386963,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 559,
+            "runtime": 1.1285338401794434,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 603,
+            "runtime": 1.1501178741455078,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 611,
+            "runtime": 1.2983827590942383,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 612,
+            "runtime": 1.7669587135314941,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 613,
+            "runtime": 1.7728888988494873,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 614,
+            "runtime": 2.046928644180298,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 619,
+            "runtime": 2.6180760860443115,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 625,
+            "runtime": 2.6226584911346436,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 642,
+            "runtime": 2.6244890689849854,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 650,
+            "runtime": 4.601103067398071,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 657,
+            "runtime": 4.985032081604004,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 662,
+            "runtime": 5.551497936248779,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 670,
+            "runtime": 6.328107118606567,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 674,
+            "runtime": 6.33812403678894,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 678,
+            "runtime": 6.716574430465698,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 686,
+            "runtime": 7.123056888580322,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 696,
+            "runtime": 7.471184730529785,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 697,
+            "runtime": 9.524409294128418,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 699,
+            "runtime": 9.52571988105774,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 705,
+            "runtime": 9.527618885040283,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 709,
+            "runtime": 9.530886173248291,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 712,
+            "runtime": 13.134727716445923,
+            "station": "vnd"
+        },
+        {
+            "objective": 715,
+            "runtime": 13.19227409362793,
+            "station": "vnd"
+        },
+        {
+            "objective": 718,
+            "runtime": 13.41847014427185,
+            "station": "vnd"
+        },
+        {
+            "objective": 719,
+            "runtime": 13.610004425048828,
+            "station": "vnd"
+        },
+        {
+            "objective": 721,
+            "runtime": 14.274124145507812,
+            "station": "vnd"
+        },
+        {
+            "objective": 722,
+            "runtime": 14.298973083496094,
+            "station": "vnd"
+        },
+        {
+            "objective": 725,
+            "runtime": 14.308120012283325,
+            "station": "vnd"
+        },
+        {
+            "objective": 727,
+            "runtime": 14.388912200927734,
+            "station": "vnd"
+        },
+        {
+            "objective": 728,
+            "runtime": 14.50596833229065,
+            "station": "vnd"
+        },
+        {
+            "objective": 729,
+            "runtime": 14.50747799873352,
+            "station": "vnd"
+        },
+        {
+            "objective": 735,
+            "runtime": 16.24897599220276,
+            "station": "vnd"
+        },
+        {
+            "objective": 736,
+            "runtime": 16.30230402946472,
+            "station": "vnd"
+        },
+        {
+            "objective": 740,
+            "runtime": 16.322851181030273,
+            "station": "vnd"
+        },
+        {
+            "objective": 741,
+            "runtime": 16.33128309249878,
+            "station": "vnd"
+        },
+        {
+            "objective": 742,
+            "runtime": 16.332760095596313,
+            "station": "vnd"
+        },
+        {
+            "objective": 743,
+            "runtime": 17.60363745689392,
+            "station": "vnd"
+        },
+        {
+            "objective": 745,
+            "runtime": 20.157820224761963,
+            "station": "vnd"
+        },
+        {
+            "objective": 746,
+            "runtime": 20.15934920310974,
+            "station": "vnd"
+        },
+        {
+            "objective": 747,
+            "runtime": 20.748443126678467,
+            "station": "vnd"
+        },
+        {
+            "objective": 748,
+            "runtime": 22.5429527759552,
+            "station": "vnd"
+        },
+        {
+            "objective": 749,
+            "runtime": 52.652928829193115,
+            "station": "vnd"
+        },
+        {
+            "objective": 750,
+            "runtime": 54.341540813446045,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.10655164718628
+        }
+    ],
+    "20_200_3": [
+        {
+            "objective": -600,
+            "runtime": 0.01685500144958496,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 482,
+            "runtime": 0.7282900810241699,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 498,
+            "runtime": 0.7972071170806885,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 520,
+            "runtime": 0.8882594108581543,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 522,
+            "runtime": 0.8925366401672363,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 523,
+            "runtime": 0.8955531120300293,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 528,
+            "runtime": 0.9073953628540039,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 544,
+            "runtime": 1.0290906429290771,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 597,
+            "runtime": 1.1065022945404053,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 599,
+            "runtime": 1.7904126644134521,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 600,
+            "runtime": 1.7927844524383545,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 601,
+            "runtime": 1.796278715133667,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 602,
+            "runtime": 1.8445017337799072,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 603,
+            "runtime": 1.8471636772155762,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 610,
+            "runtime": 2.3945119380950928,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 612,
+            "runtime": 2.396885871887207,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 616,
+            "runtime": 4.478978633880615,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 655,
+            "runtime": 4.733167409896851,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 661,
+            "runtime": 4.852420091629028,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 663,
+            "runtime": 4.981177091598511,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 669,
+            "runtime": 4.982746362686157,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 671,
+            "runtime": 4.986372947692871,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 673,
+            "runtime": 5.084683895111084,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 675,
+            "runtime": 5.086331367492676,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 679,
+            "runtime": 5.191629886627197,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 681,
+            "runtime": 5.358155250549316,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 683,
+            "runtime": 5.522560119628906,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 685,
+            "runtime": 5.5290303230285645,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 689,
+            "runtime": 5.791861295700073,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 691,
+            "runtime": 6.160361051559448,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 699,
+            "runtime": 6.657053470611572,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 701,
+            "runtime": 6.813798427581787,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 705,
+            "runtime": 6.991072177886963,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 712,
+            "runtime": 10.480873107910156,
+            "station": "vnd"
+        },
+        {
+            "objective": 713,
+            "runtime": 10.67677116394043,
+            "station": "vnd"
+        },
+        {
+            "objective": 719,
+            "runtime": 11.147814750671387,
+            "station": "vnd"
+        },
+        {
+            "objective": 721,
+            "runtime": 11.148702383041382,
+            "station": "vnd"
+        },
+        {
+            "objective": 723,
+            "runtime": 11.331731796264648,
+            "station": "vnd"
+        },
+        {
+            "objective": 727,
+            "runtime": 11.439431428909302,
+            "station": "vnd"
+        },
+        {
+            "objective": 729,
+            "runtime": 11.44234585762024,
+            "station": "vnd"
+        },
+        {
+            "objective": 731,
+            "runtime": 11.958322763442993,
+            "station": "vnd"
+        },
+        {
+            "objective": 735,
+            "runtime": 13.419283628463745,
+            "station": "vnd"
+        },
+        {
+            "objective": 741,
+            "runtime": 13.579253911972046,
+            "station": "vnd"
+        },
+        {
+            "objective": 743,
+            "runtime": 14.624919176101685,
+            "station": "vnd"
+        },
+        {
+            "objective": 744,
+            "runtime": 16.12363314628601,
+            "station": "vnd"
+        },
+        {
+            "objective": 745,
+            "runtime": 16.124176025390625,
+            "station": "vnd"
+        },
+        {
+            "objective": 746,
+            "runtime": 16.28921413421631,
+            "station": "vnd"
+        },
+        {
+            "objective": 747,
+            "runtime": 16.35473370552063,
+            "station": "vnd"
+        },
+        {
+            "objective": 749,
+            "runtime": 16.35565209388733,
+            "station": "vnd"
+        },
+        {
+            "objective": 750,
+            "runtime": 17.084665298461914,
+            "station": "vnd"
+        },
+        {
+            "objective": 751,
+            "runtime": 17.085999011993408,
+            "station": "vnd"
+        },
+        {
+            "objective": 753,
+            "runtime": 18.076780080795288,
+            "station": "vnd"
+        },
+        {
+            "objective": 755,
+            "runtime": 18.778339624404907,
+            "station": "vnd"
+        },
+        {
+            "objective": 757,
+            "runtime": 18.85408067703247,
+            "station": "vnd"
+        },
+        {
+            "objective": 758,
+            "runtime": 18.86023473739624,
+            "station": "vnd"
+        },
+        {
+            "objective": 759,
+            "runtime": 18.915538549423218,
+            "station": "vnd"
+        },
+        {
+            "objective": 760,
+            "runtime": 20.145857334136963,
+            "station": "vnd"
+        },
+        {
+            "objective": 761,
+            "runtime": 23.735673427581787,
+            "station": "vnd"
+        },
+        {
+            "objective": 763,
+            "runtime": 23.73677086830139,
+            "station": "vnd"
+        },
+        {
+            "objective": 764,
+            "runtime": 23.754318952560425,
+            "station": "vnd"
+        },
+        {
+            "objective": 765,
+            "runtime": 25.415351152420044,
+            "station": "vnd"
+        },
+        {
+            "objective": 768,
+            "runtime": 27.369885444641113,
+            "station": "vnd"
+        },
+        {
+            "objective": 769,
+            "runtime": 28.636040210723877,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 28.82198166847229,
+            "station": "vnd"
+        },
+        {
+            "objective": 771,
+            "runtime": 33.49721598625183,
+            "station": "vnd"
+        },
+        {
+            "objective": 773,
+            "runtime": 35.48014259338379,
+            "station": "vnd"
+        },
+        {
+            "objective": 775,
+            "runtime": 35.48095893859863,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.179110527038574
+        }
+    ],
+    "20_200_4": [
+        {
+            "objective": -600,
+            "runtime": 0.027524471282958984,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 337,
+            "runtime": 1.1716716289520264,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 551,
+            "runtime": 1.2266721725463867,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 552,
+            "runtime": 1.2532508373260498,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 556,
+            "runtime": 1.4166679382324219,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 560,
+            "runtime": 1.4206461906433105,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 574,
+            "runtime": 1.4380710124969482,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 580,
+            "runtime": 1.5740177631378174,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 617,
+            "runtime": 1.5903751850128174,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 628,
+            "runtime": 1.8399302959442139,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 630,
+            "runtime": 2.5430362224578857,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 638,
+            "runtime": 3.0105414390563965,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 644,
+            "runtime": 3.0138132572174072,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 648,
+            "runtime": 5.10194206237793,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 654,
+            "runtime": 5.202289342880249,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 656,
+            "runtime": 5.510350465774536,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 658,
+            "runtime": 5.513551712036133,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 664,
+            "runtime": 5.556987285614014,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 670,
+            "runtime": 5.71348762512207,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 676,
+            "runtime": 5.719651222229004,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 682,
+            "runtime": 5.974667310714722,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 684,
+            "runtime": 5.978822231292725,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 686,
+            "runtime": 5.988757848739624,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 688,
+            "runtime": 5.991364240646362,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 693,
+            "runtime": 6.320206880569458,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 697,
+            "runtime": 6.325378894805908,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 700,
+            "runtime": 6.32811713218689,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 704,
+            "runtime": 8.078349828720093,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 710,
+            "runtime": 8.081023216247559,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 712,
+            "runtime": 10.989484786987305,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 714,
+            "runtime": 10.990789651870728,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 716,
+            "runtime": 10.99173617362976,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 718,
+            "runtime": 10.992970943450928,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 720,
+            "runtime": 10.99406886100769,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 724,
+            "runtime": 10.994940042495728,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 728,
+            "runtime": 10.99602222442627,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 730,
+            "runtime": 10.997629880905151,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 735,
+            "runtime": 11.000947713851929,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 737,
+            "runtime": 11.00214958190918,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 739,
+            "runtime": 11.857412815093994,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 741,
+            "runtime": 11.859035968780518,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 745,
+            "runtime": 11.860137224197388,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 746,
+            "runtime": 14.834822177886963,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 747,
+            "runtime": 14.836419820785522,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 749,
+            "runtime": 15.47013235092163,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 750,
+            "runtime": 18.895068883895874,
+            "station": "vnd"
+        },
+        {
+            "objective": 752,
+            "runtime": 18.943785905838013,
+            "station": "vnd"
+        },
+        {
+            "objective": 754,
+            "runtime": 19.239386558532715,
+            "station": "vnd"
+        },
+        {
+            "objective": 763,
+            "runtime": 19.27866220474243,
+            "station": "vnd"
+        },
+        {
+            "objective": 764,
+            "runtime": 19.279283046722412,
+            "station": "vnd"
+        },
+        {
+            "objective": 767,
+            "runtime": 19.405715465545654,
+            "station": "vnd"
+        },
+        {
+            "objective": 768,
+            "runtime": 19.41437029838562,
+            "station": "vnd"
+        },
+        {
+            "objective": 769,
+            "runtime": 19.417307138442993,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 19.49467897415161,
+            "station": "vnd"
+        },
+        {
+            "objective": 771,
+            "runtime": 21.067304134368896,
+            "station": "vnd"
+        },
+        {
+            "objective": 772,
+            "runtime": 21.19947648048401,
+            "station": "vnd"
+        },
+        {
+            "objective": 774,
+            "runtime": 23.626074075698853,
+            "station": "vnd"
+        },
+        {
+            "objective": 775,
+            "runtime": 25.76666522026062,
+            "station": "vnd"
+        },
+        {
+            "objective": 776,
+            "runtime": 26.747592210769653,
+            "station": "vnd"
+        },
+        {
+            "objective": 777,
+            "runtime": 27.421782732009888,
+            "station": "vnd"
+        },
+        {
+            "objective": 778,
+            "runtime": 29.5649151802063,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.17808222770691
+        }
+    ],
+    "20_200_5": [
+        {
+            "objective": -600,
+            "runtime": 0.016553401947021484,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 342,
+            "runtime": 1.7137506008148193,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 530,
+            "runtime": 1.788515329360962,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 536,
+            "runtime": 1.9833769798278809,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 538,
+            "runtime": 1.986678123474121,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 553,
+            "runtime": 1.9975459575653076,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 576,
+            "runtime": 2.123736619949341,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 591,
+            "runtime": 2.143954277038574,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 598,
+            "runtime": 2.2569401264190674,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 608,
+            "runtime": 2.8071422576904297,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 631,
+            "runtime": 2.810771942138672,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 637,
+            "runtime": 2.81295108795166,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 641,
+            "runtime": 2.8151021003723145,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 642,
+            "runtime": 5.791073560714722,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 646,
+            "runtime": 5.792568206787109,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 648,
+            "runtime": 5.793930768966675,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 664,
+            "runtime": 5.795470476150513,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 666,
+            "runtime": 5.796989440917969,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 670,
+            "runtime": 6.475886344909668,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 674,
+            "runtime": 6.926604509353638,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 688,
+            "runtime": 7.062122344970703,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 690,
+            "runtime": 7.189775705337524,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 705,
+            "runtime": 7.256025791168213,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 707,
+            "runtime": 7.619149684906006,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 711,
+            "runtime": 7.621370792388916,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 715,
+            "runtime": 7.623500823974609,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 717,
+            "runtime": 7.7021777629852295,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 721,
+            "runtime": 7.991836786270142,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 725,
+            "runtime": 8.20630955696106,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 731,
+            "runtime": 8.21315336227417,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 733,
+            "runtime": 9.489970445632935,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 736,
+            "runtime": 9.8736891746521,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 741,
+            "runtime": 13.505372762680054,
+            "station": "vnd"
+        },
+        {
+            "objective": 747,
+            "runtime": 13.71811318397522,
+            "station": "vnd"
+        },
+        {
+            "objective": 748,
+            "runtime": 15.019113540649414,
+            "station": "vnd"
+        },
+        {
+            "objective": 749,
+            "runtime": 15.695687294006348,
+            "station": "vnd"
+        },
+        {
+            "objective": 751,
+            "runtime": 15.787983894348145,
+            "station": "vnd"
+        },
+        {
+            "objective": 754,
+            "runtime": 15.789801836013794,
+            "station": "vnd"
+        },
+        {
+            "objective": 756,
+            "runtime": 15.791069984436035,
+            "station": "vnd"
+        },
+        {
+            "objective": 758,
+            "runtime": 16.05528974533081,
+            "station": "vnd"
+        },
+        {
+            "objective": 760,
+            "runtime": 16.213219165802002,
+            "station": "vnd"
+        },
+        {
+            "objective": 764,
+            "runtime": 18.16231083869934,
+            "station": "vnd"
+        },
+        {
+            "objective": 765,
+            "runtime": 18.532416582107544,
+            "station": "vnd"
+        },
+        {
+            "objective": 766,
+            "runtime": 23.190977334976196,
+            "station": "vnd"
+        },
+        {
+            "objective": 767,
+            "runtime": 28.0388445854187,
+            "station": "vnd"
+        },
+        {
+            "objective": 768,
+            "runtime": 28.546716690063477,
+            "station": "vnd"
+        },
+        {
+            "objective": 769,
+            "runtime": 30.024187803268433,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 30.69946312904358,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.162827253341675
+        }
+    ],
+    "20_200_6": [
+        {
+            "objective": -600,
+            "runtime": 0.017098426818847656,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 509,
+            "runtime": 1.0096893310546875,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 514,
+            "runtime": 1.0129554271697998,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 516,
+            "runtime": 1.0180292129516602,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 517,
+            "runtime": 1.036362648010254,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 518,
+            "runtime": 1.0445966720581055,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 547,
+            "runtime": 1.1546108722686768,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 568,
+            "runtime": 1.2425415515899658,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 587,
+            "runtime": 1.4034628868103027,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 593,
+            "runtime": 1.560783863067627,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 597,
+            "runtime": 1.8257904052734375,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 598,
+            "runtime": 1.9742331504821777,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 599,
+            "runtime": 1.9767284393310547,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 601,
+            "runtime": 2.224452495574951,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 603,
+            "runtime": 2.3318607807159424,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 612,
+            "runtime": 4.891317844390869,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 614,
+            "runtime": 4.8931005001068115,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 616,
+            "runtime": 4.894665956497192,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 617,
+            "runtime": 5.480452537536621,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 631,
+            "runtime": 5.481654167175293,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 639,
+            "runtime": 5.4826507568359375,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 641,
+            "runtime": 5.483489751815796,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 661,
+            "runtime": 5.484461545944214,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 667,
+            "runtime": 5.485731363296509,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 675,
+            "runtime": 5.487327337265015,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 677,
+            "runtime": 5.48874044418335,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 681,
+            "runtime": 5.490072727203369,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 685,
+            "runtime": 5.491802453994751,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 687,
+            "runtime": 5.493492841720581,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 691,
+            "runtime": 5.494654178619385,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 695,
+            "runtime": 5.495965242385864,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 697,
+            "runtime": 5.497039318084717,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 701,
+            "runtime": 5.498502969741821,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 703,
+            "runtime": 5.79103422164917,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 707,
+            "runtime": 5.8504884243011475,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 709,
+            "runtime": 5.890895128250122,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 711,
+            "runtime": 5.892704248428345,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 715,
+            "runtime": 6.011191368103027,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 717,
+            "runtime": 6.047159910202026,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 719,
+            "runtime": 6.090633392333984,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 721,
+            "runtime": 6.413827419281006,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 723,
+            "runtime": 8.448947429656982,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 726,
+            "runtime": 11.807679176330566,
+            "station": "vnd"
+        },
+        {
+            "objective": 729,
+            "runtime": 11.844396591186523,
+            "station": "vnd"
+        },
+        {
+            "objective": 730,
+            "runtime": 11.87934947013855,
+            "station": "vnd"
+        },
+        {
+            "objective": 731,
+            "runtime": 12.076091289520264,
+            "station": "vnd"
+        },
+        {
+            "objective": 732,
+            "runtime": 12.11325716972351,
+            "station": "vnd"
+        },
+        {
+            "objective": 733,
+            "runtime": 12.11397099494934,
+            "station": "vnd"
+        },
+        {
+            "objective": 734,
+            "runtime": 12.115365743637085,
+            "station": "vnd"
+        },
+        {
+            "objective": 735,
+            "runtime": 12.17185926437378,
+            "station": "vnd"
+        },
+        {
+            "objective": 737,
+            "runtime": 12.223897457122803,
+            "station": "vnd"
+        },
+        {
+            "objective": 738,
+            "runtime": 12.388519287109375,
+            "station": "vnd"
+        },
+        {
+            "objective": 739,
+            "runtime": 13.317909955978394,
+            "station": "vnd"
+        },
+        {
+            "objective": 740,
+            "runtime": 14.106986999511719,
+            "station": "vnd"
+        },
+        {
+            "objective": 745,
+            "runtime": 14.139835357666016,
+            "station": "vnd"
+        },
+        {
+            "objective": 746,
+            "runtime": 14.238431215286255,
+            "station": "vnd"
+        },
+        {
+            "objective": 747,
+            "runtime": 14.243515968322754,
+            "station": "vnd"
+        },
+        {
+            "objective": 748,
+            "runtime": 14.438876390457153,
+            "station": "vnd"
+        },
+        {
+            "objective": 749,
+            "runtime": 14.8308265209198,
+            "station": "vnd"
+        },
+        {
+            "objective": 751,
+            "runtime": 14.83197283744812,
+            "station": "vnd"
+        },
+        {
+            "objective": 752,
+            "runtime": 16.706382274627686,
+            "station": "vnd"
+        },
+        {
+            "objective": 753,
+            "runtime": 17.8001389503479,
+            "station": "vnd"
+        },
+        {
+            "objective": 755,
+            "runtime": 20.452552318572998,
+            "station": "vnd"
+        },
+        {
+            "objective": 758,
+            "runtime": 20.453548669815063,
+            "station": "vnd"
+        },
+        {
+            "objective": 759,
+            "runtime": 21.743775367736816,
+            "station": "vnd"
+        },
+        {
+            "objective": 760,
+            "runtime": 21.998196363449097,
+            "station": "vnd"
+        },
+        {
+            "objective": 762,
+            "runtime": 24.608359813690186,
+            "station": "vnd"
+        },
+        {
+            "objective": 763,
+            "runtime": 25.191778898239136,
+            "station": "vnd"
+        },
+        {
+            "objective": 764,
+            "runtime": 25.19296932220459,
+            "station": "vnd"
+        },
+        {
+            "objective": 765,
+            "runtime": 26.867817878723145,
+            "station": "vnd"
+        },
+        {
+            "objective": 766,
+            "runtime": 34.852834701538086,
+            "station": "vnd"
+        },
+        {
+            "objective": 767,
+            "runtime": 37.82512068748474,
+            "station": "vnd"
+        },
+        {
+            "objective": 768,
+            "runtime": 44.44076466560364,
+            "station": "vnd"
+        },
+        {
+            "objective": 769,
+            "runtime": 48.03990936279297,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 48.515138387680054,
+            "station": "vnd"
+        },
+        {
+            "objective": 771,
+            "runtime": 58.05510234832764,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.10887575149536
+        }
+    ],
+    "20_200_7": [
+        {
+            "objective": -600,
+            "runtime": 0.017365217208862305,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 533,
+            "runtime": 0.7166657447814941,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 540,
+            "runtime": 0.7197170257568359,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 542,
+            "runtime": 0.7257897853851318,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 546,
+            "runtime": 0.8520007133483887,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 549,
+            "runtime": 0.8561122417449951,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 556,
+            "runtime": 0.8589749336242676,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 563,
+            "runtime": 0.8700919151306152,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 585,
+            "runtime": 1.0090217590332031,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 606,
+            "runtime": 1.034806251525879,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 617,
+            "runtime": 1.1790289878845215,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 618,
+            "runtime": 1.5019311904907227,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 620,
+            "runtime": 1.504298448562622,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 621,
+            "runtime": 1.5064878463745117,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 629,
+            "runtime": 2.1787211894989014,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 640,
+            "runtime": 2.180475950241089,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 642,
+            "runtime": 2.1817445755004883,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 651,
+            "runtime": 2.1830036640167236,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 657,
+            "runtime": 2.184628486633301,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 665,
+            "runtime": 3.356154203414917,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 669,
+            "runtime": 3.7747983932495117,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 679,
+            "runtime": 3.940613031387329,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 698,
+            "runtime": 4.194261312484741,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 706,
+            "runtime": 4.350578546524048,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 712,
+            "runtime": 4.611632347106934,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 716,
+            "runtime": 4.725465774536133,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 724,
+            "runtime": 4.7782042026519775,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 728,
+            "runtime": 4.844458103179932,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 732,
+            "runtime": 4.847386121749878,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 736,
+            "runtime": 5.001804351806641,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 738,
+            "runtime": 5.0047385692596436,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 740,
+            "runtime": 5.088109254837036,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 741,
+            "runtime": 5.208372116088867,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 744,
+            "runtime": 8.663963317871094,
+            "station": "vnd"
+        },
+        {
+            "objective": 745,
+            "runtime": 8.69909954071045,
+            "station": "vnd"
+        },
+        {
+            "objective": 747,
+            "runtime": 8.91063904762268,
+            "station": "vnd"
+        },
+        {
+            "objective": 748,
+            "runtime": 8.94480562210083,
+            "station": "vnd"
+        },
+        {
+            "objective": 749,
+            "runtime": 9.00755500793457,
+            "station": "vnd"
+        },
+        {
+            "objective": 750,
+            "runtime": 9.34718918800354,
+            "station": "vnd"
+        },
+        {
+            "objective": 751,
+            "runtime": 9.826849222183228,
+            "station": "vnd"
+        },
+        {
+            "objective": 752,
+            "runtime": 9.852309942245483,
+            "station": "vnd"
+        },
+        {
+            "objective": 755,
+            "runtime": 10.995972394943237,
+            "station": "vnd"
+        },
+        {
+            "objective": 757,
+            "runtime": 10.996908903121948,
+            "station": "vnd"
+        },
+        {
+            "objective": 759,
+            "runtime": 12.551877498626709,
+            "station": "vnd"
+        },
+        {
+            "objective": 760,
+            "runtime": 13.201791048049927,
+            "station": "vnd"
+        },
+        {
+            "objective": 761,
+            "runtime": 16.543643951416016,
+            "station": "vnd"
+        },
+        {
+            "objective": 762,
+            "runtime": 16.5464186668396,
+            "station": "vnd"
+        },
+        {
+            "objective": 763,
+            "runtime": 18.076329469680786,
+            "station": "vnd"
+        },
+        {
+            "objective": 764,
+            "runtime": 18.309808492660522,
+            "station": "vnd"
+        },
+        {
+            "objective": 766,
+            "runtime": 21.54688286781311,
+            "station": "vnd"
+        },
+        {
+            "objective": 767,
+            "runtime": 33.235687494277954,
+            "station": "vnd"
+        },
+        {
+            "objective": 768,
+            "runtime": 44.19108581542969,
+            "station": "vnd"
+        },
+        {
+            "objective": 769,
+            "runtime": 45.86736512184143,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 45.89348912239075,
+            "station": "vnd"
+        },
+        {
+            "objective": 771,
+            "runtime": 55.319525957107544,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.12822341918945
+        }
+    ],
+    "20_200_8": [
+        {
+            "objective": -600,
+            "runtime": 0.019642114639282227,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 388,
+            "runtime": 0.9348764419555664,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 504,
+            "runtime": 0.9824182987213135,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 513,
+            "runtime": 0.9868373870849609,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 534,
+            "runtime": 0.9917011260986328,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 535,
+            "runtime": 1.0238733291625977,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 540,
+            "runtime": 1.1210596561431885,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 580,
+            "runtime": 1.1259162425994873,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 598,
+            "runtime": 1.1505811214447021,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 614,
+            "runtime": 1.2993977069854736,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 616,
+            "runtime": 1.7259752750396729,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 617,
+            "runtime": 1.7294065952301025,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 618,
+            "runtime": 4.376845836639404,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 624,
+            "runtime": 4.777836799621582,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 628,
+            "runtime": 4.788090467453003,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 632,
+            "runtime": 4.847093343734741,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 644,
+            "runtime": 5.0276384353637695,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 651,
+            "runtime": 5.148717880249023,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 668,
+            "runtime": 5.15103816986084,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 673,
+            "runtime": 5.153068542480469,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 675,
+            "runtime": 5.1549506187438965,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 686,
+            "runtime": 5.308297157287598,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 687,
+            "runtime": 5.310575008392334,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 688,
+            "runtime": 5.3133766651153564,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 689,
+            "runtime": 5.3162360191345215,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 691,
+            "runtime": 5.319137811660767,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 693,
+            "runtime": 5.3763744831085205,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 695,
+            "runtime": 5.378895044326782,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 697,
+            "runtime": 5.381496906280518,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 698,
+            "runtime": 5.384279251098633,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 699,
+            "runtime": 5.505872488021851,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 700,
+            "runtime": 5.508417129516602,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 701,
+            "runtime": 5.68671727180481,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 702,
+            "runtime": 5.689812421798706,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 703,
+            "runtime": 5.891306400299072,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 704,
+            "runtime": 5.895204305648804,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 705,
+            "runtime": 6.106947660446167,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 708,
+            "runtime": 6.109339237213135,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 710,
+            "runtime": 6.356061935424805,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 711,
+            "runtime": 6.758496999740601,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 712,
+            "runtime": 6.9514241218566895,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 714,
+            "runtime": 7.661113739013672,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 715,
+            "runtime": 10.199105262756348,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 717,
+            "runtime": 10.200686931610107,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 719,
+            "runtime": 10.20215368270874,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 726,
+            "runtime": 10.203843832015991,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 728,
+            "runtime": 10.208082675933838,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 731,
+            "runtime": 10.311772584915161,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 733,
+            "runtime": 10.380435228347778,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 735,
+            "runtime": 10.582599639892578,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 739,
+            "runtime": 10.584574460983276,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 740,
+            "runtime": 13.48987603187561,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 743,
+            "runtime": 13.491771221160889,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 744,
+            "runtime": 13.49341368675232,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 746,
+            "runtime": 13.494927644729614,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 748,
+            "runtime": 13.49618124961853,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 750,
+            "runtime": 16.956042051315308,
+            "station": "vnd"
+        },
+        {
+            "objective": 751,
+            "runtime": 17.0270516872406,
+            "station": "vnd"
+        },
+        {
+            "objective": 752,
+            "runtime": 17.037429571151733,
+            "station": "vnd"
+        },
+        {
+            "objective": 753,
+            "runtime": 17.362653017044067,
+            "station": "vnd"
+        },
+        {
+            "objective": 754,
+            "runtime": 17.51216149330139,
+            "station": "vnd"
+        },
+        {
+            "objective": 755,
+            "runtime": 17.513620376586914,
+            "station": "vnd"
+        },
+        {
+            "objective": 756,
+            "runtime": 17.614124298095703,
+            "station": "vnd"
+        },
+        {
+            "objective": 758,
+            "runtime": 17.627219915390015,
+            "station": "vnd"
+        },
+        {
+            "objective": 759,
+            "runtime": 17.83009099960327,
+            "station": "vnd"
+        },
+        {
+            "objective": 760,
+            "runtime": 18.205506801605225,
+            "station": "vnd"
+        },
+        {
+            "objective": 761,
+            "runtime": 18.23223328590393,
+            "station": "vnd"
+        },
+        {
+            "objective": 762,
+            "runtime": 18.42630887031555,
+            "station": "vnd"
+        },
+        {
+            "objective": 764,
+            "runtime": 19.06869912147522,
+            "station": "vnd"
+        },
+        {
+            "objective": 767,
+            "runtime": 24.16115117073059,
+            "station": "vnd"
+        },
+        {
+            "objective": 769,
+            "runtime": 24.225289344787598,
+            "station": "vnd"
+        },
+        {
+            "objective": 770,
+            "runtime": 26.38572883605957,
+            "station": "vnd"
+        },
+        {
+            "objective": 772,
+            "runtime": 40.67763662338257,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.16081380844116
+        }
+    ],
+    "20_200_9": [
+        {
+            "objective": -600,
+            "runtime": 0.013709545135498047,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 501,
+            "runtime": 0.725682258605957,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 510,
+            "runtime": 0.7288010120391846,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 513,
+            "runtime": 0.7340519428253174,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 514,
+            "runtime": 0.7489867210388184,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 515,
+            "runtime": 0.7557857036590576,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 563,
+            "runtime": 0.8452680110931396,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 573,
+            "runtime": 0.8608613014221191,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 578,
+            "runtime": 0.9783663749694824,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 600,
+            "runtime": 0.9893472194671631,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 603,
+            "runtime": 1.07344651222229,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 609,
+            "runtime": 1.7381486892700195,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 617,
+            "runtime": 1.739427089691162,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 632,
+            "runtime": 1.740586519241333,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 635,
+            "runtime": 2.4697141647338867,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 637,
+            "runtime": 2.91049861907959,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 656,
+            "runtime": 3.1258277893066406,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 660,
+            "runtime": 3.3383750915527344,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 664,
+            "runtime": 3.5957751274108887,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 666,
+            "runtime": 3.7199814319610596,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 668,
+            "runtime": 3.8431711196899414,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 669,
+            "runtime": 3.940873384475708,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 671,
+            "runtime": 3.9431207180023193,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 682,
+            "runtime": 4.018990516662598,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 692,
+            "runtime": 4.099314451217651,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 694,
+            "runtime": 4.424652338027954,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 695,
+            "runtime": 4.720183849334717,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 696,
+            "runtime": 4.72283673286438,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 698,
+            "runtime": 4.72489333152771,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 700,
+            "runtime": 4.818901777267456,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 704,
+            "runtime": 4.821074724197388,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 706,
+            "runtime": 5.032974004745483,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 708,
+            "runtime": 5.667953252792358,
+            "station": "initial_optimization"
+        },
+        {
+            "objective": 716,
+            "runtime": 9.056490898132324,
+            "station": "vnd"
+        },
+        {
+            "objective": 717,
+            "runtime": 9.077116966247559,
+            "station": "vnd"
+        },
+        {
+            "objective": 719,
+            "runtime": 9.251100063323975,
+            "station": "vnd"
+        },
+        {
+            "objective": 722,
+            "runtime": 9.281379461288452,
+            "station": "vnd"
+        },
+        {
+            "objective": 723,
+            "runtime": 9.282121658325195,
+            "station": "vnd"
+        },
+        {
+            "objective": 725,
+            "runtime": 9.282912015914917,
+            "station": "vnd"
+        },
+        {
+            "objective": 726,
+            "runtime": 9.28376841545105,
+            "station": "vnd"
+        },
+        {
+            "objective": 729,
+            "runtime": 9.284482717514038,
+            "station": "vnd"
+        },
+        {
+            "objective": 730,
+            "runtime": 9.3982572555542,
+            "station": "vnd"
+        },
+        {
+            "objective": 732,
+            "runtime": 10.753153562545776,
+            "station": "vnd"
+        },
+        {
+            "objective": 734,
+            "runtime": 10.871724128723145,
+            "station": "vnd"
+        },
+        {
+            "objective": 735,
+            "runtime": 10.950851440429688,
+            "station": "vnd"
+        },
+        {
+            "objective": 736,
+            "runtime": 11.153494596481323,
+            "station": "vnd"
+        },
+        {
+            "objective": 738,
+            "runtime": 11.60335373878479,
+            "station": "vnd"
+        },
+        {
+            "objective": 740,
+            "runtime": 13.805951833724976,
+            "station": "vnd"
+        },
+        {
+            "objective": 741,
+            "runtime": 16.729620933532715,
+            "station": "vnd"
+        },
+        {
+            "objective": 742,
+            "runtime": 16.77704644203186,
+            "station": "vnd"
+        },
+        {
+            "objective": 743,
+            "runtime": 17.676673889160156,
+            "station": "vnd"
+        },
+        {
+            "objective": 744,
+            "runtime": 19.27586317062378,
+            "station": "vnd"
+        },
+        {
+            "objective": 745,
+            "runtime": 19.9229097366333,
+            "station": "vnd"
+        },
+        {
+            "objective": 746,
+            "runtime": 21.516651153564453,
+            "station": "vnd"
+        },
+        {
+            "objective": 747,
+            "runtime": 21.517650365829468,
+            "station": "vnd"
+        },
+        {
+            "objective": 748,
+            "runtime": 21.51885962486267,
+            "station": "vnd"
+        },
+        {
+            "objective": 749,
+            "runtime": 22.688910245895386,
+            "station": "vnd"
+        },
+        {
+            "objective": 750,
+            "runtime": 25.03233528137207,
+            "station": "vnd"
+        },
+        {
+            "objective": 751,
+            "runtime": 25.448538541793823,
+            "station": "vnd"
+        },
+        {
+            "objective": 752,
+            "runtime": 29.197978258132935,
+            "station": "vnd"
+        },
+        {
+            "objective": 753,
+            "runtime": 35.90603446960449,
+            "station": "vnd"
+        },
+        {
+            "objective": 754,
+            "runtime": 36.29214429855347,
+            "station": "vnd"
+        },
+        {
+            "objective": 755,
+            "runtime": 43.069777727127075,
+            "station": "vnd"
+        },
+        {
+            "objective": 758,
+            "runtime": 53.23891544342041,
+            "station": "vnd"
+        },
+        {
+            "is_correct": 1,
+            "runtime": 60.188979148864746
+        }
+    ]
+}

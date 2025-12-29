@@ -92,7 +92,7 @@ class VariableNeighborhoodSearch:
                 if rhs > l_max:
                     break
 
-                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
+                model.set_time_limit(total_time_limit, start_time)
 
                 model.add_bounding_branching_constraint(rhs)
                 model.optimize(patience)
@@ -132,7 +132,7 @@ class VariableNeighborhoodSearch:
 
             while not self._time_over(start_time, total_time_limit):
                 model.add_shaking_constraints(k_cur, k_step)
-                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
+                model.set_time_limit(total_time_limit, start_time)
                 model.optimize(patience=shake_patience, shake=True)
 
                 model.remove_shaking_constraints()
@@ -160,8 +160,8 @@ class VariableNeighborhoodSearch:
         min_shake_perc: int = 10,
         step_shake_perc: int = 10,
         max_shake_perc: int = 80,
-        initial_patience: int | float = 3,
-        shake_patience: int | float = 2,
+        initial_patience: int | float = 6,
+        shake_patience: int | float = 6,
         min_optimization_patience: int | float = 2,
         step_optimization_patience: int | float = 2,
     ):
@@ -207,9 +207,12 @@ class VariableNeighborhoodSearch:
                     continue
 
                 iterations_current_num_zones += 1
+                # before = time()
                 model.fix_rest(*free_zones_pair, current_num_zones)
+                # after = time()
+                model.set_time_limit(total_time_limit, start_time)
 
-                model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
+                model.model.update()
                 model.optimize(patience)
 
                 if model.solution_count == 0:
@@ -233,12 +236,10 @@ class VariableNeighborhoodSearch:
 
             model.make_best_solution_current_solution()
 
-            model.eliminate_cutoff()
             model.force_k_worst_to_change(k)
-
-            time_limit = max(0, total_time_limit - (time() - start_time))
-            model.set_time_limit(time_limit)
+            model.set_time_limit(total_time_limit, start_time)
             model.optimize(shake_patience, shake=True)
+            model.free_all_unassigned_vars()
 
             if model.status == GRB.TIME_LIMIT:
                 break
@@ -247,7 +248,6 @@ class VariableNeighborhoodSearch:
             if model.new_best_found():
                 model.make_current_solution_best_solution()
                 k = min_shake - step_shake
-            model.set_cutoff()
 
         model.recover_to_best_found()
         self.best_model = model
@@ -291,5 +291,5 @@ class VariableNeighborhoodSearch:
 
 if __name__ == "__main__":
     random.seed(0)
-    vns = VariableNeighborhoodSearch(20, 200, 4)
-    vns.run_vns_with_var_fixing(total_time_limit=10_000)
+    vns = VariableNeighborhoodSearch(30, 300, 0)
+    vns.run_vns_with_var_fixing(total_time_limit=600)

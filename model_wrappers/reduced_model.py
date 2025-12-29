@@ -1,7 +1,7 @@
 """A class that contains a model which it reduces according to VNS rules."""
 
-import collections
 import functools
+import itertools
 import random
 
 import gurobipy
@@ -37,6 +37,7 @@ class ReducedModel(ModelWrapper):
         self.best_sol_fixing_data = fixing_data
         self.current_solution: SolutionReminderDiving
         self.best_found_solution: SolutionReminderDiving
+        self.assign_students_vars = list(self.model_components.variables.assign_students.values())
 
     def store_solution(self):
         variables = self.model_components.variables
@@ -80,112 +81,135 @@ class ReducedModel(ModelWrapper):
             raise ValueError("Sizes do not add up to number of students.")
         return boundaries
 
-    def _ids_allowed_to_move(self, zone_a: int, zone_b: int, num_zones: int) -> set[int]:
-        lin_up_ids = self.current_sol_fixing_data.line_up_ids
+    def _separate_assignments(
+        self, zone_a: int, zone_b: int, num_zones: int, assignments: list[tuple[int, int, int]]
+    ) -> tuple[list[tuple[int, int, int]], list[tuple[int, int, int]]]:
+
         zones = self.zones(num_zones)
         start_a, end_a = zones[zone_a]
         start_b, end_b = zones[zone_b]
+        return (
+            assignments[start_a:end_a] + assignments[start_b:end_b],
+            assignments[:start_a] + assignments[end_a:start_b] + assignments[end_b:],
+        )
 
-        return set(lin_up_ids[start_a:end_a] + lin_up_ids[start_b:end_b])
+    def _shifted_groups(
+        self, groups_only_free: set[tuple[int, int]], groups_of_fixed: set[tuple[int, int]]
+    ) -> dict[tuple[int, int], tuple[int, int]]:
+        all_groups = groups_only_free.union(groups_of_fixed)
+        if len(all_groups) != len(groups_only_free) + len(groups_of_fixed):
+            raise ValueError()
 
-    def _fixation_info(
-        self, allowed_to_move: set[int]
-    ) -> tuple[set[int], list[tuple[int, int, int]], dict[int, dict[int, int]]]:
-        unassigned_to_be_fixed: set[int] = set()
-        assignments_to_be_fixed: list[tuple[int, int, int]] = []
-        group_ids: collections.defaultdict[int, set[int]] = collections.defaultdict(set)
+        all_groups_ordered = sorted(all_groups)
+        groups: dict[int, list[int]] = {}
+        for project_id, group_id in all_groups_ordered:
+            groups.setdefault(project_id, []).append(group_id)
 
+        groups_only_free_ordered = sorted(groups_only_free)
+        affected_projects = [project_id for project_id, _ in groups_only_free_ordered]
+        affected_groups = {project_id: groups[project_id] for project_id in affected_projects}
+
+        only_free_affected_groups: dict[int, list[int]] = {}
+        for project_id, group_id in groups_only_free_ordered:
+            only_free_affected_groups.setdefault(project_id, []).append(group_id)
+
+        mixed_affected_groups = {
+            project_id: [
+                group_id
+                for group_id in group_ids
+                if (project_id, group_id) not in groups_only_free
+            ]
+            for project_id, group_ids in affected_groups.items()
+        }
+
+        return {
+            (project_id, group_id): (project_id, new_group_id)
+            for (project_id, mixed_affected_groups), only_free_affected_groups in zip(
+                mixed_affected_groups.items(), only_free_affected_groups.values()
+            )
+            for group_id, new_group_id in zip(
+                mixed_affected_groups + only_free_affected_groups,
+                itertools.count(),
+            )
+        }
+
+    def _separate_groups(
+        self,
+        free_assignments: list[tuple[int, int, int]],
+        fixed_assignments: list[tuple[int, int, int]],
+    ) -> tuple[set[tuple[int, int]], set[tuple[int, int]]]:
+        groups_of_free = set(
+            (project_id, group_id)
+            for project_id, group_id, _ in free_assignments
+            if project_id != -1  # Must be real group
+        )
+        groups_of_fixed = set(
+            (project_id, group_id)
+            for project_id, group_id, _ in fixed_assignments
+            if project_id != -1
+        )
+        return groups_of_free.difference(groups_of_fixed), groups_of_fixed
+
+    def _adjusted_line_up_assignments(
+        self, shifted_groups: dict[tuple[int, int], tuple[int, int]]
+    ) -> list[tuple[int, int, int]]:
+        return [
+            (
+                (*shifted_group, student_id)
+                if (shifted_group := shifted_groups.get((proj_id, group_id))) is not None
+                else (proj_id, group_id, student_id)
+            )
+            for proj_id, group_id, student_id in self.current_sol_fixing_data.line_up_assignments
+        ]
+
+    def _adjusted_start_values(
+        self, shifted_groups: dict[tuple[int, int], tuple[int, int]]
+    ) -> list[int | float]:
+        start_values = dict(
+            zip(
+                self.derived.project_group_student_triples,
+                self.current_solution.assign_students_var_values,
+            )
+        )
         for project_id, group_id, student_id in self.current_sol_fixing_data.line_up_assignments:
-            if student_id in allowed_to_move:
-                continue
-            if project_id == -1:
-                unassigned_to_be_fixed.add(student_id)
-            else:
-                group_ids[project_id].add(group_id)
-                assignments_to_be_fixed.append((project_id, group_id, student_id))
+            if (new_group := shifted_groups.get((project_id, group_id))) is not None:
+                old = (project_id, group_id, student_id)
+                new = (*new_group, student_id)
+                start_values[old], start_values[new] = start_values[new], start_values[old]
 
-        shifted_group_ids: dict[int, dict[int, int]] = {}
-        for project_id in sorted(group_ids.keys()):
-            ids = group_ids[project_id]
-            shifted_group_ids[project_id] = dict(zip(sorted(ids), range(len(ids))))
-
-        return unassigned_to_be_fixed, assignments_to_be_fixed, shifted_group_ids
+        return list(start_values.values())
 
     def fix_rest(self, zone_a: int, zone_b: int, num_zones: int):
-        allowed_to_move = self._ids_allowed_to_move(zone_a, zone_b, num_zones)
-
-        unassigned_to_be_fixed, assignments_to_be_fixed, shifted_group_ids = self._fixation_info(
-            allowed_to_move
+        line_up_assignments = self.current_sol_fixing_data.line_up_assignments
+        free_assignments, fixed_assignments = self._separate_assignments(
+            zone_a, zone_b, num_zones, line_up_assignments
         )
-        groups_open_by_force = self._fix_rest_assign_students(
-            allowed_to_move, assignments_to_be_fixed, shifted_group_ids
-        )
-        self._fix_rest_establish_groups(groups_open_by_force)
-        self._fix_rest_unassigned_students(allowed_to_move, unassigned_to_be_fixed)
-        self._fix_rest_mutual_unrealized(allowed_to_move)
+        groups_only_free, groups_mixed = self._separate_groups(free_assignments, fixed_assignments)
+        if groups_only_free:
+            shifted_groups = self._shifted_groups(groups_only_free, groups_mixed)
+            line_up_assignments = self._adjusted_line_up_assignments(shifted_groups)
+            free_assignments, fixed_assignments = self._separate_assignments(
+                zone_a, zone_b, num_zones, line_up_assignments
+            )
+            start_values = self._adjusted_start_values(shifted_groups)
+            assignments = set(free_assignments + fixed_assignments)
+        else:
+            start_values = self.current_solution.assign_students_var_values
+            assignments = self.current_sol_fixing_data.assignments
 
-    def _fix_rest_assign_students(
-        self,
-        allowed_to_move: set[int],
-        assignments_to_be_fixed: list[tuple[int, int, int]],
-        shifted_group_ids: dict[int, dict[int, int]],
-    ) -> set[tuple[int, int]]:
-        groups_open_by_force: set[tuple[int, int]] = set()
-        assign_students = self.model_components.variables.assign_students
-        for (project_id, group_id, student_id), var in assign_students.items():
-            if student_id in allowed_to_move:
-                var.LB = 0
-                var.UB = 1
-            else:
-                var.LB = 0
-                var.UB = 0
+        self.model.setAttr("Start", self.assign_students_vars, start_values)
 
-        for project_id, group_id, student_id in assignments_to_be_fixed:
-            new_group_id = shifted_group_ids[project_id][group_id]
-            groups_open_by_force.add((project_id, new_group_id))
-            var = assign_students[project_id, new_group_id, student_id]
-            var.UB = 1
-            var.LB = 1
-
-        return groups_open_by_force
-
-    def _fix_rest_establish_groups(self, groups_open_by_force: set[tuple[int, int]]):
-        for key, var in self.model_components.variables.establish_groups.items():
-            if key in groups_open_by_force:
-                var.LB = 1
-                var.UB = 1
-            else:
-                var.LB = 0
-                var.UB = 1
-
-    def _fix_rest_unassigned_students(
-        self, allowed_to_move: set[int], unassigned_to_be_fixed: set[int]
-    ):
-        for student_id, var in self.model_components.variables.unassigned_students.items():
-            if student_id in allowed_to_move:
-                var.LB = 0
-                var.UB = 1
-
-            elif student_id in unassigned_to_be_fixed:
-                var.LB = 1
-                var.UB = 1
-
-            else:
-                var.LB = 0
-                var.UB = 0
-
-    def _fix_rest_mutual_unrealized(self, allowed_to_move: set[int]):
-        for ((first_id, second_id), var), val in zip(
-            self.model_components.variables.mutual_unrealized.items(),
-            self.current_solution.mutual_unrealized_var_values,
-        ):
-            if first_id in allowed_to_move or second_id in allowed_to_move:
-                var.LB = 0
-                var.UB = 1
-
-            else:
-                var.LB = val
-                var.UB = val
+        free_student_ids = set(student_id for _, _, student_id in free_assignments)
+        upper_bounds = [
+            (
+                1
+                if student_id in free_student_ids
+                or (project_id, group_id, student_id) in assignments
+                else 0
+            )
+            for project_id, group_id, student_id in self.derived.project_group_student_triples
+        ]
+        self.model.setAttr("UB", self.assign_students_vars, upper_bounds)
 
     def increment_random_seed(self):
         self.model.Params.Seed += 1
@@ -194,7 +218,8 @@ class ReducedModel(ModelWrapper):
         self.zones.cache_clear()
 
     def force_k_worst_to_change(self, k: int):
-        self._free_all_possibly_fixed()
+        self.model.setAttr("UB", self.assign_students_vars, [1] * len(self.assign_students_vars))
+
         worst_k = self.current_sol_fixing_data.line_up_assignments[:k]
         variables = self.model_components.variables
 
@@ -203,29 +228,11 @@ class ReducedModel(ModelWrapper):
                 var = variables.unassigned_students[student_id]
             else:
                 var = variables.assign_students[project_id, group_id, student_id]
-
-            var.LB = 0
             var.UB = 0
 
-    def _free_all_possibly_fixed(self):
-        for var_cat in (
-            self.model_components.variables.assign_students,
-            self.model_components.variables.establish_groups,
-            self.model_components.variables.mutual_unrealized,
-            self.model_components.variables.unassigned_students,
-        ):
-            variables = list(var_cat.values())
-            self.model.setAttr("LB", variables, [0] * len(var_cat))
-            self.model.setAttr("UB", variables, [1] * len(var_cat))
-
-    def recover_to_best_found(self):
-        variables = self.model.getVars()
-        variable_values = self.best_found_solution.variable_values
-        self.model.setAttr("LB", variables, variable_values)
-        self.model.setAttr("UB", variables, variable_values)
-        self.eliminate_time_limit()
-        self.eliminate_cutoff()
-        self.model.optimize()
+    def free_all_unassigned_vars(self):
+        variables = list(self.model_components.variables.unassigned_students.values())
+        self.model.setAttr("UB", variables, [1] * len(variables))
 
     @classmethod
     def get(cls, initializer: ReducedModelInitializer):

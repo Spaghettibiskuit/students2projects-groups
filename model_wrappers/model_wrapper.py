@@ -46,14 +46,8 @@ class ModelWrapper(abc.ABC):
     def eliminate_time_limit(self):
         self.model.Params.TimeLimit = float("inf")
 
-    def set_time_limit(self, time_limit: int | float):
-        self.model.Params.TimeLimit = time_limit
-
-    def eliminate_cutoff(self):
-        self.model.Params.Cutoff = float("-inf")
-
-    def set_cutoff(self):
-        self.model.Params.Cutoff = self.current_solution.objective_value + 1 - 1e-4
+    def set_time_limit(self, total_time_limit: int | float, start_time: float):
+        self.model.Params.TimeLimit = max(0, total_time_limit - (time.time() - start_time))
 
     def optimize(self, patience: int | float, shake: bool = False):
         cb_class = PatienceShake if shake else PatienceVND
@@ -89,7 +83,6 @@ class ModelWrapper(abc.ABC):
         self.model.setAttr("LB", variables, variable_values)
         self.model.setAttr("UB", variables, variable_values)
         self.eliminate_time_limit()
-        self.eliminate_cutoff()
         self.model.optimize()
 
     @abc.abstractmethod

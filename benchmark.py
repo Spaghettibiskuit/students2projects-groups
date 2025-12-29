@@ -25,10 +25,10 @@ class LocalBranchingParameters:
     l_min_perc: int | float = 10
     l_step_perc: int | float = 10
     l_max_perc: int | float = 40
-    initial_patience: float | int = 3
-    shake_patience: float | int = 2
-    min_optimization_patience: int | float = 3
-    step_optimization_patience: int | float = 1
+    initial_patience: float | int = 4
+    shake_patience: float | int = 4
+    min_optimization_patience: int | float = 2
+    step_optimization_patience: int | float = 2
     drop_branching_constrs_before_shake: bool = False
 
 
@@ -42,10 +42,10 @@ class VariableFixingParamters:
     min_shake_perc: int = 10
     step_shake_perc: int = 10
     max_shake_perc: int = 80
-    initial_patience: int | float = 3
-    shake_patience: int | float = 2
-    min_optimization_patience: int | float = 1
-    step_optimization_patience: int | float = 1
+    initial_patience: int | float = 4
+    shake_patience: int | float = 4
+    min_optimization_patience: int | float = 2
+    step_optimization_patience: int | float = 2
 
 
 @dataclasses.dataclass
@@ -147,19 +147,13 @@ def benchmark(
 
 
 if __name__ == "__main__":
-    # all_small_instances = [
-    #     (num_projects, num_students, instance_index)
-    #     for num_projects in [3, 4, 5]
-    #     for num_students in [30, 40, 50]
-    #     for instance_index in range(10)
-    # ]
     benchmark(
-        name="20_60s_2",
+        name="20_60s_5",
         run_gurobi=False,
         run_local_branching=False,
         run_variable_fixing=True,
-        instances=[(i * 10, i * 100, j) for i in range(2, 3) for j in range(10)],
+        instances=[(i * 10, i * 100, j) for i in range(2, 3) for j in range(3)],
         # gurobi_alone_parameters=GurobiAloneParameters(time_limit=300),
         # local_branching_parameters=LocalBranchingParameters(total_time_limit=300),
-        variable_fixing_paramters=VariableFixingParamters(total_time_limit=60),
+        # variable_fixing_paramters=VariableFixingParamters(total_time_limit=60),
     )
