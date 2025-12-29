@@ -10,7 +10,7 @@ from solution_processing.individual_assignment_scorer import IndividualAssignmen
 
 
 @dataclass(frozen=True)
-class FixingByRankingData:
+class AssignmentFixingData:
 
     scores: dict[tuple[int, int, int], float]
     ranked_assignments: list[tuple[int, int, int]]

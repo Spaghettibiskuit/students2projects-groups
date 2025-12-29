@@ -17,5 +17,3 @@ class SolutionReminderBranching(SolutionReminderBase):
 @dataclasses.dataclass(frozen=True)
 class SolutionReminderDiving(SolutionReminderBase):
     assign_students_var_values: tuple[int | float, ...]
-    mutual_unrealized_var_values: tuple[int | float, ...]
-    unassigned_students_var_values: tuple[int | float, ...]

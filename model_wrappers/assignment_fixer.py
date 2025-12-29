@@ -11,12 +11,12 @@ from model_wrappers.thin_wrappers import ReducedModelInitializer
 from modeling.configuration import Configuration
 from modeling.derived_modeling_data import DerivedModelingData
 from modeling.model_components import ModelComponents
-from solving_utilities.fixing_data import FixingByRankingData
+from solving_utilities.assignment_fixing_data import AssignmentFixingData
 from solving_utilities.solution_reminders import SolutionReminderDiving
 from utilities import var_values
 
 
-class ReducedModel(ModelWrapper):
+class AssignmentFixer(ModelWrapper):
     """Contains a model further constrained for local branching."""
 
     def __init__(
@@ -28,7 +28,7 @@ class ReducedModel(ModelWrapper):
         config: Configuration,
         derived: DerivedModelingData,
         sol_reminder: SolutionReminderDiving,
-        fixing_data: FixingByRankingData,
+        fixing_data: AssignmentFixingData,
     ):
         super().__init__(model_components, model, start_time, solution_summaries, sol_reminder)
         self.config = config
@@ -45,10 +45,8 @@ class ReducedModel(ModelWrapper):
             variable_values=var_values(self.model.getVars()),
             objective_value=self.objective_value,
             assign_students_var_values=var_values(variables.assign_students.values()),
-            mutual_unrealized_var_values=var_values(variables.mutual_unrealized.values()),
-            unassigned_students_var_values=var_values(variables.unassigned_students.values()),
         )
-        self.current_sol_fixing_data = FixingByRankingData.get(
+        self.current_sol_fixing_data = AssignmentFixingData.get(
             config=self.config,
             derived=self.derived,
             variables=self.model_components.variables,
@@ -229,6 +227,18 @@ class ReducedModel(ModelWrapper):
             else:
                 var = variables.assign_students[project_id, group_id, student_id]
             var.UB = 0
+
+        undefined_val = gurobipy.GRB.UNDEFINED
+        worst_k_student_ids = set(student_id for _, _, student_id in worst_k)
+        start_values = [
+            undefined_val if student_id in worst_k_student_ids else value
+            for (_, _, student_id), value in zip(
+                self.derived.project_group_student_triples,
+                self.current_solution.assign_students_var_values,
+            )
+        ]
+
+        self.model.setAttr("Start", self.assign_students_vars, start_values)
 
     def free_all_unassigned_vars(self):
         variables = list(self.model_components.variables.unassigned_students.values())

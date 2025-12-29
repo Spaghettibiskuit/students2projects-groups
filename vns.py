@@ -4,8 +4,8 @@ from time import time
 
 from gurobipy import GRB
 
-from model_wrappers.constrained_model import ConstrainedModel
-from model_wrappers.reduced_model import ReducedModel
+from model_wrappers.assignment_fixer import AssignmentFixer
+from model_wrappers.local_brancher import LocalBrancher
 from model_wrappers.thin_wrappers import (
     ConstrainedModelInitializer,
     GurobiDuck,
@@ -82,7 +82,7 @@ class VariableNeighborhoodSearch:
         initial_model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
         initial_model.optimize(patience=initial_patience)
 
-        model = ConstrainedModel.get(initial_model)
+        model = LocalBrancher.get(initial_model)
 
         while not self._time_over(start_time, total_time_limit):
             rhs = l_min
@@ -178,7 +178,7 @@ class VariableNeighborhoodSearch:
         initial_model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
         initial_model.optimize(initial_patience)
 
-        model = ReducedModel.get(initial_model)
+        model = AssignmentFixer.get(initial_model)
 
         while not self._time_over(start_time, total_time_limit):
             current_num_zones = max_num_zones
@@ -292,4 +292,4 @@ class VariableNeighborhoodSearch:
 if __name__ == "__main__":
     random.seed(0)
     vns = VariableNeighborhoodSearch(30, 300, 0)
-    vns.run_vns_with_var_fixing(total_time_limit=600)
+    vns.run_vns_with_var_fixing(total_time_limit=10_000)

@@ -11,7 +11,7 @@ from solving_utilities.solution_reminders import SolutionReminderBranching
 from utilities import var_values
 
 
-class ConstrainedModel(ModelWrapper):
+class LocalBrancher(ModelWrapper):
     """Contains a model further constrained for local branching."""
 
     def __init__(

@@ -5,7 +5,7 @@ import random
 from pathlib import Path
 
 import utilities
-from variable_neighborhood_search import VariableNeighborhoodSearch
+from vns import VariableNeighborhoodSearch
 
 BENCHMARKS_FOLDER = Path(__file__).parent / "benchmarks"
 

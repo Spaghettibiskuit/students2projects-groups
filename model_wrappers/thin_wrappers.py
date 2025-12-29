@@ -4,11 +4,11 @@ from time import time
 from modeling.base_model_builder import BaseModelBuilder
 from modeling.configuration import Configuration
 from modeling.derived_modeling_data import DerivedModelingData
+from solving_utilities.assignment_fixing_data import AssignmentFixingData
 from solving_utilities.callbacks import (
     GurobiAloneProgressTracker,
     InitialOptimizationTracker,
 )
-from solving_utilities.fixing_data import FixingByRankingData
 from solving_utilities.solution_reminders import (
     SolutionReminderBranching,
     SolutionReminderDiving,
@@ -51,13 +51,11 @@ class ReducedModelInitializer(ThinWrapper):
             variable_values=var_values(self.model.getVars()),
             objective_value=gurobi_round(self.model.ObjVal),
             assign_students_var_values=var_values(variables.assign_students.values()),
-            mutual_unrealized_var_values=var_values(variables.mutual_unrealized.values()),
-            unassigned_students_var_values=var_values(variables.unassigned_students.values()),
         )
 
     @functools.cached_property
-    def fixing_data(self) -> FixingByRankingData:
-        return FixingByRankingData.get(
+    def fixing_data(self) -> AssignmentFixingData:
+        return AssignmentFixingData.get(
             config=self.config,
             derived=self.derived,
             variables=self.model_components.variables,
