@@ -10,8 +10,8 @@ from solving_utilities.callbacks import (
     InitialOptimizationTracker,
 )
 from solving_utilities.solution_reminders import (
+    SolutionReminderAssignmentFixing,
     SolutionReminderBranching,
-    SolutionReminderDiving,
 )
 from utilities import Stations, gurobi_round, var_values
 
@@ -27,8 +27,8 @@ class ThinWrapper:
         self.start_time = time()
         self.solution_summaries: list[dict[str, int | float | str]] = []
 
-    def set_time_limit(self, time_limit: int | float):
-        self.model.Params.TimeLimit = time_limit
+    def set_time_limit(self, total_time_limit: int | float, start_time: float):
+        self.model.Params.TimeLimit = max(0, total_time_limit - (time() - start_time))
 
     def optimize(self, patience: int | float):
         callback = InitialOptimizationTracker(patience, self.solution_summaries, self.start_time)
@@ -42,17 +42,7 @@ class ThinWrapper:
             self.solution_summaries.append(summary)
 
 
-class ReducedModelInitializer(ThinWrapper):
-
-    @functools.cached_property
-    def current_solution(self) -> SolutionReminderDiving:
-        variables = self.model_components.variables
-        return SolutionReminderDiving(
-            variable_values=var_values(self.model.getVars()),
-            objective_value=gurobi_round(self.model.ObjVal),
-            assign_students_var_values=var_values(variables.assign_students.values()),
-        )
-
+class AssignmentFixerInitializer(ThinWrapper):
     @functools.cached_property
     def fixing_data(self) -> AssignmentFixingData:
         return AssignmentFixingData.get(
@@ -63,9 +53,19 @@ class ReducedModelInitializer(ThinWrapper):
             model=self.model,
         )
 
+    @functools.cached_property
+    def current_solution(self) -> SolutionReminderAssignmentFixing:
+        variables = self.model_components.variables
+        return SolutionReminderAssignmentFixing(
+            variable_values=var_values(self.model.getVars()),
+            objective_value=gurobi_round(self.model.ObjVal),
+            assign_students_var_values=var_values(variables.assign_students.values()),
+            group_size_surplus_var_values=var_values(variables.group_size_surplus.values()),
+            group_size_deficit_var_values=var_values(variables.group_size_deficit.values()),
+        )
 
-class ConstrainedModelInitializer(ThinWrapper):
 
+class LocalBrancherInitializer(ThinWrapper):
     @functools.cached_property
     def current_solution(self):
         variables = self.model_components.variables

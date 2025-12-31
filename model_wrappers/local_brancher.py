@@ -5,7 +5,7 @@ import itertools
 import gurobipy
 
 from model_wrappers.model_wrapper import ModelWrapper
-from model_wrappers.thin_wrappers import ConstrainedModelInitializer
+from model_wrappers.thin_wrappers import LocalBrancherInitializer
 from modeling.model_components import ModelComponents
 from solving_utilities.solution_reminders import SolutionReminderBranching
 from utilities import var_values
@@ -101,7 +101,7 @@ class LocalBrancher(ModelWrapper):
     @classmethod
     def get(
         cls,
-        initializer: ConstrainedModelInitializer,
+        initializer: LocalBrancherInitializer,
     ):
         return cls(
             model_components=initializer.model_components,

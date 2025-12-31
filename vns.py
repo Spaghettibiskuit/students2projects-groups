@@ -4,12 +4,12 @@ from time import time
 
 from gurobipy import GRB
 
-from model_wrappers.assignment_fixer import AssignmentFixer
 from model_wrappers.local_brancher import LocalBrancher
+from model_wrappers.only_assignment_fixer import OnlyAssignmentFixer
 from model_wrappers.thin_wrappers import (
-    ConstrainedModelInitializer,
+    AssignmentFixerInitializer,
     GurobiDuck,
-    ReducedModelInitializer,
+    LocalBrancherInitializer,
 )
 from modeling.configuration import Configuration
 from modeling.derived_modeling_data import DerivedModelingData
@@ -62,10 +62,10 @@ class VariableNeighborhoodSearch:
         l_min_perc: int | float = 10,
         l_step_perc: int | float = 10,
         l_max_perc: int | float = 40,
-        initial_patience: float | int = 3,
-        shake_patience: float | int = 2,
+        initial_patience: float | int = 6,
+        shake_patience: float | int = 6,
         min_optimization_patience: int | float = 3,
-        step_optimization_patience: int | float = 1,
+        step_optimization_patience: int | float = 3,
         drop_branching_constrs_before_shake: bool = False,
     ):
         max_num_assignment_changes = self.config.number_of_students * 2
@@ -74,12 +74,12 @@ class VariableNeighborhoodSearch:
             round(percentage / 100 * max_num_assignment_changes) for percentage in percentages
         )
 
-        initial_model = ConstrainedModelInitializer(config=self.config, derived=self.derived)
+        initial_model = LocalBrancherInitializer(config=self.config, derived=self.derived)
         start_time = initial_model.start_time
 
         k_cur = k_min - k_step  # lets shake begin at k_min even if no better sol found during VND
 
-        initial_model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
+        initial_model.set_time_limit(total_time_limit, start_time)
         initial_model.optimize(patience=initial_patience)
 
         model = LocalBrancher.get(initial_model)
@@ -172,13 +172,13 @@ class VariableNeighborhoodSearch:
 
         k = min_shake - step_shake
 
-        initial_model = ReducedModelInitializer(self.config, self.derived)
+        initial_model = AssignmentFixerInitializer(self.config, self.derived)
         start_time = initial_model.start_time
 
-        initial_model.set_time_limit(max(0, total_time_limit - (time() - start_time)))
+        initial_model.set_time_limit(total_time_limit, start_time)
         initial_model.optimize(initial_patience)
 
-        model = AssignmentFixer.get(initial_model)
+        model = OnlyAssignmentFixer.get(initial_model)
 
         while not self._time_over(start_time, total_time_limit):
             current_num_zones = max_num_zones
@@ -211,8 +211,6 @@ class VariableNeighborhoodSearch:
                 model.fix_rest(*free_zones_pair, current_num_zones)
                 # after = time()
                 model.set_time_limit(total_time_limit, start_time)
-
-                model.model.update()
                 model.optimize(patience)
 
                 if model.solution_count == 0:
@@ -292,4 +290,4 @@ class VariableNeighborhoodSearch:
 if __name__ == "__main__":
     random.seed(0)
     vns = VariableNeighborhoodSearch(30, 300, 0)
-    vns.run_vns_with_var_fixing(total_time_limit=10_000)
+    vns.run_vns_with_var_fixing(total_time_limit=1800)

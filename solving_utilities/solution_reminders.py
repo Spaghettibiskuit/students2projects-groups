@@ -15,5 +15,7 @@ class SolutionReminderBranching(SolutionReminderBase):
 
 
 @dataclasses.dataclass(frozen=True)
-class SolutionReminderDiving(SolutionReminderBase):
+class SolutionReminderAssignmentFixing(SolutionReminderBase):
     assign_students_var_values: tuple[int | float, ...]
+    group_size_surplus_var_values: tuple[int | float, ...]
+    group_size_deficit_var_values: tuple[int | float, ...]
